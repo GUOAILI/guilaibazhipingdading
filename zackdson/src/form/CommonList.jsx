@@ -1,0 +1,129 @@
+import React, { useEffect, useState, Fragment } from "react";
+import { useNavigate } from 'react-router-dom';
+import {
+  Button, Table,
+  Spin,
+  notification, Popconfirm
+} from 'antd';
+import TableService from "../util/tableService";
+
+const openNotificationWithIcon = (type, message, description) => notification[type]({ message, description });
+
+function CommonList() {
+  const navigate = useNavigate();
+  const [user, setUser] = useState([]);
+  const [xiaofang, setXiaofang] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const subject = localStorage.getItem("branchDetail");
+
+  const deleteOneRecord = async (id) => {
+    try {
+      await TableService.delOneCommon(id);
+      setXiaofang(x => !x);
+      openNotificationWithIcon("success", "删除记录成功");
+    } catch (ex) {
+      openNotificationWithIcon("error", "删除记录异常,请联系管理员");
+    }
+  }
+  const editRecord = (record) => {
+    localStorage.setItem("commonRecord", JSON.stringify(record));
+    navigate('/nav/common/edit');
+  }
+
+  const columns = [
+    {
+      title: '标题(可点击)',
+      dataIndex: 'title',
+      key: 'title',
+      render: (text, record) => (
+        <a onClick={() => {
+          localStorage.setItem("commonRecord", JSON.stringify(record));
+          navigate('/nav/common/detail');
+        }}>
+          {text}
+        </a>
+      )
+    },
+    {
+      title: '照片',
+      key: 'photo',
+      render: (_, record) => (<span> {record.mjddyz.length > 0 ? record.mjddyz.length + '张' : '未添加'} </span>),
+    },
+    {
+      title: '做成日',
+      dataIndex: 'beginday',
+      key: 'beginday',
+    },
+    {
+      title: '重要度',
+      dataIndex: 'imp',
+      key: 'imp',
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (text, record) => (
+        <Fragment>
+          <Popconfirm
+            title={`删除 ${record.title}`}
+            description="你确定真的要删除吗?"
+            onConfirm={() => deleteOneRecord(record.id)} okText='确定' cancelText='取消'
+          >
+            <Button type="primary" danger style={{ fontSize: '12px' }}>删除</Button>
+          </Popconfirm>
+          <Button style={{ marginLeft: '5px', backgroundColor: 'green', fontSize: '12px' }} type='primary' onClick={() => editRecord(record)}>修改</Button>
+        </Fragment>
+      ),
+    }
+  ];
+
+  useEffect(() => {
+    const zpddyz = async () => {
+      try {
+        setIsLoading(true);
+        const res = await TableService.getAllCommon(subject);
+        setUser(res.data);
+        setIsLoading(false);
+      } catch (err) {
+        setIsLoading(false);
+        openNotificationWithIcon("error", "获取后台数据出错,请联系管理员")
+      }
+    };
+    zpddyz();
+  }, [xiaofang]);
+
+  const getRowClassName = (_, index) => {
+    let className = ''
+    className = index % 2 === 0 ? "oddRow" : "evenRow"
+    return className
+  }
+
+  return (
+    <>
+      <h1>{localStorage.getItem("branchDetail")}</h1>
+      <div style={{ background: 'white' }}>
+        {isLoading ?
+          <>
+            <h2>正在获取以往记录...</h2>
+            <Spin style={{ marginLeft: '23rem' }} size="large" />
+          </>
+          :
+          <>
+            <Table columns={columns}
+              dataSource={user}
+              rowClassName={getRowClassName}
+              rowKey={rec => rec.id}
+            />
+          </>
+        }
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <Button style={{ width: '8rem', marginTop: '1rem', marginBottom: '2rem' }} type="primary" onClick={() => navigate('/nav/common/input')}>
+            我要追加
+          </Button>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default CommonList;
