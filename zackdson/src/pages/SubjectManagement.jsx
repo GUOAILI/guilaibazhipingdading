@@ -174,7 +174,7 @@ export default function SubjectManagement() {
             <h1 style={{color:'red'}}>
                 学科增减管理
             </h1>
-            <h2 style={{color:'#537b35'}}>主学科 (请选择要添加的学科,每次只能设定一门)</h2>
+            <h2 style={{color:'#537b35'}}>主学科 (请选择要添加或修改的学科,每次只能设定一门)</h2>
             {subjects.length ? (
               <Form method="post" >
                   <ul style={{listStyle:'none'}}>

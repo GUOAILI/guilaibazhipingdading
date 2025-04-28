@@ -59,7 +59,7 @@ const WritingEdit = () => {
     formData.append('title', values.title);  
     formData.append('topic', values.topic);  
     // formData.append('sample', values.sample);  
-    formData.append('sample', mjddyz.current.richtext);  
+    formData.append('sample', mjddyz.current.richtext || cxddyz.sample);  
     formData.append('comments', values.comments);
     // 2024/7/1 add for delete images, and subject is not nessesary for update so comment it.
     formData.append('delImages', delImages);

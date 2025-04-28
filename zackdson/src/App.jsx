@@ -186,9 +186,9 @@ const router = createBrowserRouter([
       { path: '/nav/deserialize', 
         element: <DeserializePage />,
       },
-      { path: '/nav/richtext', 
-        element: <RichText />,
-      },
+      // { path: '/nav/richtext', 
+      //   element: <RichText />,
+      // },
      ],
 }
 ]);

@@ -71,6 +71,7 @@ function WrongList() {
           title: 'Action',
           className:'laoyaoziling',
           key: 'action',
+          width: 160, // 可根据实际调整
           render: (text, record) => (
             <Fragment>
               <Popconfirm

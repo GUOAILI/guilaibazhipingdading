@@ -62,6 +62,7 @@ function CommonList() {
     {
       title: 'Action',
       key: 'action',
+      width: 160, // 可根据实际调整
       render: (text, record) => (
         <Fragment>
           <Popconfirm
@@ -71,7 +72,12 @@ function CommonList() {
           >
             <Button type="primary" danger style={{ fontSize: '12px' }}>删除</Button>
           </Popconfirm>
-          <Button style={{ marginLeft: '5px', backgroundColor: 'green', fontSize: '12px' }} type='primary' onClick={() => editRecord(record)}>修改</Button>
+          <Button style={{ marginLeft: '5px', backgroundColor: 'green', fontSize: '12px' }} 
+                  type='primary' 
+                  onClick={() => editRecord(record)}
+          >
+            修改
+          </Button>
         </Fragment>
       ),
     }

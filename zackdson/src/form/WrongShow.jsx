@@ -19,7 +19,7 @@ const WrongShow = () => {
         back:cxddyz.back,
         easy:cxddyz.easy==='高'?'high':cxddyz.easy==='中'?'medium':'low',
         point:cxddyz.point,
-        correct:cxddyz.correct,
+        correct:cxddyz.correct==='undefined' ? '' : cxddyz.correct,
       }}
       >
       <Form.Item  

@@ -32,6 +32,10 @@ export async function loader(){
         const restData = await MenuService.getInitDson();
         const subjects = await restData.data;
         // console.log('=nav=,subjects=',subjects);
+        // 2025/4/28 toczpd 解释如果initdson表中allsub没有实际数据那么职位'[]'
+        // 2025/4/28 toczpd 则长度为2，有值的话，比如[{"key":"英语 写作","label":"写作"},{"key":"英语 其他","label":"其他"}]
+        // 2025/4/28 toczpd 则长度大于2。这就是筛选的原则'
+        // 2025/4/28 toczpd 所有条件也可以写成xg.allsub.length !== 2'
         let guoaili=subjects.filter(xg=>xg.allsub !== null && xg.allsub.length>2);
         // console.log('=nav=guoaili length:',guoaili.length);
 
@@ -107,6 +111,14 @@ export default function Nav () {
   const [zpddyz,setZpddyz]=useState({});
   const [headerIndex, setHeaderIndex] = useState(0);
 
+  const schoolMap = {
+    kindergarten: '幼儿园',
+    primary: '小学',
+    middle: '初中',
+    high: '高中',
+    college: '大学'
+  };
+
   const handleGuoailiBeigan =({key }) => {
     setBeforeSubject(false);
     // let 江珊=String(key).slice(2);
@@ -137,9 +149,10 @@ export default function Nav () {
           // 2024/7/4 here the username should get from backend,not saved in local for security reason.
           // username:localStorage.getItem('user'),
           username:username,
-          school:localStorage.getItem('school')==='primary'?'小学'
-                :localStorage.getItem('school')==='middle'?'初中':'高中',
-          grade:localStorage.getItem('grade') }
+          // school:localStorage.getItem('school')==='primary'?'小学'
+          //       :localStorage.getItem('school')==='middle'?'初中':'高中',
+                school: schoolMap[localStorage.getItem('school')],
+                grade:localStorage.getItem('grade') }
         return mjddyz;
       });
       setVisible(true);

@@ -47,7 +47,7 @@ const CommonEdit = () => {
     });
     formData.append('id', cxddyz.id);
     formData.append('title', values.title);
-    formData.append('sample', mjddyz.current.richtext);
+    formData.append('sample', mjddyz.current.richtext || cxddyz.sample);
     formData.append('delImages', delImages);
 
     async function innerMethod(data) {

@@ -15,7 +15,6 @@ const EmptyLayout = () =>{
           break;
         case '写作':
           navigate('/nav/writing/list');
-          // navigate('/nav/richtext');
           break;
         case '错题积累':
           navigate('/nav/wrong/list');

@@ -2,6 +2,7 @@ import { useNavigate,useLoaderData,redirect } from 'react-router-dom';
 import { notification,Modal,Form,Button,Select } from "antd";
 import GradeService from "../util/gradeService";
 import React,{ useState } from 'react';
+import MenuService from '../util/menuService';
 
 const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 
@@ -19,7 +20,7 @@ export async function loader() {
       // return redirect('/nav');
     }else{
       if(localStorage.getItem('resetGrade')){
-        openNotificationWithIcon("warning","请重新设定年级情报");
+        openNotificationWithIcon("info","正在重新设定年级情报");
       }else{
         openNotificationWithIcon("warning","发现您是新用户，初次使用需要设定年级情报");
       }
@@ -46,8 +47,20 @@ export default function HomePage() {
               localStorage.setItem('school',values.school); //string school, int grade
               localStorage.setItem('grade',values.grade); 
               setVisible(false);
-              navigate('/nav/manage')
-          }catch(err){
+              // navigate('/nav/manage')
+      // 调用 MenuService.getAllSubjects 获取所有 subject
+      try {
+        const res = await MenuService.getAllSubjects();
+        if (res && Array.isArray(res.data) && res.data.length > 0) {
+          navigate('/nav');
+        } else {
+          navigate('/nav/manage');
+        }
+      } catch (err) {
+        navigate('/nav/manage');
+      }
+
+            }catch(err){
               openNotificationWithIcon("error","年级设定失败!请联系管理员")
               return null;
           }
@@ -79,9 +92,11 @@ export default function HomePage() {
               >
                 <Form.Item label="school" name="school">
                 <Select>
+                    <Select.Option value="kindergarten">幼儿园</Select.Option>
                     <Select.Option value="primary">小学</Select.Option>
                     <Select.Option value="middle">初中</Select.Option>
                     <Select.Option value="high">高中</Select.Option>
+                    <Select.Option value="college">大学</Select.Option>
                 </Select>
                 </Form.Item>
                 <Form.Item label="grade" name="grade">
@@ -101,13 +116,14 @@ export default function HomePage() {
                         }}
                 >
                     <Button type="primary" danger htmlType="submit">
-                    提交
+                      提交
                     </Button>
-                    <Button type="primary" 
+                    {/* <Button type="primary" 
                       style={{marginLeft:'1em'}}
-                      onClick={()=>navigate('/')}>
-                    退回重来
-                    </Button>
+                      onClick={()=>navigate(-1)}
+                    >
+                      退回重来
+                    </Button> */}
                 </Form.Item>
              </Form>            
         </Modal>

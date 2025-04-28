@@ -23,11 +23,12 @@ public class ExtensionEntity extends DpjEntity {
     private Long id;
         
     // the common part for all table
-    private String username;
-    private String school;
-    private int grade;
-    private boolean is_deleted;
-    private String subject;
+    // private String username;
+    // private String school;
+    // private int grade;
+    // private boolean is_deleted;
+    // private String subject;
+
     // 考试日
     private LocalDate extDate;
     private String teacher;
@@ -41,16 +42,16 @@ public class ExtensionEntity extends DpjEntity {
     private String content;
 
     // store the file url which indicates the location the file is saved at. 
-    @Column(length = 10000)
-    private List<String> mjddyz;
+    // @Column(length = 10000)
+    // private List<String> mjddyz;
 
-    @Column(nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate beginday;
+    // @Column(nullable = false)
+    // @JsonFormat(pattern = "yyyy-MM-dd")
+    // private LocalDate beginday;
     
-    @Column(nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate modday;
+    // @Column(nullable = false)
+    // @JsonFormat(pattern = "yyyy-MM-dd")
+    // private LocalDate modday;
     
 }
     
