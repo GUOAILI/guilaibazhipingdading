@@ -1,5 +1,7 @@
 package com.guoaili.zackback.entity;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,7 +12,7 @@ import lombok.Data;
 @Entity
 @Data
 @Table(name = "grade")
-public class Grade {
+public class Grade implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;

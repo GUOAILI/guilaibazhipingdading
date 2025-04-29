@@ -4,22 +4,20 @@ import { BASE_URL } from "./config";
 
 const API_PER_URL = `${BASE_URL}/persist/`;
 
-
-const serializeTofile = (branch) => {
-    return axios.get(API_PER_URL + `serialize/${branch}`,{
+const serializeAllDatabaseData = () => {
+    return axios.get(API_PER_URL + 'serializeAll',{
       headers : authHeader()
     });
 };
-
-const deserializeToClass = (branch,filename) => {
-    return axios.get(API_PER_URL + `deserialize/${branch}/${filename}`,{
+const recoverToTable = (filename) => {
+    return axios.get(API_PER_URL + `deserializeAll/${filename}`,{
       headers : authHeader()
     });
 };
 
 const PersistService = {
-    serializeTofile,
-    deserializeToClass,
+    recoverToTable,
+    serializeAllDatabaseData,
   };
   
   export default PersistService;

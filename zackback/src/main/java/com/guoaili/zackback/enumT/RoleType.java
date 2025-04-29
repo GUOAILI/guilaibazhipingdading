@@ -3,10 +3,7 @@ package com.guoaili.zackback.enumT;
 public enum RoleType {
     USER("ROLE_USER"),
     ADMIN("ROLE_ADMIN"),
-    HZP("ROLE_HZP"),
-    LCX("ROLE_LCX"),
-    LMJ("ROLE_LMJ"),
-    TLN("ROLE_TLN");
+    DING("ROLE_DING");
 
     private String value;
 

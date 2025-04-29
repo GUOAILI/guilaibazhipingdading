@@ -18,7 +18,7 @@ import lombok.Data;
 @Entity
 @Data
 @Table(name = "writing")
-public class WritingEntity extends DpjEntity implements Serializable {
+public class WritingEntity extends DpjEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

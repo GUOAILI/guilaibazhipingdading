@@ -1,5 +1,6 @@
 package com.guoaili.zackback.entity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -9,7 +10,7 @@ import lombok.Data;
 
 @Data
 @MappedSuperclass
-public class DpjEntity {
+public class DpjEntity implements Serializable{
 
     // the common part for all table
     private String username;

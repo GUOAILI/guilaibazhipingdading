@@ -51,23 +51,17 @@ public class UserServiceImpl implements UserService  {
         zpd.setPassword(passwordEncoder.encode(user.getPassword()));
 
         List<RoleType> zpd001=new ArrayList<>();
-        if(user.getUsername().contains("zhiping")) {
+        if (user.getUsername().contains("zhiping") 
+            || user.getUsername().contains("chuxuan") 
+            || user.getUsername().contains("minjuan") 
+            || user.getUsername().contains("lina")) 
+        {           
             zpd001.add(RoleType.USER);
-            zpd001.add(RoleType.HZP);
+            zpd001.add(RoleType.DING);
         }
-        else if(user.getUsername().contains("chuxuan")){
-            zpd001.add(RoleType.USER);
-            zpd001.add(RoleType.LCX);
-        }
-        else if(user.getUsername().contains("minjuan")){
-            zpd001.add(RoleType.USER);
-            zpd001.add(RoleType.LMJ);
-        }
-        else if(user.getUsername().contains("lina")){
-            zpd001.add(RoleType.USER);
-            zpd001.add(RoleType.TLN);
-        }
-        else if(user.getUsername().contains("jiandong")){
+        else if(user.getUsername().contains("jiandong")
+            || user.getUsername().contains("ADMIN")
+            || user.getUsername().contains("admin")){
             zpd001.add(RoleType.ADMIN);
         }
         else {

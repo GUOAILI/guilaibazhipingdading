@@ -1,5 +1,7 @@
 package com.guoaili.zackback.entity;
 
+import java.io.Serializable;
+
 import com.guoaili.zackback.enumT.RoleType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,7 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name="roles")
-public class Role {
+public class Role implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

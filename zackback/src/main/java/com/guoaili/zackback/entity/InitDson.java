@@ -1,5 +1,6 @@
 package com.guoaili.zackback.entity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -17,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name="initdson")
 @NoArgsConstructor
-public class InitDson {
+public class InitDson implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
