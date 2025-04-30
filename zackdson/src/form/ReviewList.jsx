@@ -46,11 +46,11 @@ function ReviewList() {
             </a>
             }
         },
-        {
-          title: '概要',
-          dataIndex: 'title',
-          key: 'title',
-        },        
+        // {
+        //   title: '概要',
+        //   dataIndex: 'title',
+        //   key: 'title',
+        // },        
         {
           title: '分类',
           dataIndex: 'category',
