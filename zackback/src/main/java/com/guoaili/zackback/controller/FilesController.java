@@ -133,7 +133,7 @@ public class FilesController {
     public ResponseEntity<String> handleReviewFileUpload(  
             @RequestParam(value = "files",required = false) List<MultipartFile> files,  
             // @RequestParam("reviewDate") LocalDate reviewDate,  
-            @RequestParam("category") int category,  
+            @RequestParam("category") String category,  
             @RequestParam("title") String title,  
             @RequestParam("detail") String detail,  
             @RequestParam("overview") String overview,

@@ -28,8 +28,8 @@ const ReviewForm = () => {
         // formData.append('reviewDate', moment(values.examDate).format('YYYY-MM-DD'));  
         formData.append('category', values.category);  
         formData.append('title', values.title);  
-        formData.append('detail', values.detail);  
-        formData.append('overview', values.overview);  
+        formData.append('detail', values.detail ? values.detail : '');  
+        formData.append('overview', values.overview ? values.overview : '');  
         // a invisible variable that contains the key info of this page,it's nessessary
         formData.append('subject', localStorage.getItem("branchDetail"));
        

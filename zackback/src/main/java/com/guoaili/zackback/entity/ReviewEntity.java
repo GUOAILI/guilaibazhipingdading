@@ -28,7 +28,7 @@ public class ReviewEntity extends DpjEntity {
 
     // 复习日
     // private LocalDate reviewDate;
-    private int category;
+    private String category;
     private String title;
 
     @Column(length = 500)

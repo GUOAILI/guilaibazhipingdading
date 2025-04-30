@@ -150,7 +150,7 @@ public class TableController {
             @RequestParam(value = "files",required = false) List<MultipartFile> files, 
             @RequestParam("id") long id,  
             // @RequestParam("reviewDate") LocalDate reviewDate,  
-            @RequestParam("category") int category,  
+            @RequestParam("category") String category,  
             @RequestParam("title") String title,  
             @RequestParam("detail") String detail,  
             @RequestParam("overview") String overview,
