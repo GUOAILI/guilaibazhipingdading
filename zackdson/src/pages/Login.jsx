@@ -84,6 +84,7 @@ const LoginForm = () => {
             name="login"  
             initialValues={{ remember: true }}  
             onFinish={onFinish}
+            labelCol={{ span: 6 }} // 统一label宽度
             // 这里可以添加onFinish来处理登录表单的提交  
         >  
             <Form.Item  
