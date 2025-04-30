@@ -10,9 +10,10 @@ const serializeAllDatabaseData = () => {
     });
 };
 const recoverToTable = (filename) => {
-    return axios.get(API_PER_URL + `deserializeAll/${filename}`,{
-      headers : authHeader()
-    });
+    return axios.get(API_PER_URL + `deserializeAll/${filename}`);
+    // return axios.get(API_PER_URL + `deserializeAll/${filename}`,{
+    //   headers : authHeader()
+    // });
 };
 
 const PersistService = {

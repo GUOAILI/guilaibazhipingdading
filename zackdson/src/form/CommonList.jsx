@@ -45,20 +45,22 @@ function CommonList() {
       )
     },
     {
-      title: '照片',
-      key: 'photo',
-      render: (_, record) => (<span> {record.mjddyz.length > 0 ? record.mjddyz.length + '张' : '未添加'} </span>),
-    },
-    {
       title: '做成日',
       dataIndex: 'beginday',
       key: 'beginday',
-    },
-    {
-      title: '重要度',
-      dataIndex: 'imp',
-      key: 'imp',
-    },
+      render: (text, record) => {
+        if (record.beginday !== record.modday) {
+          return (
+            <span>
+              <span style={{ color: '#1890ff' }}>做成:</span> {record.beginday}
+              <br />
+              <span style={{ color: '#faad14' }}>修正:</span> {record.modday}
+            </span>
+          );
+        }
+        return record.beginday;
+      }
+},
     {
       title: 'Action',
       key: 'action',

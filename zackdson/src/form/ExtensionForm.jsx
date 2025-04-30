@@ -24,12 +24,19 @@ const ExtensionForm = () => {
             const zpd_andom=today + '-' + Math.random().toString(18).substring(2);
             formData.append('files',base64ToFile(image.url),zpd_andom);
         });
-        // 添加其他字段  
-        formData.append('extDate', moment(values.extDate).format('YYYY-MM-DD'));  
-        formData.append('teacher', values.teacher);  
-        formData.append('abs', values.abs);  
+        // 添加其他字段 
+        if (values.extDate) {
+          formData.append('extDate', values.extDate.format('YYYY-MM-DD'));
+        } else {
+            // 可以加个提示，防止未选日期
+            openNotificationWithIcon("error", "请选择上课日！");
+            return;
+        }
+        // formData.append('extDate', moment(values.extDate).format('YYYY-MM-DD'));  
+        formData.append('teacher', values.teacher ? values.teacher : '');  
+        formData.append('abs', values.abs); 
         formData.append('easy', values.easy); 
-        formData.append('content', values.content);
+        formData.append('content', values.content ? values.content : '');
         // a invisible variable that contains the key info of this page,it's nessessary
         formData.append('subject', localStorage.getItem("branchDetail"));
        
@@ -48,6 +55,8 @@ const ExtensionForm = () => {
       };
       
   return (  
+    <>
+    <h1>{localStorage.getItem("branchDetail") + ' 录入新数据'}</h1>
     <Form  
       name="extension_form"  
       layout="vertical"
@@ -58,7 +67,7 @@ const ExtensionForm = () => {
     >  
       <Form.Item  
         name="extDate"
-        label={<span style={{ color: 'blue' }}>授课日</span>}  
+        label={<span style={{ color: 'blue' }}>上课日</span>}  
         rules={[{ required: true, message: '请选择授课日期!' }]}  
       >  
         <DatePicker  />  
@@ -83,6 +92,7 @@ const ExtensionForm = () => {
       <Form.Item  
         name="easy"
         label={<span style={{ color: 'blue' }}>难易度</span>} 
+        rules={[{ required: true, message: '请选择难易度!' }]}  
       >  
         <Radio.Group>  
           <Radio value="high">高</Radio>  
@@ -120,7 +130,8 @@ const ExtensionForm = () => {
           </Button>
       </div>
       </Form.Item>  
-    </Form>  
+    </Form>
+    </>  
   );  
 };  
   

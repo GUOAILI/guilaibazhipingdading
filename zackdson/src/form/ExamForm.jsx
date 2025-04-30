@@ -30,9 +30,9 @@ const ExamForm = () => {
         formData.append('easy', values.easy);  
         formData.append('examType', values.examType);  
         formData.append('score', values.score);  
-        formData.append('evaluation', values.evaluation);
-        formData.append('weakpoint', values.weakpoint);
-        formData.append('errsum', values.errsum);
+        formData.append('evaluation', values.evaluation ? values.evaluation : '');
+        formData.append('weakpoint', values.weakpoint ? values.weakpoint : '');
+        formData.append('errsum', values.errsum ? values.errsum : '');
         // a invisible variable that contains the key info of this page,it's nessessary
         formData.append('subject', localStorage.getItem("branchDetail"));
        
@@ -51,7 +51,9 @@ const ExamForm = () => {
       };
       
   return (  
-    <Form  
+  <>
+  <h1>{localStorage.getItem("branchDetail") + ' 录入新数据'}</h1>
+  <Form  
       name="exam_form"
       layout="vertical"
       initialValues={{ easy: 'medium' }}  
@@ -78,6 +80,7 @@ const ExamForm = () => {
       <Form.Item  
         name="easy"
         label={<span style={{ color: 'blue' }}>难易度</span>} 
+        rules={[{ required: true, message: '请选择难易度!' }]}  
       >  
         <Radio.Group>  
           <Radio value="high">高</Radio>  
@@ -91,12 +94,14 @@ const ExamForm = () => {
         label={<span style={{ color: 'blue' }}>考试分类</span>} 
         rules={[{ required: true, message: '请选择考试分类!' }]}  
       >  
-        <Select mode="multiple" style={{ width: '30%' }}>  
+        <Select style={{ width: '30%' }}>  
           <Select.Option value="随堂">随堂</Select.Option>  
           <Select.Option value="自测">自测</Select.Option>  
           <Select.Option value="期中">期中</Select.Option>  
           <Select.Option value="期末">期末</Select.Option>  
           <Select.Option value="月考">月考</Select.Option>  
+          <Select.Option value="模拟">模拟</Select.Option>  
+          <Select.Option value="其他">其他</Select.Option>  
         </Select>  
       </Form.Item>  
   
@@ -163,7 +168,8 @@ const ExamForm = () => {
           </Button>
       </div>
       </Form.Item>  
-    </Form>  
+    </Form> 
+  </> 
   );  
 };  
   

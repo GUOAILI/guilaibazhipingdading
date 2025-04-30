@@ -13,12 +13,24 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class WrongVo extends DpjVo {
-    private LocalDate inputDate;
+    // private LocalDate inputDate;
     private String dpjno;
     private String back;
     private String point;
     private String easy;
     private String correct;
-    private String subject;
-    private List<MultipartFile> files;    
+
+
+    public WrongVo(String dpjno, String back, String point, String easy, String correct, String subject, List<MultipartFile> files) {
+        super();
+        this.dpjno = dpjno;
+        this.back = back;
+        this.point = point;
+        this.easy = easy;
+        this.correct = correct;
+        this.setSubject(subject);
+        this.setFiles(files);
+    }
+    // private String subject;
+    // private List<MultipartFile> files;    
 }

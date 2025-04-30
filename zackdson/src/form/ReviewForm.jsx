@@ -25,7 +25,7 @@ const ReviewForm = () => {
             formData.append('files',base64ToFile(image.url),zpd_andom);
         });
         // 添加其他字段  
-        formData.append('reviewDate', moment(values.examDate).format('YYYY-MM-DD'));  
+        // formData.append('reviewDate', moment(values.examDate).format('YYYY-MM-DD'));  
         formData.append('category', values.category);  
         formData.append('title', values.title);  
         formData.append('detail', values.detail);  
@@ -47,15 +47,17 @@ const ReviewForm = () => {
         innerMethod(formData);
       };
   return (
+    <>
+    <h1>{localStorage.getItem("branchDetail") + ' 录入新数据'}</h1>
     <Form 
         layout="vertical"
         onFinish={onFinish}
         scrollToFirstError
         // style={{ maxWidth: '400px' }}  
     >
-      <Form.Item name="reviewDate" label={<label style={{color:'blue'}}>复习日</label>}>
+      {/* <Form.Item name="reviewDate" label={<label style={{color:'blue'}}>复习日</label>}>
         <DatePicker />
-      </Form.Item>
+      </Form.Item> */}
       <Form.Item name="category" label={<label style={{color:'blue'}}>分类</label>} required>
         <Select style={{ width: '30%' }}>
           <Select.Option value="随堂复习">随堂复习</Select.Option>
@@ -91,6 +93,7 @@ const ReviewForm = () => {
       </div>
       </Form.Item>  
     </Form>
+    </>
   );
 };
 

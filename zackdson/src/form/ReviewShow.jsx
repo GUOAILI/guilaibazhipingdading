@@ -11,19 +11,20 @@ const ReviewShow = () => {
   return (
     <>
     <Form 
+      className="show-form"
       layout="vertical" 
       disabled
       initialValues={{
         title:cxddyz.title,
-        reviewDate:cxddyz.reviewDate,
+        // reviewDate:cxddyz.reviewDate,
         category:cxddyz.category,
         detail:cxddyz.detail,
         overview:cxddyz.overview,
       }}
       >
-      <Form.Item name="reviewDate" label={<label style={{color:'blue'}}>复习日</label>}>
+      {/* <Form.Item name="reviewDate" label={<label style={{color:'blue'}}>复习日</label>}>
         <Input type='text' />
-      </Form.Item>
+      </Form.Item> */}
       <Form.Item name="category" label={<label style={{color:'blue'}}>分类</label>} >
         <Select style={{ width: '30%' }}>
           <Select.Option value={1}>随堂复习</Select.Option>

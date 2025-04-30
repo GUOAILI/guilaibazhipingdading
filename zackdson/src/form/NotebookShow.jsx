@@ -12,6 +12,7 @@ const NotebookShow = () => {
   return (
     <>
     <Form 
+      className="show-form"
       layout="vertical" 
       disabled
       initialValues={{

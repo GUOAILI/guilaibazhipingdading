@@ -12,6 +12,7 @@ import lombok.Data;
 @Data
 public class DpjVo {
     // the common part for all table
+    private String subject;
     private List<MultipartFile> files;
     private String delImages;    
 }

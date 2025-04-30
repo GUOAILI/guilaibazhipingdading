@@ -45,6 +45,8 @@ const CommonForm = () => {
   };
 
   return (
+    <>
+    <h1>{localStorage.getItem("branchDetail") + ' 录入新数据'}</h1>
     <Form form={form}
       layout="vertical"
       onFinish={onFinish}
@@ -88,6 +90,7 @@ const CommonForm = () => {
         </div>
       </Form.Item>
     </Form>
+    </>
   );
 };
 

@@ -50,6 +50,8 @@ const NotebookForm = () => {
   };
 
   return (
+    <>
+    <h1>{localStorage.getItem("branchDetail") + ' 录入新数据'}</h1>
     <Form
       name="notebook_form"
       layout="vertical"
@@ -110,6 +112,7 @@ const NotebookForm = () => {
       </div>
       </Form.Item>
     </Form>
+    </>
   );
 };
 

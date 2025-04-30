@@ -55,6 +55,8 @@ const WritingForm = () => {
   };
 
   return (
+    <>
+    <h1>{localStorage.getItem("branchDetail") + ' 录入新数据'}</h1>
     <Form form={form} 
       layout="vertical" 
       onFinish={onFinish}
@@ -86,7 +88,7 @@ const WritingForm = () => {
             题材
             </label>} 
         rules={[{ required: true, message: '请输入题材' }]}>
-        <Select mode="multiple" style={{ width: '30%' }}>  
+        <Select style={{ width: '30%' }}>  
           <Select.Option value="记叙文">记叙文</Select.Option>  
           <Select.Option value="说明文">说明文</Select.Option>  
           <Select.Option value="抒情文">抒情文</Select.Option>  
@@ -134,6 +136,7 @@ const WritingForm = () => {
       </div>
       </Form.Item>
     </Form>
+    </>
   );
 };
 

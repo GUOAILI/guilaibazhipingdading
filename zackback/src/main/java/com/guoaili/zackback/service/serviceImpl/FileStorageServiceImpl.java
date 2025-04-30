@@ -260,7 +260,7 @@ public class FileStorageServiceImpl implements FileStorageService {
                 wv.getImp()==2?Important.中:Important.高);
         zpddbz.setSubject(wv.getSubject());
         zpddbz.setComments(wv.getComments());
-        zpddbz.setTitle(wv.getTitile());
+        zpddbz.setTitle(wv.getTitle());
         zpddbz.setTopic(wv.getTopic());
         zpddbz.setSample(wv.getSample());
         // at last,save to database
@@ -313,7 +313,7 @@ public class FileStorageServiceImpl implements FileStorageService {
         List<String> zpdbyz=saveComingInUploadImageFile(nv);
         WrongEntity zpddbz =new WrongEntity();
         setCommonFields(zpdbyz, zpddbz);
-        zpddbz.setInputDate(nv.getInputDate());
+        // zpddbz.setInputDate(nv.getInputDate());
         zpddbz.setDpjno(nv.getDpjno());
         zpddbz.setBack(nv.getBack());
         zpddbz.setEasy(nv.getEasy().equals("low") ? Difficulty.低 :
@@ -348,7 +348,7 @@ public class FileStorageServiceImpl implements FileStorageService {
         List<String> zpdbyz=saveComingInUploadImageFile(nv);
         ReviewEntity zpddbz =new ReviewEntity();
         setCommonFields(zpdbyz, zpddbz);
-        zpddbz.setReviewDate(nv.getReviewDate());
+        // zpddbz.setReviewDate(nv.getReviewDate());
         zpddbz.setCategory(nv.getCategory());
         zpddbz.setTitle(nv.getTitle());
         zpddbz.setSubject(nv.getSubject());

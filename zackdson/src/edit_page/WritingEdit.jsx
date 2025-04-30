@@ -55,7 +55,7 @@ const WritingEdit = () => {
     });
     // 添加其他字段  
     formData.append('id', cxddyz.id);  
-    // formData.append('imp', values.imp);  
+    formData.append('imp', values.imp);  
     formData.append('title', values.title);  
     formData.append('topic', values.topic);  
     // formData.append('sample', values.sample);  
@@ -81,6 +81,7 @@ const WritingEdit = () => {
 
   return (
     <>
+    <h1>{localStorage.getItem("branchDetail") + ' 修改当前数据'}</h1>
     <Form 
       // form={form} 
       layout="vertical"
@@ -89,13 +90,28 @@ const WritingEdit = () => {
       // onValuesChange={dpjSee}
       // disabled
       initialValues={{
+        imp: cxddyz.imp, // 新增：重要度初始值
         title:cxddyz.title,
         topic:cxddyz.topic,
         // sample:cxddyz.sample,
         // sample:mjddyz.current.richtext,
-        comments:cxddyz.comments
+        comments:cxddyz.comments==='undefined'? '':cxddyz.comments,
       }}
       >
+
+      <Form.Item
+        label={<label style={{color:'blue'}}>重要度</label>}
+        name="imp"
+        rules={[{ required: true, message: '请选择重要度!' }]}
+      >
+        <Select placeholder="请选择重要度" style={{ width: '30%' }}>
+          <Select.Option value={3}>高</Select.Option>
+          <Select.Option value={2}>中</Select.Option>
+          <Select.Option value={1}>低</Select.Option>
+        </Select>
+      </Form.Item>
+
+
       <Form.Item name="title"
     //    label="题目"
        label={<label  style={{color:'blue'}}>
@@ -108,7 +124,7 @@ const WritingEdit = () => {
        label={<label  style={{color:'blue'}}>
             题材
             </label>} >
-        <Select mode="multiple" style={{ width: '30%' }}>  
+        <Select style={{ width: '30%' }}>  
           <Select.Option value="记叙文">记叙文</Select.Option>  
           <Select.Option value="说明文">说明文</Select.Option>  
           <Select.Option value="抒情文">抒情文</Select.Option>  

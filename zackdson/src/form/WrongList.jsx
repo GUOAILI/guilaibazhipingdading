@@ -31,9 +31,9 @@ function WrongList() {
     }
     const columns = [
         {
-          title: '试题编号(可点击)',
-          dataIndex: 'dpjno',
-          key: 'dpjno',
+          title: '错题摘要(可点击)',
+          dataIndex: 'point',
+          key: 'point',
           // 跳转详情页
           render: (text, record) => {
             
@@ -46,27 +46,50 @@ function WrongList() {
             }
         },
         {
-          title: '错题点',
-          dataIndex: 'point',
-          key: 'point',
-        },        {
+          title: '错误原因',
+          dataIndex: 'dpjno',
+          key: 'dpjno',
+          width: 180, // 可根据实际调整
+        },        
+        {
           title: '照片',
           // dataIndex: 'mjddyz',
           key: 'photo',
           render: (_,record) => (<span> {record.mjddyz.length>0 ? record.mjddyz.length+'张' : '未添加'} </span>),
         },
         {
-          title: '录入日',
-          dataIndex: 'inputDate',
-          key: 'inputDate',
+          title: '做成日',
+          dataIndex: 'beginday',
+          key: 'beginday',
+          render: (text, record) => {
+            if (record.beginday !== record.modday) {
+              return (
+                <span>
+                  <span style={{ color: '#1890ff' }}>做成:</span> {record.beginday}
+                  <br />
+                  <span style={{ color: '#faad14' }}>修正:</span> {record.modday}
+                </span>
+              );
+            }
+            return record.beginday;
+          }
         },
 
         {
           title: '难易度',
           dataIndex: 'easy',
           key: 'easy',
-        },
-        {
+          render: (text) => {
+              if (text === '高') {
+                return <span style={{ color: '#d0021b', fontSize:'1.8em' }}>{text}</span>;
+              }
+              if (text === '中') {
+                return <span style={{ color: '#1890ff',fontSize:'1.2em' }}>{text}</span>;
+              }
+              return <span style={{ color: 'gray', fontWeight: 'bold' }}>{text}</span>;
+            }
+          },
+          {
           // reuse the perfect code of lagacy project fujitsu
           title: 'Action',
           className:'laoyaoziling',

@@ -11,14 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ExamVo extends DpjVo {
-            // @RequestParam("examDate") LocalDate examDate,  
-            // @RequestParam("easy") String easy,  
-            // @RequestParam("score") int score,  
-            // @RequestParam("examType") String examType,  
-            // @RequestParam("evaluation") String evaluation,
-            // @RequestParam("weakpoint") String weakpoint,
-            // @RequestParam("subject") String subject,
-            // @RequestParam("errsum") String errsum) {  
     private LocalDate examDate;
     private String title;
     private String easy;
@@ -27,7 +19,20 @@ public class ExamVo extends DpjVo {
     private String evaluation;
     private String weakpoint;
     private String errsum;
-    private String subject;
-    private List<MultipartFile> files;
+    // private String subject;
+    // private List<MultipartFile> files;
+    public ExamVo(LocalDate examDate, String title, String easy, int score, String examType, String evaluation, String weakpoint, String errsum, String subject, List<MultipartFile> files) {
+        super();
+        this.examDate = examDate;
+        this.title = title;
+        this.easy = easy;
+        this.score = score;
+        this.examType = examType;
+        this.evaluation = evaluation;
+        this.weakpoint = weakpoint;
+        this.errsum = errsum;
+        this.setSubject(subject);
+        this.setFiles(files);
+    }
     
 }

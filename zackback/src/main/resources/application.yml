@@ -4,7 +4,7 @@ server:
 
 spring:
   application:
-    name: zackback
+    name: minhuiback
 
   datasource:
     username: root
@@ -12,7 +12,7 @@ spring:
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
     # this configuration is for it test only
-    url: jdbc:mysql://localhost:3306/zack?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=utf8&&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/minhui?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=utf8&&serverTimezone=UTC
 
     # 2022/6/28 for dockerizing the springboot app, i need change the mysql setting
     # note that mysql is also treated as docker container

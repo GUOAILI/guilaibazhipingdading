@@ -22,3 +22,16 @@
     padding: 20px; /* 可选，增加一些内边距 */  
     box-sizing: border-box; /* 包括内边距和边框在元素的总宽度和总高度内 */  
   }
+
+  /* .show-form .ant-form-item-label > label, */
+  .show-form .ant-input,
+  .show-form .ant-radio-wrapper,
+  .show-form .ant-select-selection-item,
+  .show-form .ant-select-selection-placeholder,
+  .show-form .ant-input-disabled,
+  .show-form textarea,  .show-form .ant-select-disabled .ant-select-selector {
+    color: #f91818 !important; /* 或你想要的深色 */
+    -webkit-text-fill-color: #aa1010 !important;
+    opacity: 1 !important;
+    background: #f7faf7 !important;
+  }

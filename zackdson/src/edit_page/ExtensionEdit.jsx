@@ -79,6 +79,7 @@ const ExtensionEdit = () => {
 
   return (
     <>
+    <h1>{localStorage.getItem("branchDetail") + ' 修改当前数据'}</h1>
     <Form 
       layout="vertical" 
       onFinish={onFinish}

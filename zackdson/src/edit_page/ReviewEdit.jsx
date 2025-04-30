@@ -51,7 +51,7 @@ const ReviewEdit = () => {
       });
       // 添加其他字段  
       formData.append('id', cxddyz.id);  
-      formData.append('reviewDate', values.reviewDate);  
+      // formData.append('reviewDate', values.reviewDate);  
       formData.append('category', values.category);  
       formData.append('title', values.title);  
       formData.append('detail', values.detail);  
@@ -73,20 +73,22 @@ const ReviewEdit = () => {
     };
   
   return (
+    <>
+    <h1>{localStorage.getItem("branchDetail") + ' 修改当前数据'}</h1>
     <Form 
         layout="vertical"
         onFinish={onFinish}
         initialValues={{
           title:cxddyz.title,
-          reviewDate:cxddyz.reviewDate,
+          // reviewDate:cxddyz.reviewDate,
           category:cxddyz.category,
           detail:cxddyz.detail,
           overview:cxddyz.overview,
         }}
       >
-      <Form.Item name="reviewDate" label={<label style={{color:'blue'}}>复习日</label>}>
+      {/* <Form.Item name="reviewDate" label={<label style={{color:'blue'}}>复习日</label>}>
         <Input type='text' />
-      </Form.Item>
+      </Form.Item> */}
       <Form.Item name="category" label={<label style={{color:'blue'}}>分类</label>} >
         <Select style={{ width: '30%' }}>
           <Select.Option value={1}>随堂复习</Select.Option>
@@ -147,6 +149,7 @@ const ReviewEdit = () => {
           </Button>
       </div>
     </Form>
+    </>
   );
 };
 

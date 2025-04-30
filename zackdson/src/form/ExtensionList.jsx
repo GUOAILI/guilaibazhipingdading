@@ -48,12 +48,7 @@ function ExtensionList() {
             }
         },
         {
-          title: '摘要',
-          dataIndex: 'abs',
-          key: 'abs',
-        },
-        {
-          title: '教师',
+          title: '授课教师',
           dataIndex: 'teacher',
           key: 'teacher',
         },
@@ -64,14 +59,40 @@ function ExtensionList() {
           render: (_,record) => (<span> {record.mjddyz.length>0 ? record.mjddyz.length+'张' : '未添加'} </span>),
         },
         {
-          title: '授课日',
+          title: '上课日',
           dataIndex: 'extDate',
           key: 'extDate',
+        },
+        {
+          title: '做成日',
+          dataIndex: 'beginday',
+          key: 'beginday',
+          render: (text, record) => {
+            if (record.beginday !== record.modday) {
+              return (
+                <span>
+                  <span style={{ color: '#1890ff' }}>做成:</span> {record.beginday}
+                  <br />
+                  <span style={{ color: '#faad14' }}>修正:</span> {record.modday}
+                </span>
+              );
+            }
+            return record.beginday;
+          }
         },
         {
           title: '难易度',
           dataIndex: 'easy',
           key: 'easy',
+          render: (text) => {
+            if (text === '高') {
+              return <span style={{ color: '#d0021b', fontSize:'1.8em' }}>{text}</span>;
+            }
+            if (text === '中') {
+              return <span style={{ color: '#1890ff',fontSize:'1.2em' }}>{text}</span>;
+            }
+            return <span style={{ color: 'gray', fontWeight: 'bold' }}>{text}</span>;
+          }
         },
         {
           // reuse the perfect code of lagacy project fujitsu

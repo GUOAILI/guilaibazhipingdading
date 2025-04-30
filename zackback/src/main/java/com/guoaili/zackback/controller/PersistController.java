@@ -27,8 +27,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.Set;
 import org.reflections.Reflections;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 @RestController
 @CrossOrigin
@@ -55,7 +53,11 @@ public class PersistController {
         Reflections reflections = new Reflections("com.guoaili.zackback.entity");
         Set<Class<?>> entityClasses = reflections.getTypesAnnotatedWith(Entity.class)
             .stream()
-            .filter(c -> !c.getSimpleName().equals("DpjEntity"))
+            .filter(c -> 
+                !c.getSimpleName().equals("DpjEntity") &&
+                !c.getSimpleName().equals("Role") &&
+                !c.getSimpleName().equals("User")
+            )
             .collect(Collectors.toSet());
     
         Map<String, List<?>> allData = new HashMap<>();
@@ -83,8 +85,9 @@ public class PersistController {
             }
         }
         // 备份users_roles交叉表
-        List<Map<String, Object>> usersRoles = jdbcTemplate.queryForList("SELECT * FROM users_roles");
-        allData.put("users_roles", usersRoles);
+        // List<Map<String, Object>> usersRoles = jdbcTemplate.queryForList("SELECT * FROM users_roles");
+        // allData.put("users_roles", usersRoles);
+        
         // 4. 序列化Map到文件
         String filePath = "persist/all-entities-" + System.currentTimeMillis() + ".ser";
         Files.createDirectories(Paths.get("persist"));
@@ -112,23 +115,38 @@ public class PersistController {
             String entityName = entry.getKey();
             List<?> dataList = entry.getValue();
 
-            if ("users_roles".equals(entityName)) {
-                // 还原交叉表
-                for (Object row : dataList) {
-                    Map<String, Object> map = (Map<String, Object>) row;
-                    Long userId = ((Number) map.get("USER_ID")).longValue();
-                    Long roleId = ((Number) map.get("ROLE_ID")).longValue();
-                    jdbcTemplate.update("INSERT INTO users_roles (USER_ID, ROLE_ID) VALUES (?, ?)", userId, roleId);
-                }
-                continue;
-            }
-            String repoBeanName = Character.toLowerCase(entityName.charAt(0))
-                + entityName.replace("Entity", "") + "Repository";
+            // if ("users_roles".equals(entityName)) {
+            //     // 还原交叉表
+            //     for (Object row : dataList) {
+            //         Map<String, Object> map = (Map<String, Object>) row;
+            //         Long userId = ((Number) map.get("USER_ID")).longValue();
+            //         Long roleId = ((Number) map.get("ROLE_ID")).longValue();
+            //         jdbcTemplate.update("INSERT INTO users_roles (USER_ID, ROLE_ID) VALUES (?, ?)", userId, roleId);
+            //     }
+            //     continue;
+            // }
+            String beanBase = entityName.replace("Entity", "");
+            String repoBeanName = Character.toLowerCase(beanBase.charAt(0)) + beanBase.substring(1) + "Repository";
             if (!ctx.containsBean(repoBeanName)) continue;
             Object repo = ctx.getBean(repoBeanName);
             try {
                 for (Object entity : dataList) {
                     // 可根据需要重置ID等
+                    // 针对 User 实体做唯一性校验
+                    if ("User".equals(entityName) || "Role".equals(entityName)) {
+                        continue;
+                    }                        
+                    // try {
+                        //     String username = (String) entity.getClass().getMethod("getUsername").invoke(entity);
+                        //     Object userRepo = ctx.getBean("userRepository");
+                        //     Object exist = userRepo.getClass().getMethod("findByUsername", String.class).invoke(userRepo, username);
+                        //     if (exist != null) {
+                        //         System.out.println("用户名已存在，跳过: " + username);
+                        //         continue;
+                        //     }
+                        // } catch (Exception e) {
+                        //     e.printStackTrace();
+                        // }
                     repo.getClass().getMethod("save", Object.class).invoke(repo, entity);
                 }
             } catch (Exception e) {

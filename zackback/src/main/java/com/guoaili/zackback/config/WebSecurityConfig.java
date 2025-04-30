@@ -56,7 +56,7 @@ public class WebSecurityConfig {
                     auth.requestMatchers(WHITELIST_URLS).permitAll();
                     auth.requestMatchers("/localupload/files/**").permitAll();
                     // 2024/7/6 add for test richtext
-                    // auth.requestMatchers("/rich/**").permitAll();
+                    auth.requestMatchers("/persist/**").permitAll();
                     //toczpd 2024/5/8 add very powerful one line code!
                     auth.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
                     auth.anyRequest().authenticated();

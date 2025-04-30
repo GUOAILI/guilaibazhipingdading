@@ -28,8 +28,7 @@ public class WrongEntity extends DpjEntity {
     // private boolean is_deleted;
     // private String subject;
 
-    // 考试日
-    private LocalDate inputDate;
+    // private LocalDate inputDate;
     private String dpjno;
     private String back;
     private String point;

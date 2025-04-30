@@ -11,6 +11,7 @@ const ExtensionShow = () => {
   return (
     <>
     <Form 
+      className="show-form"
       layout="vertical" 
       disabled
       initialValues={{

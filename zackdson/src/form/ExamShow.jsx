@@ -11,6 +11,7 @@ const ExamShow = () => {
   return (
     <>
     <Form 
+      className="show-form"
       layout="vertical" 
       disabled
       initialValues={{
@@ -58,6 +59,8 @@ const ExamShow = () => {
           <Select.Option value="期中">期中</Select.Option>  
           <Select.Option value="期末">期末</Select.Option>  
           <Select.Option value="月考">月考</Select.Option>  
+          <Select.Option value="模拟">模拟</Select.Option>  
+          <Select.Option value="其他">其他</Select.Option>  
         </Select>  
       </Form.Item>  
   

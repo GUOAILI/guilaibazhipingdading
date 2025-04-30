@@ -82,6 +82,7 @@ const ExamEdit = () => {
 
   return (
     <>
+    <h1>{localStorage.getItem("branchDetail") + ' 修改当前数据'}</h1>
     <Form 
       layout="vertical" 
       onFinish={onFinish}
@@ -124,12 +125,14 @@ const ExamEdit = () => {
         name="examType"  
         label={<span style={{ color: 'blue' }}>考试分类</span>} 
       >  
-        <Select mode="multiple" style={{ width: '100%' }}>  
+        <Select style={{ width: '100%' }}>  
           <Select.Option value="随堂">随堂</Select.Option>  
           <Select.Option value="自测">自测</Select.Option>  
           <Select.Option value="期中">期中</Select.Option>  
           <Select.Option value="期末">期末</Select.Option>  
           <Select.Option value="月考">月考</Select.Option>  
+          <Select.Option value="模拟">模拟</Select.Option>  
+          <Select.Option value="其他">其他</Select.Option>  
         </Select>  
       </Form.Item>  
   

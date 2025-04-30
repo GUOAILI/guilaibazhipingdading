@@ -2,8 +2,8 @@
 subjects, branchs
 
 备份正确的表数据
-mysqldump -uroot -p123456 zack subjects > C:\zhoujd\java\project\react\zackdson_v1\zackdson\dpj-for-release\subjects.sql;
-mysqldump -uroot -p123456 zack branchs > C:\zhoujd\java\project\react\zackdson_v1\zackdson\dpj-for-release\branchs.sql;
+mysqldump -uroot -p123456 zack subjects > C:\zhoujd\java\project\react\minhui_v1\minhui\dpj-for-release\subjects.sql;
+mysqldump -uroot -p123456 zack branchs > C:\zhoujd\java\project\react\minhui_v1\minhui\dpj-for-release\branchs.sql;
 
 
 docker镜像源，比较新的

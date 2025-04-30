@@ -63,9 +63,21 @@ function ReviewList() {
           render: (_,record) => (<span> {record.mjddyz.length>0 ? record.mjddyz.length+'张' : '未添加'} </span>),
         },
         {
-          title: '复习日',
-          dataIndex: 'reviewDate',
-          key: 'reviewDate',
+          title: '做成日',
+          dataIndex: 'beginday',
+          key: 'beginday',
+          render: (text, record) => {
+            if (record.beginday !== record.modday) {
+              return (
+                <span>
+                  <span style={{ color: '#1890ff' }}>做成:</span> {record.beginday}
+                  <br />
+                  <span style={{ color: '#faad14' }}>修正:</span> {record.modday}
+                </span>
+              );
+            }
+            return record.beginday;
+          }
         },
         {
           // reuse the perfect code of lagacy project fujitsu

@@ -69,9 +69,35 @@ function ExamList() {
           key: 'examDate',
         },
         {
+          title: '做成日',
+          dataIndex: 'beginday',
+          key: 'beginday',
+          render: (text, record) => {
+            if (record.beginday !== record.modday) {
+              return (
+                <span>
+                  <span style={{ color: '#1890ff' }}>做成:</span> {record.beginday}
+                  <br />
+                  <span style={{ color: '#faad14' }}>修正:</span> {record.modday}
+                </span>
+              );
+            }
+            return record.beginday;
+          }
+        },
+        {
           title: '难易度',
           dataIndex: 'easy',
           key: 'easy',
+          render: (text) => {
+            if (text === '高') {
+              return <span style={{ color: '#d0021b', fontSize:'1.8em' }}>{text}</span>;
+            }
+            if (text === '中') {
+              return <span style={{ color: '#1890ff',fontSize:'1.2em' }}>{text}</span>;
+            }
+            return <span style={{ color: 'gray', fontWeight: 'bold' }}>{text}</span>;
+          }
         },
         {
           // reuse the perfect code of lagacy project fujitsu

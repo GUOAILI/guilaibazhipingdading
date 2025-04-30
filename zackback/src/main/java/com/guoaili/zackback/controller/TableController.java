@@ -27,6 +27,7 @@ import com.guoaili.zackback.entity.NotebookEntity;
 import com.guoaili.zackback.entity.ReviewEntity;
 import com.guoaili.zackback.entity.WritingEntity;
 import com.guoaili.zackback.entity.WrongEntity;
+import com.guoaili.zackback.enumT.Important;
 import com.guoaili.zackback.service.TableService;
 
 @RestController
@@ -52,6 +53,7 @@ public class TableController {
     public ResponseEntity<String> updateOneWriting( 
             @RequestParam(value = "files",required = false) List<MultipartFile> files, 
             @RequestParam("id") long id,  
+            @RequestParam("imp") int imp,  
             @RequestParam("title") String title,  
             @RequestParam("topic") String topic,  
             @RequestParam("sample") String sample,  
@@ -59,8 +61,9 @@ public class TableController {
             @RequestParam("delImages") String delImages) {  
   
         WritingUpdVo wuv=new WritingUpdVo(id,delImages);
+                wuv.setImp(imp);
                 wuv.setComments(comments);
-                wuv.setTitile(title);
+                wuv.setTitle(title);
                 wuv.setFiles(files);
                 wuv.setSample(sample);
                 wuv.setTopic(topic);
@@ -146,7 +149,7 @@ public class TableController {
     public ResponseEntity<String> updateOneReview( 
             @RequestParam(value = "files",required = false) List<MultipartFile> files, 
             @RequestParam("id") long id,  
-            @RequestParam("reviewDate") LocalDate reviewDate,  
+            // @RequestParam("reviewDate") LocalDate reviewDate,  
             @RequestParam("category") int category,  
             @RequestParam("title") String title,  
             @RequestParam("detail") String detail,  
@@ -155,7 +158,7 @@ public class TableController {
   
         ReviewUpdVo wuv=new ReviewUpdVo(id,delImages);
         wuv.setTitle(title);
-        wuv.setReviewDate(reviewDate);
+        // wuv.setReviewDate(reviewDate);
         wuv.setCategory(category);
         wuv.setDetail(detail);
         wuv.setOverview(overview);
@@ -168,7 +171,7 @@ public class TableController {
     public ResponseEntity<String> updateOneWrong( 
             @RequestParam(value = "files",required = false) List<MultipartFile> files, 
             @RequestParam("id") long id,  
-            @RequestParam("inputDate") LocalDate inputDate,  
+            // @RequestParam("inputDate") LocalDate inputDate,  
             @RequestParam("dpjno") String dpjno,  
             @RequestParam("back") String back,  
             @RequestParam("point") String point,  
@@ -177,7 +180,7 @@ public class TableController {
             @RequestParam("delImages") String delImages) {  
   
         WrongUpdVo wuv=new WrongUpdVo(id,delImages);
-        wuv.setInputDate(inputDate);
+        // wuv.setInputDate(inputDate);
         wuv.setDpjno(dpjno);
         wuv.setBack(back);
         wuv.setPoint(point);

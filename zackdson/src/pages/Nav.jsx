@@ -84,7 +84,8 @@ export default function Nav () {
     const headerTexts = [
       "我曾经看过山和大海，也穿过人山人海",
       "日夜脑未停留，心力用尽学丘",
-      "宝剑锋从磨砺出，梅花香自苦寒来"
+      "宝剑锋从磨砺出，梅花香自苦寒来",
+      "书山有路勤为径，学海无涯苦作舟",
     ];
     const getLevelKeys = (items1) => {
         const key = {};
@@ -310,7 +311,7 @@ export default function Nav () {
             </div>
             {/* <RootLayout /> */}
           </Content>
-          <Footer style={{ textAlign: 'center' }}>蚂蚁设计赋能©2024 Created by zackdson</Footer>
+          <Footer style={{ textAlign: 'center' }}>蚂蚁设计赋能©2024 Created by minhui</Footer>
           <Modal  
             title="用户信息"  
             open={visible} 

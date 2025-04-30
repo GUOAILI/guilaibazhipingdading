@@ -18,6 +18,16 @@ public class ExtensionVo extends DpjVo {
     private String abs;
     private String easy;
     private String content;
-    private String subject;
-    private List<MultipartFile> files;       
+    // private String subject;
+    // private List<MultipartFile> files;
+    public ExtensionVo(LocalDate extDate, String teacher, String abs, String easy, String content, String subject, List<MultipartFile> files) {
+        super();
+        this.extDate = extDate;
+        this.teacher = teacher;
+        this.abs = abs;
+        this.easy = easy;
+        this.content = content;
+        this.setSubject(subject);
+        this.setFiles(files);
+    }       
 }

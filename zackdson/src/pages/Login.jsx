@@ -77,8 +77,8 @@ const LoginForm = () => {
 
   return (  
     <>
-      <h1 style={{textAlign:'center'}}>蓝城市滨海新区初高中学习辅助系统</h1>
-      <h2 style={{textAlign:'center',color:'blue'}}>同学请登录</h2>
+      <h1 style={{textAlign:'center', fontSize:'4em'}}>学习辅助系统</h1>
+      <h2 style={{textAlign:'center',color:'blue'}}>请登录</h2>
       <Container>
         <Form  
             name="login"  

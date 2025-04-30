@@ -20,12 +20,21 @@ public class ReviewVo extends DpjVo {
     // formData.append('overview', values.overview);  
     // // a invisible variable that contains the key info of this page,it's nessessary
     // formData.append('subject', localStorage.getItem("branchDetail"));
-    private LocalDate reviewDate;
+    // private LocalDate reviewDate;
     private int category;
     private String title;
     private String detail;
     private String overview;
-    private String subject;
-    private List<MultipartFile> files;
+    // private String subject;
+    // private List<MultipartFile> files;
+    public ReviewVo(int category, String title, String detail, String overview, String subject, List<MultipartFile> files) {
+        super();
+        this.category = category;
+        this.title = title;
+        this.detail = detail;
+        this.overview = overview;
+        this.setSubject(subject);
+        this.setFiles(files);
+    }
 
 }

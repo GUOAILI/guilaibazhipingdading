@@ -132,13 +132,13 @@ public class FilesController {
     @PostMapping("/baiduwenxin/review")  
     public ResponseEntity<String> handleReviewFileUpload(  
             @RequestParam(value = "files",required = false) List<MultipartFile> files,  
-            @RequestParam("reviewDate") LocalDate reviewDate,  
+            // @RequestParam("reviewDate") LocalDate reviewDate,  
             @RequestParam("category") int category,  
             @RequestParam("title") String title,  
             @RequestParam("detail") String detail,  
             @RequestParam("overview") String overview,
             @RequestParam("subject") String subject) {  
-        ReviewVo nv=new ReviewVo(reviewDate,category,title, detail, overview,subject, files);
+        ReviewVo nv=new ReviewVo(category,title, detail, overview,subject, files);
         storageService.uploadReview(nv);
 
         // 返回响应  
@@ -148,14 +148,14 @@ public class FilesController {
     @PostMapping("/baiduwenxin/wrong")  
     public ResponseEntity<String> handleWrongFileUpload(  
             @RequestParam(value = "files",required = false) List<MultipartFile> files,  
-            @RequestParam("inputDate") LocalDate inputDate,  
+            // @RequestParam("inputDate") LocalDate inputDate,  
             @RequestParam("dpjno") String dpjno,  
             @RequestParam("back") String back,  
             @RequestParam("point") String point,  
             @RequestParam("easy") String easy,  
             @RequestParam("correct") String correct,
             @RequestParam("subject") String subject) {  
-        WrongVo wv=new WrongVo(inputDate,dpjno,back,point,easy,correct,subject, files);
+        WrongVo wv=new WrongVo(dpjno,back,point,easy,correct,subject, files);
         storageService.uploadWrong(wv);
 
         // 返回响应  

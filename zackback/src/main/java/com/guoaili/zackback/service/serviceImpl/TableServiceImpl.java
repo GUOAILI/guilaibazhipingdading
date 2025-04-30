@@ -27,6 +27,7 @@ import com.guoaili.zackback.entity.ReviewEntity;
 import com.guoaili.zackback.entity.WritingEntity;
 import com.guoaili.zackback.entity.WrongEntity;
 import com.guoaili.zackback.enumT.Difficulty;
+import com.guoaili.zackback.enumT.Important;
 import com.guoaili.zackback.repository.CommonRepository;
 import com.guoaili.zackback.repository.ExamRepository;
 import com.guoaili.zackback.repository.ExtensionRepository;
@@ -213,7 +214,12 @@ public class TableServiceImpl implements TableService{
         zpddbz.setComments(wuv.getComments());
         zpddbz.setModday(LocalDate.now());
         zpddbz.setSample(wuv.getSample());
-        zpddbz.setTitle(wuv.getTitile());
+        // 2025/4/30 add important item
+        Important[] values = Important.values();
+        Important impEnum = values[wuv.getImp() - 1];
+        zpddbz.setImp(impEnum);
+
+        zpddbz.setTitle(wuv.getTitle());
         zpddbz.setTopic(wuv.getTopic());
         writingRepository.save(zpddbz);
     }
@@ -305,14 +311,8 @@ public class TableServiceImpl implements TableService{
             throw new RuntimeException("查询异常，请稍后再试");
         }
         saveAndDeleteImages(wuv, zpddbz);
-        // @RequestParam("reviewDate") LocalDate reviewDate,  
-        // @RequestParam("category") int category,  
-        // @RequestParam("title") String title,  
-        // @RequestParam("detail") String detail,  
-        // @RequestParam("overview") String overview,
- 
         zpddbz.setModday(LocalDate.now());
-        zpddbz.setReviewDate(wuv.getReviewDate());
+        // zpddbz.setReviewDate(wuv.getReviewDate());
         zpddbz.setCategory(wuv.getCategory());
         zpddbz.setTitle(wuv.getTitle());
         zpddbz.setDetail(wuv.getDetail());
@@ -335,7 +335,7 @@ public class TableServiceImpl implements TableService{
             // @RequestParam("point") String point,  
             // @RequestParam("easy") String easy,  
             // @RequestParam("correct") String correct,
-        zpddbz.setInputDate(wuv.getInputDate());
+        // zpddbz.setInputDate(wuv.getInputDate());
         zpddbz.setModday(LocalDate.now());
         zpddbz.setDpjno(wuv.getDpjno());
         zpddbz.setBack(wuv.getBack());

@@ -13,7 +13,8 @@ const CommonShow = () => {
   return (
     <>
       <Form
-        layout="vertical"
+      className="show-form"
+      layout="vertical"
         disabled
         initialValues={{
           title: cxddyz.title,
