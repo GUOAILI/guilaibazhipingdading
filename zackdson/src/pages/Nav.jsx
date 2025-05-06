@@ -272,7 +272,7 @@ export default function Nav () {
               />
             </Tooltip>
             {localStorage.getItem('long')==='donglai' && 
-            <Tooltip title="表数据本地持久化">
+            <Tooltip title="表数据本地备份">
               <Button type="primary"  
                       onClick={()=>navigate('/nav/serialize')}
                       shape="circle" icon={<ArrowDownOutlined />} 

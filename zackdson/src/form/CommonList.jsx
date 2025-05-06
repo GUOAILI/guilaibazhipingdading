@@ -45,6 +45,12 @@ function CommonList() {
       )
     },
     {
+      title: '照片',
+      // dataIndex: 'mjddyz',
+      key: 'photo',
+      render: (_,record) => (<span> {record.mjddyz.length>0 ? record.mjddyz.length+'张' : '未添加'} </span>),
+     },
+    {
       title: '做成日',
       dataIndex: 'beginday',
       key: 'beginday',
@@ -60,7 +66,22 @@ function CommonList() {
         }
         return record.beginday;
       }
-},
+    },
+    {
+      title: '重要度',
+      dataIndex: 'imp',
+      key: 'imp',
+
+      render: (text) => {
+        if (text === '高') {
+          return <span style={{ color: '#d0021b', fontSize:'1.8em' }}>{text}</span>;
+        }
+        if (text === '中') {
+          return <span style={{ color: '#1890ff',fontSize:'1.2em' }}>{text}</span>;
+        }
+        return <span style={{ color: 'gray', fontWeight: 'bold' }}>{text}</span>;
+      }
+    },
     {
       title: 'Action',
       key: 'action',

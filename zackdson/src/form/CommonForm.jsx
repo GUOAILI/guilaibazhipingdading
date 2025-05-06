@@ -27,7 +27,7 @@ const CommonForm = () => {
       const zpd_andom = today + '-' + Math.random().toString(18).substring(2);
       formData.append('files', base64ToFile(image.url), zpd_andom);
     });
-    // formData.append('imp', values.imp);
+    formData.append('imp', values.imp);  
     formData.append('title', values.title);
     formData.append('sample', cxddyz.current.richtext);
     formData.append('subject', localStorage.getItem("branchDetail"));
@@ -52,7 +52,12 @@ const CommonForm = () => {
       onFinish={onFinish}
       scrollToFirstError
     >
-      {/* <Form.Item
+      <Form.Item name="title"
+        label={<label style={{ color: 'blue' }}>标题</label>}
+        rules={[{ required: true, message: '请输入标题' }]}>
+        <Input placeholder='输入标题' style={{ width: '30%' }} />
+      </Form.Item>
+      <Form.Item
         label={<label style={{ color: 'blue' }}>重要度</label>}
         name="imp"
         rules={[{ required: true, message: '请选择重要度!' }]}
@@ -62,12 +67,8 @@ const CommonForm = () => {
           <Select.Option value={2}>中</Select.Option>
           <Select.Option value={1}>低</Select.Option>
         </Select>
-      </Form.Item> */}
-      <Form.Item name="title"
-        label={<label style={{ color: 'blue' }}>题目</label>}
-        rules={[{ required: true, message: '请输入题目' }]}>
-        <Input placeholder='输入题目' style={{ width: '30%' }} />
       </Form.Item>
+
       <Form.Item name="sample"
         // rules={[{ required: true, message: '请输入内容' }]}
         label={<label style={{ color: 'blue' }}>内容</label>}

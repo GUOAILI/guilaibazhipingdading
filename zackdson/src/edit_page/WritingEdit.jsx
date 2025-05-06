@@ -102,7 +102,7 @@ const WritingEdit = () => {
       <Form.Item
         label={<label style={{color:'blue'}}>重要度</label>}
         name="imp"
-        rules={[{ required: true, message: '请选择重要度!' }]}
+        // rules={[{ required: true, message: '请选择重要度!' }]}
       >
         <Select placeholder="请选择重要度" style={{ width: '30%' }}>
           <Select.Option value={3}>高</Select.Option>

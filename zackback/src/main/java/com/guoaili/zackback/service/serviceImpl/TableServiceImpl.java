@@ -367,15 +367,19 @@ public void deleteOneCommon(long id) {
 }
 
 @Override
-public void updateOneCommon(CommonUpdVo vo) {
-    CommonEntity entity = commonRepository.findById(vo.getId()).orElse(null);
+public void updateOneCommon(CommonUpdVo cuv) {
+    CommonEntity entity = commonRepository.findById(cuv.getId()).orElse(null);
     if (entity == null) {
         throw new RuntimeException("查询异常，请稍后再试");
     }
-    saveAndDeleteImages(vo, entity);
+    saveAndDeleteImages(cuv, entity);
     entity.setModday(LocalDate.now());
-    entity.setTitle(vo.getTitle());
-    entity.setSample(vo.getSample());
+    entity.setTitle(cuv.getTitle());
+    // 2025/5/6 add important item
+    Important[] values = Important.values();
+    Important impEnum = values[cuv.getImp() - 1];
+    entity.setImp(impEnum);
+    entity.setSample(cuv.getSample());
     // 其它字段如有需要可补充
     commonRepository.save(entity);
 }

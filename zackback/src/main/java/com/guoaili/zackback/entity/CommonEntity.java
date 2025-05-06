@@ -31,6 +31,11 @@ public class CommonEntity extends DpjEntity implements Serializable {
     // private String subject;
 
     private String title;
+
+    @Enumerated(EnumType.STRING)
+    private Important imp;
+
+
     @Column(length = 100000)
     private String sample;
 

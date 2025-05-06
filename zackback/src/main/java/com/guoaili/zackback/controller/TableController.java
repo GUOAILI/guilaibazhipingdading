@@ -273,11 +273,13 @@ public class TableController {
             @RequestParam(value = "files", required = false) List<MultipartFile> files,
             @RequestParam("id") long id,
             @RequestParam("title") String title,
+            @RequestParam("imp") int imp,  
             @RequestParam("sample") String sample,
             @RequestParam("delImages") String delImages
     ) {
         CommonUpdVo vo = new CommonUpdVo(id, delImages);
         vo.setTitle(title);
+        vo.setImp(imp);
         vo.setSample(sample);
         vo.setFiles(files);
         tableService.updateOneCommon(vo);

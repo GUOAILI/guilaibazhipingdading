@@ -95,7 +95,51 @@ public class PersistController {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filePath))) {
             out.writeObject(allData);
         }
-        return ResponseEntity.ok(absPath);
+
+        // 2025/5/6 add file backup logic
+        // 5. 压缩uploads文件夹到persist目录
+        String uploadsDir = "uploads";
+        String zipFileName = "uploads-" + System.currentTimeMillis() + ".zip";
+        String zipFilePath = "persist/" + zipFileName;
+        String absPath1 = Paths.get(zipFilePath).toAbsolutePath().toString();
+        try (FileOutputStream fos = new FileOutputStream(zipFilePath);
+             java.util.zip.ZipOutputStream zos = new java.util.zip.ZipOutputStream(fos)) {
+            java.nio.file.Path uploadsPath = Paths.get(uploadsDir);
+            if (Files.exists(uploadsPath)) {
+                Files.walk(uploadsPath).filter(Files::isRegularFile).forEach(path -> {
+                    java.util.zip.ZipEntry zipEntry = new java.util.zip.ZipEntry(uploadsPath.relativize(path).toString());
+                    try {
+                        zos.putNextEntry(zipEntry);
+                        Files.copy(path, zos);
+                        zos.closeEntry();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
+        }
+
+        // 6. 删除persist目录下2个世代前的zip文件
+        List<java.nio.file.Path> zipFiles = Files.list(Paths.get("persist"))
+            .filter(p -> p.getFileName().toString().startsWith("uploads-") && p.getFileName().toString().endsWith(".zip"))
+            .sorted((a, b) -> {
+                // 按文件名中的时间戳排序
+                long ta = Long.parseLong(a.getFileName().toString().replaceAll("\\D+", ""));
+                long tb = Long.parseLong(b.getFileName().toString().replaceAll("\\D+", ""));
+                return Long.compare(tb, ta); // 新的在前
+            })
+            .collect(java.util.stream.Collectors.toList());
+        if (zipFiles.size() > 2) {
+            for (int i = 2; i < zipFiles.size(); i++) {
+                try {
+                    Files.deleteIfExists(zipFiles.get(i));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return ResponseEntity.ok(absPath+";图片文件保存在:"+absPath1);
         // return ResponseEntity.ok("所有表数据已持久化到: " + filePath);
     }    
     

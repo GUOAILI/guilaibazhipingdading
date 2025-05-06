@@ -28,11 +28,12 @@ const SerializePage = () => {
     const onCancel = () => {
         navigate(-1); // 返回上一页
     }
+ 
 
     return (  
         <>  
             <Form onFinish={onFinish}>  
-                <h3 style={{ color: '#00008b' }}>表数据本地持久化</h3>  
+                <h3 style={{ color: '#00008b' }}>表数据本地备份</h3>  
                 <Row gutter={[12, 12]}>
                     <span style={{ marginLeft: '2em', color: '#333' }}>
                         本操作将会把数据库中所有的数据保存到本地
@@ -41,7 +42,7 @@ const SerializePage = () => {
                 {filePath && (
                     <Row gutter={[12, 12]} style={{ marginTop: '1em' }}>
                         <span style={{ marginLeft: '2em', color: '#008000' }}>
-                            数据已保存到：{filePath}
+                            表数据已保存到：{filePath}
                         </span>
                     </Row>
                 )}

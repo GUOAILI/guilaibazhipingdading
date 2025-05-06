@@ -12,14 +12,16 @@ import lombok.NoArgsConstructor;
 public class CommonVo extends DpjVo {
 
     private String title;
+    private int imp;
     private String sample;
     // private String subject;
 
     // private MultipartFile[] file;
     // private List<MultipartFile> files;
-    public CommonVo(String title, String sample, String subject, List<MultipartFile> files) {
+    public CommonVo(String title,int imp, String sample, String subject, List<MultipartFile> files) {
         super();
         this.title = title;
+        this.imp = imp;
         this.sample = sample;
         this.setSubject(subject);
         this.setFiles(files);

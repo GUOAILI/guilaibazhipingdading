@@ -27,6 +27,12 @@ const DeserializePage = () => {
         }
     };
     
+    // 清空指定文件
+    const handleClearFile = () => {
+        form.setFieldsValue({ filename: '' });
+        setFileInputKey(Date.now()); // 重置input
+    };
+
     const onFinish=(values)=>{
         async function deserialize(filename){
             try{
@@ -57,10 +63,26 @@ const DeserializePage = () => {
                   >
                      <Input 
                         onClick={handleInputClick}
+                        style={{ width: '30em', marginLeft: '0.5em', display: 'inline-block' }}
                         readOnly
                         placeholder="点击选择文件"
+                        addonAfter={
+                            <Form.Item shouldUpdate noStyle>
+                                {() => (
+                                    <Button
+                                        onClick={handleClearFile}
+                                        disabled={!form.getFieldValue('filename')}
+                                        type="primary"
+                                        // style={{ backgroundColor: 'green',color: 'white' }}
+                                    >
+                                        清空指定文件
+                                    </Button>
+                                )}
+                            </Form.Item>
+                        }
+                                
                      />
-                </Form.Item>  
+                </Form.Item> 
                 {/* 隐藏的文件选择框 */}
                 <input
                     type="file"

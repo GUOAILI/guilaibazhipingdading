@@ -23,7 +23,7 @@ const CommonShow = () => {
       >
         <Form.Item name="title"
           label={<label style={{ color: 'blue' }}>
-            题目
+            标题
           </label>}
         >
           <Input style={{ color: '#a626aa' }} />

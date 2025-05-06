@@ -81,11 +81,12 @@ public class FilesController {
     public ResponseEntity<String> handleCommonFileUpload(
             @RequestParam(value = "files", required = false) List<MultipartFile> files,
             @RequestParam("title") String title,
+            @RequestParam("imp") int imp,  
             @RequestParam("sample") String sample,
             @RequestParam("subject") String subject
     ) {
         // 你需要创建 CommonVo 类，类似 WritingVo
-        CommonVo cv = new CommonVo( title, sample, subject, files);
+        CommonVo cv = new CommonVo( title,imp, sample, subject, files);
         storageService.uploadCommon(cv);
 
         return new ResponseEntity<>("Files uploaded successfully!", HttpStatus.OK);
