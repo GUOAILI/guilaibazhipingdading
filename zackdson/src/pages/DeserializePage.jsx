@@ -57,7 +57,7 @@ const DeserializePage = () => {
                 <div style={{ color: '#333', marginBottom: 16 }}>本操作将把本地备份文件导入数据库</div>
                 <Form.Item
                     name='filename'
-                    label={<span style={{ color: 'blue'}}>指定文件名</span>} 
+                    label={<label htmlFor="filename" style={{ color: 'blue'}}>指定文件名</label>} 
                     rules={[{ required: true, message: '请指定文件名' },
                     ]}
                   >
