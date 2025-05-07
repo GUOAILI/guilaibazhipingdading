@@ -95,6 +95,24 @@ public class PersistController {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filePath))) {
             out.writeObject(allData);
         }
+        // 4.1 2025/5/7 追加：删除persist目录下3个世代前的ser文件
+        List<java.nio.file.Path> serFiles = Files.list(Paths.get("persist"))
+            .filter(p -> p.getFileName().toString().startsWith("all-entities-") && p.getFileName().toString().endsWith(".ser"))
+            .sorted((a, b) -> {
+                long ta = Long.parseLong(a.getFileName().toString().replaceAll("\\D+", ""));
+                long tb = Long.parseLong(b.getFileName().toString().replaceAll("\\D+", ""));
+                return Long.compare(tb, ta); // 新的在前
+            })
+            .collect(java.util.stream.Collectors.toList());
+        if (serFiles.size() > 3) {
+            for (int i = 3; i < serFiles.size(); i++) {
+                try {
+                    Files.deleteIfExists(serFiles.get(i));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
         // 2025/5/6 add file backup logic
         // 5. 压缩uploads文件夹到persist目录
@@ -138,8 +156,7 @@ public class PersistController {
                 }
             }
         }
-
-        return ResponseEntity.ok(absPath+";图片文件保存在:"+absPath1);
+        return ResponseEntity.ok(absPath+";   图片文件已保存在:"+absPath1);
         // return ResponseEntity.ok("所有表数据已持久化到: " + filePath);
     }    
     
@@ -197,6 +214,43 @@ public class PersistController {
                 e.printStackTrace();
             }
         }
+
+
+
         return ResponseEntity.ok("所有表数据已恢复");
     }
+
+    @GetMapping("/unzipAll/{filename}")
+    public ResponseEntity<String> unzipAllPictures(@PathVariable String filename) throws IOException {
+        String filePath = "persist/" + filename;
+        if (!Files.exists(Paths.get(filePath))) throw new RuntimeException("文件不存在");
+        
+        // Create uploads directory if it doesn't exist
+        Files.createDirectories(Paths.get("uploads"));
+        
+        // Extract the zip file
+        try (java.util.zip.ZipInputStream zipIn = new java.util.zip.ZipInputStream(new FileInputStream(filePath))) {
+            java.util.zip.ZipEntry entry;
+            int filesExtracted = 0;
+            
+            while ((entry = zipIn.getNextEntry()) != null) {
+                String entryName = entry.getName();
+                java.nio.file.Path targetPath = Paths.get("uploads", entryName);
+                
+                // Create parent directories if they don't exist
+                Files.createDirectories(targetPath.getParent());
+                
+                // Extract the file
+                Files.copy(zipIn, targetPath, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+                zipIn.closeEntry();
+                filesExtracted++;
+            }
+            
+            return ResponseEntity.ok("所有备份压缩图片已恢复，共解压 " + filesExtracted + " 个文件到 uploads 目录");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("解压失败: " + e.getMessage());
+        }
+    }
+    
 }

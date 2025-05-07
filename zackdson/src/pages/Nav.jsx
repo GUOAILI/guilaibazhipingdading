@@ -11,6 +11,7 @@ import { LogoutOutlined,UserOutlined,
   AppstoreOutlined } from '@ant-design/icons';
 import GradeService from '../util/gradeService';
 import UserService from '../util/userService';
+import dayjs from 'dayjs'; // 需要安装 dayjs: npm install dayjs
 
 const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 
@@ -111,6 +112,8 @@ export default function Nav () {
   const [visible,setVisible]=useState(false);
   const [zpddyz,setZpddyz]=useState({});
   const [headerIndex, setHeaderIndex] = useState(0);
+  const [backupVisible, setBackupVisible] = useState(false);
+  const [useVisible, setUseVisible] = useState(false);
 
   const schoolMap = {
     kindergarten: '幼儿园',
@@ -134,6 +137,32 @@ export default function Nav () {
     }, 15000); // 每3秒切换一次
     return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    // 优先判断 lastBackupTip，如果没有则用 lastUseTip
+    const lastBackupTip = localStorage.getItem('lastBackupTip');
+    const lastUseTip = localStorage.getItem('lastUseTip');
+    const now = dayjs();
+  
+    if (!lastBackupTip) {
+      // 如果还未设定 lastBackupTip，则用 lastUseTip 判断
+      if (!lastUseTip) {
+        // 第一次使用，记录 lastUseTip
+        localStorage.setItem('lastUseTip', now.toISOString());
+      } else if (now.diff(dayjs(lastUseTip), 'month') >= 1) {
+        setUseVisible(true);
+      }
+    } else if (now.diff(dayjs(lastBackupTip), 'month') >= 1) {
+      setBackupVisible(true);
+    }
+  }, []);
+  
+  const handleUseTipOk = () => {
+    setUseVisible(false);
+  };
+  const handleBackupTipOk = () => {
+    setBackupVisible(false);
+  };
 
   const handelSubjectManamementButton = () => {
     setBeforeSubject(false);
@@ -264,22 +293,25 @@ export default function Nav () {
                       style={{ marginRight: '10px',backgroundColor:'#2529d8' }}
               />
             </Tooltip>
-            <Tooltip title="从本地文件导入数据">
-              <Button type="primary"  
-                      onClick={()=>navigate('/nav/deserialize')}
-                      shape="circle" icon={<ArrowUpOutlined />} 
-                      style={{ marginRight: '10px',backgroundColor:'#ffa700' }}
-              />
-            </Tooltip>
-            {localStorage.getItem('long')==='donglai' && 
-            <Tooltip title="表数据本地备份">
+            {localStorage.getItem('long') === 'donglai' && (
+              <Tooltip title="从本地文件导入数据">
+                <Button
+                  type="primary"
+                  onClick={() => navigate('/nav/deserialize')}
+                  shape="circle"
+                  icon={<ArrowUpOutlined />}
+                  style={{ marginRight: '10px', backgroundColor: '#ffa700' }}
+                />
+              </Tooltip>
+            )}
+            {/* {localStorage.getItem('long')==='donglai' &&  */}
+            <Tooltip title="数据本地备份">
               <Button type="primary"  
                       onClick={()=>navigate('/nav/serialize')}
                       shape="circle" icon={<ArrowDownOutlined />} 
                       style={{ marginRight: '10px',backgroundColor:'red' }}
               />
             </Tooltip>
-            }
             <Tooltip title="退出当前登录状态">
             <Popconfirm
               title="退出确认"
@@ -318,40 +350,61 @@ export default function Nav () {
             destroyOnClose
             onCancel={()=>setVisible(false)}  
             footer={null}  
-          >  
-            <Form  
-              name="userInfo"
-              initialValues={zpddyz}
             >  
-              <Form.Item
-                name="username"
-                label="用户名"
-              >
-                <Input style={{color:'blue'}}  />
-              </Form.Item>
+              <Form  
+                name="userInfo"
+                initialValues={zpddyz}
+              >  
+                <Form.Item
+                  name="username"
+                  label="用户名"
+                >
+                  <Input style={{color:'blue'}}  />
+                </Form.Item>
 
-              <Form.Item
-                name="school"
-                label="学校"
-              >
-                <Input  style={{color:'blue'}}  />
-              </Form.Item>
+                <Form.Item
+                  name="school"
+                  label="学校"
+                >
+                  <Input  style={{color:'blue'}}  />
+                </Form.Item>
 
-              <Form.Item
-                name="grade"
-                label="年级"
-              >
-                <Input style={{color:'blue'}}/>
-              </Form.Item>
-                <Form.Item>  
-                  <Button type="primary" danger 
-                    style={{marginLeft:'15em'}}
-                    onClick={()=>setVisible(false)} >  
-                  OK
-                </Button>  
-              </Form.Item>  
-            </Form>  
-          </Modal>             
+                <Form.Item
+                  name="grade"
+                  label="年级"
+                >
+                  <Input style={{color:'blue'}}/>
+                </Form.Item>
+                  <Form.Item>  
+                    <Button type="primary" danger 
+                      style={{marginLeft:'15em'}}
+                      onClick={()=>setVisible(false)} >  
+                    OK
+                  </Button>  
+                </Form.Item>  
+              </Form>  
+            </Modal>   
+
+            <Modal
+              title="温馨提示"
+              open={useVisible}
+              onOk={handleUseTipOk}
+              onCancel={handleUseTipOk}
+              okText="知道了"
+              cancelButtonProps={{ style: { display: 'none' } }}
+            >
+              <p>为防止计算机系统故障导致本应用的数据丢失，请点击右上角红色按钮进行本地备份！</p>
+            </Modal>
+            <Modal
+              title="温馨提示"
+              open={backupVisible}
+              onOk={handleBackupTipOk}
+              onCancel={handleBackupTipOk}
+              okText="知道了"
+              cancelButtonProps={{ style: { display: 'none' } }}
+            >
+              <p>距离您上次备份已经超过一个月，建议您定期备份数据，以防丢失。请点击右上角红色按钮进行本地备份！</p>
+            </Modal>
         </Layout>
       </Layout>
   )

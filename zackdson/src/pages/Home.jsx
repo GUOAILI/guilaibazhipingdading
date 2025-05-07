@@ -90,7 +90,9 @@ export default function HomePage() {
                     maxWidth: 600,
                 }}
               >
-                <Form.Item label="school" name="school">
+                <Form.Item label="school" name="school"
+                  rules={[{ required: true, message: '请选择学校类型' }]}
+                >
                 <Select>
                     <Select.Option value="kindergarten">幼儿园</Select.Option>
                     <Select.Option value="primary">小学</Select.Option>
@@ -99,7 +101,11 @@ export default function HomePage() {
                     <Select.Option value="college">大学</Select.Option>
                 </Select>
                 </Form.Item>
-                <Form.Item label="grade" name="grade">
+                <Form.Item
+                 label="grade" 
+                 name="grade"
+                 rules={[{ required: true, message: '请选择年级' }]}
+                 >
                 <Select>
                     <Select.Option value={1}>一年级</Select.Option>
                     <Select.Option value={2}>二年级</Select.Option>

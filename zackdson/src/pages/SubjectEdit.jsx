@@ -146,7 +146,7 @@ const SubjectEdit = () => {
             </div>  
             </Col>  
             <Col span={12}>  
-            <h3>已有子分类(6个,普通用户暂不支持变更)</h3>  
+            <h3>已有子分类</h3>  
             <div>  
                 {subCategories.map((subCategory, index) => (  
                 <Button key={index} 
@@ -202,7 +202,7 @@ const SubjectEdit = () => {
                  </Row>
             </Form>
            </Col>
-           {localStorage.getItem('long')==='donglai' && 
+           {/* {localStorage.getItem('long')==='donglai' &&  */}
            
            <Col span={12}>  
             <Form 
@@ -240,7 +240,7 @@ const SubjectEdit = () => {
                  </Row>
             </Form>
             </Col>
-           }
+           {/* } */}
            </Row>
         </div>
     )}

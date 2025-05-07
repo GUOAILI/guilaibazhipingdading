@@ -13,6 +13,8 @@
     "@ant-design/icons": "^5.3.7",
     "antd": "^5.16.1",
     "axios": "^1.7.3",
+    "day": "^0.0.2",
+    "dayjs": "^1.11.13",
     "minhui": "file:",
     "moment": "^2.30.1",
     "react": "^18.2.0",

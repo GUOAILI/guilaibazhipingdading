@@ -16,8 +16,16 @@ const recoverToTable = (filename) => {
     // });
 };
 
+const unZipTheFile = (filename) => {
+    return axios.get(API_PER_URL + `unzipAll/${filename}`);
+    // return axios.get(API_PER_URL + `deserializeAll/${filename}`,{
+    //   headers : authHeader()
+    // });
+};
+
 const PersistService = {
     recoverToTable,
+    unZipTheFile,
     serializeAllDatabaseData,
   };
   

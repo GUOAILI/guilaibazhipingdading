@@ -2,11 +2,16 @@ import { useNavigate } from "react-router-dom";
 import React,{ useEffect } from "react";
 const EmptyLayout = () =>{
     const navigate=useNavigate();
-    let 江珊1=localStorage.getItem("branchDetail");
-    let 江珊 = localStorage.getItem("branchDetail").slice(江珊1.indexOf(' ') + 1);
-
+    let jiangshan1=localStorage.getItem("branchDetail");
+    let jiangshan = '';
+    if (jiangshan1) {
+      jiangshan = jiangshan1.slice(jiangshan1.indexOf(' ') + 1);
+    }
     useEffect(() => {
-      switch (江珊) {
+      switch (jiangshan) {
+        case '':
+          navigate('/nav/');
+          break;
         case '课本':
           navigate('/nav/notebook/list');
           break;
