@@ -7,9 +7,9 @@ spring:
     name: minhuiback
 
   datasource:
-    username: root
+    username: admin
     # need change
-    password: 123456
+    password: aili7x
     driver-class-name: com.mysql.cj.jdbc.Driver
     # this configuration is for it test only
     # url: jdbc:mysql://localhost:3306/minhui?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=utf8&&serverTimezone=UTC
