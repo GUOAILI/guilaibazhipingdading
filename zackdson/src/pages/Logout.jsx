@@ -10,6 +10,7 @@ export function loader(){
     localStorage.removeItem("branchDetail");
     localStorage.removeItem("notebookRecord");
     localStorage.removeItem("writingRecord");
+    localStorage.removeItem("commonRecord");
     localStorage.removeItem("wrongRecord");
     localStorage.removeItem("examRecord");
     localStorage.removeItem("reviewRecord");

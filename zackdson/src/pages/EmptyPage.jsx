@@ -8,6 +8,31 @@ const EmptyLayout = () =>{
       jiangshan = jiangshan1.slice(jiangshan1.indexOf(' ') + 1);
     }
     useEffect(() => {
+
+        // 2025/5/12 add code here
+        const tokenValid = tokenLoader();
+          if (!tokenValid) {
+              openNotificationWithIcon("error","令牌过期，请重新登录");
+              localStorage.removeItem("dpj-sb");
+              localStorage.removeItem("school");
+              localStorage.removeItem("grade");
+              localStorage.removeItem("resetGrade");
+              localStorage.removeItem("subject");
+              localStorage.removeItem("branchDetail");
+              localStorage.removeItem("notebookRecord");
+              localStorage.removeItem("writingRecord");
+              localStorage.removeItem("commonRecord");
+              localStorage.removeItem("wrongRecord");
+              localStorage.removeItem("examRecord");
+              localStorage.removeItem("reviewRecord");
+              localStorage.removeItem("extensionRecord");
+              localStorage.removeItem("long");
+              localStorage.removeItem("token");
+              localStorage.removeItem("expiration");
+              navigate('/');
+              return;
+          }
+
       switch (jiangshan) {
         case '':
           navigate('/nav/');

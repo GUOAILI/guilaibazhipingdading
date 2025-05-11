@@ -17,7 +17,7 @@ const openNotificationWithIcon = (type, message, description) => notification[ty
 
 export async function loader(){
     // look if the token is expired!
-    tokenLoader();
+    // tokenLoader();
     // 判断tokenLoader返回值
     // const tokenResult = tokenLoader();
     if (tokenLoader() == null) {
@@ -25,6 +25,23 @@ export async function loader(){
             message: '警告',
             description: 'token过期，请重新登录'
         });
+        localStorage.removeItem("dpj-sb");
+        localStorage.removeItem("school");
+        localStorage.removeItem("grade");
+        localStorage.removeItem("resetGrade");
+        localStorage.removeItem("subject");
+        localStorage.removeItem("branchDetail");
+        localStorage.removeItem("notebookRecord");
+        localStorage.removeItem("writingRecord");
+        localStorage.removeItem("commonRecord");
+        localStorage.removeItem("wrongRecord");
+        localStorage.removeItem("examRecord");
+        localStorage.removeItem("reviewRecord");
+        localStorage.removeItem("extensionRecord");
+        localStorage.removeItem("long");
+        localStorage.removeItem("token");
+        localStorage.removeItem("expiration");
+
         return redirect('/');
     }
     try {
