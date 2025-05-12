@@ -113,9 +113,9 @@ const WrongForm = () => {
           label={<span style={{ color: 'blue' }}>正确答案(照片的话,此处可不填)</span>} 
         >  
           <TextArea  
-            placeholder="上限200字"  
+            placeholder="上限500字"  
             style={{ color: 'darkgreen' }}  
-            maxLength={200}  
+            maxLength={500}  
             showCount  
             autoSize={{ minRows: 2, maxRows: 4 }}  
           />  

@@ -118,7 +118,7 @@ const WritingForm = () => {
                 </label>} 
         // rules={[{ required: true, message: '请输入点评' }]}
         >
-        <TextArea rows={2} maxLength={100} placeholder='上限100字' />
+        <TextArea rows={2} maxLength={200} placeholder='上限200字' />
       </Form.Item>
       <UploadMe ref={zpddyz} up_btn_txt="*范文上传(比如手机照片)" />
       <hr/>

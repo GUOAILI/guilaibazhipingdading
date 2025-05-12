@@ -363,6 +363,8 @@ public class FileStorageServiceImpl implements FileStorageService {
         List<String> zpdbyz = saveComingInUploadImageFile(cv);
         CommonEntity entity = new CommonEntity();
         setCommonFields(zpdbyz, entity);
+        entity.setImp(cv.getImp()==1?Important.低:
+            cv.getImp()==2?Important.中:Important.高);
         entity.setSubject(cv.getSubject());
         entity.setTitle(cv.getTitle());
         entity.setSample(cv.getSample());

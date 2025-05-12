@@ -118,9 +118,9 @@ const ExamForm = () => {
         label={<span style={{ color: 'blue' }}>评价</span>} 
       >  
         <TextArea  
-          placeholder="上限100字"  
+          placeholder="上限200字"  
           style={{ color: 'darkgreen' }}  
-          maxLength={100}  
+          maxLength={200}  
           showCount  
           autoSize={{ minRows: 2, maxRows: 4 }}  
         />  
@@ -131,9 +131,9 @@ const ExamForm = () => {
         label={<span style={{ color: 'blue' }}>暴露不足点</span>} 
       >  
         <TextArea  
-          placeholder="上限100字"  
+          placeholder="上限200字"  
           style={{ color: 'darkpurple' }}  
-          maxLength={100}  
+          maxLength={200}  
           showCount  
           autoSize={{ minRows: 2, maxRows: 4 }}  
         />  

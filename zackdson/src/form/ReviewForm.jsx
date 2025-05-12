@@ -75,7 +75,7 @@ const ReviewForm = () => {
         <TextArea maxLength={200} placeholder="上限200字" style={{color:'darkgreen'}} />
       </Form.Item>
       <Form.Item name="overview" label={<label style={{color:'blue'}}>个人总结</label>}>
-        <TextArea maxLength={100} placeholder="上限100字" style={{color:'darkviolet'}} />
+        <TextArea maxLength={200} placeholder="上限200字" style={{color:'darkviolet'}} />
       </Form.Item>
       <UploadMe ref={zpddyz} up_btn_txt="*复习照片或文件上传的话,点击下面按钮" />
       <hr />

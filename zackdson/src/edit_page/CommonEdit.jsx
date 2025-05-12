@@ -25,9 +25,38 @@ const CommonEdit = () => {
         value: false
       }
     }));
+
+    // 确保 imp 值为数字类型
+    if (cxddyz.imp && typeof cxddyz.imp !== 'number') {
+      // 转换枚举值为数字
+      const impMapping = {
+        '高': 3,
+        '中': 2, 
+        '低': 1
+      };
+      cxddyz.imp = impMapping[cxddyz.imp] || 1; // 默认为低
+    }
   }, []);
 
   const onFinish = (values) => {
+    // 确保 imp 是数字
+    let impValue = values.imp;
+    
+    // 如果 imp 是汉字，转换为数字
+    if (typeof impValue === 'string') {
+      switch(impValue) {
+        case '高':
+          impValue = 3;
+          break;
+        case '中':
+          impValue = 2;
+          break;
+        case '低':
+        default:
+          impValue = 1;
+          break;
+      }
+    }
     let delImages = '';
     for (let i = 0; i < pjddyz.length; i++) {
       if (pjddyz[i].value === true) {
@@ -46,7 +75,7 @@ const CommonEdit = () => {
       formData.append('files', base64ToFile(image.url), zpd_andom);
     });
     formData.append('id', cxddyz.id);
-    formData.append('imp', values.imp);  
+    formData.append('imp', impValue);  
     formData.append('title', values.title);
     formData.append('sample', mjddyz.current.richtext || cxddyz.sample);
     formData.append('delImages', delImages);

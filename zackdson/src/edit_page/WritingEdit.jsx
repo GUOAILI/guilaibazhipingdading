@@ -31,17 +31,30 @@ const WritingEdit = () => {
 
 
   const onFinish = (values) => {
-    // console.log('form data is:',values);
-    // console.log('pjddyz:',pjddyz);
-    let delImages='';
-    for(let i=0;i<pjddyz.length;i++){
-      if (pjddyz[i].value===true){
-        delImages=delImages + pjddyz[i].name+',';
+    // 确保 imp 是数字
+    let impValue = values.imp;
+    
+    // 如果 imp 是汉字，转换为数字
+    if (typeof impValue === 'string') {
+      switch(impValue) {
+        case '高':
+          impValue = 3;
+          break;
+        case '中':
+          impValue = 2;
+          break;
+        case '低':
+        default:
+          impValue = 1;
+          break;
       }
     }
-    // console.log('delImages:',delImages);
-    
-    // return null;
+    let delImages = '';
+    for (let i = 0; i < pjddyz.length; i++) {
+      if (pjddyz[i].value === true) {
+        delImages = delImages + pjddyz[i].name + ',';
+      }
+    }
     // Here you can handle form submission logic, e.g., send data to server
     const formData=new FormData();
     zpddyz.current.files.forEach((file)=>{
@@ -55,7 +68,8 @@ const WritingEdit = () => {
     });
     // 添加其他字段  
     formData.append('id', cxddyz.id);  
-    formData.append('imp', values.imp);  
+    // formData.append('imp', values.imp);  
+    formData.append('imp', impValue);  
     formData.append('title', values.title);  
     formData.append('topic', values.topic);  
     // formData.append('sample', values.sample);  

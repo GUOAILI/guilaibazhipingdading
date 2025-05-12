@@ -48,22 +48,22 @@ const NotebookShow = () => {
         </Radio.Group>
       </Form.Item>
       <Form.Item name="point" label={<span style={{ color: 'blue' }}>知识点</span>}>
-        <TextArea maxLength={100} 
+        <TextArea maxLength={200} 
         style={{ color:'#00ad45'}}
-        placeholder='上限100字' />
+         />
       </Form.Item>
       <Form.Item name="teacher" label={<span style={{ color: 'blue' }}>老师讲解精髓</span>}>
-        <TextArea maxLength={100} 
+        <TextArea maxLength={200} 
           style={{ color:'#00ad45'}}
-          placeholder='上限100字' />
+           />
       </Form.Item>
       <Form.Item name="remarks" label={<span style={{ color: 'blue' }}>备注</span>}>
-        <TextArea maxLength={100}
+        <TextArea maxLength={200}
           style={{ color:'#00ad45'}}
-           placeholder='上限100字' />
+            />
       </Form.Item>
       <Form.Item name="post" label={<span style={{ color: 'blue' }}>后期复习记入</span>}>
-        <TextArea maxLength={100} style={{ color: 'red' }} placeholder='上限100字' />
+        <TextArea maxLength={200} style={{ color: 'red' }}  />
       </Form.Item>
     </Form>
     <hr />

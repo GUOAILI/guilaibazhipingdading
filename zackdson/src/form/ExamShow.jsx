@@ -77,7 +77,7 @@ const ExamShow = () => {
       >  
         <TextArea  
           style={{ color: 'darkgreen' }}  
-          maxLength={100}  
+          maxLength={200}  
           showCount  
           autoSize={{ minRows: 2, maxRows: 4 }}  
         />  
@@ -89,7 +89,7 @@ const ExamShow = () => {
       >  
         <TextArea  
           style={{ color: 'darkpurple' }}  
-          maxLength={100}  
+          maxLength={200}  
           showCount  
           autoSize={{ minRows: 2, maxRows: 4 }}  
         />  

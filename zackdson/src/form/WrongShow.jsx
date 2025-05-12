@@ -79,7 +79,7 @@ const WrongShow = () => {
         <TextArea  
           // placeholder="上限200字"  
           style={{ color: 'darkgreen' }}  
-          maxLength={200}  
+          maxLength={500}  
           showCount  
           autoSize={{ minRows: 2, maxRows: 6 }}  
         />  

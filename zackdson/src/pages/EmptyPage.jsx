@@ -1,6 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import React,{ useEffect } from "react";
 import { tokenLoader } from '../util/authentication';
+import { notification } from "antd";
+
+const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 
 const EmptyLayout = () =>{
     const navigate=useNavigate();

@@ -42,7 +42,7 @@ const ReviewShow = () => {
         <TextArea maxLength={200}  style={{color:'darkgreen'}} />
       </Form.Item>
       <Form.Item name="overview" label={<label style={{color:'blue'}}>个人总结</label>}>
-        <TextArea maxLength={100} style={{color:'darkviolet'}} />
+        <TextArea maxLength={200} style={{color:'darkviolet'}} />
       </Form.Item>
     </Form>
     <hr />

@@ -28,10 +28,10 @@ const NotebookForm = () => {
     formData.append('num', values.num);  
     formData.append('keyword', values.keyword);  
     formData.append('easy', values.easy);  
-    formData.append('point', values.point);  
-    formData.append('teacher', values.teacher);  
-    formData.append('remarks', values.remarks);
-    formData.append('post', values.post);
+    formData.append('point', values.point ? values.point : '');  
+    formData.append('teacher', values.teacher ? values.teacher : '');  
+    formData.append('remarks', values.remarks ? values.remarks : '');
+    formData.append('post', values.post ? values.post : '');
     // a invisible variable that contains the key info of this page
     formData.append('subject', localStorage.getItem("branchDetail"));
    
