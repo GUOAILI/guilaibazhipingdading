@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Fragment } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Button, Table,
   Spin,
@@ -15,6 +15,9 @@ function CommonList() {
   const [xiaofang, setXiaofang] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const subject = localStorage.getItem("branchDetail");
+    // 2025/5/12 handle return navigation
+    const [currentPage, setCurrentPage] = useState(1);
+    const location = useLocation();
 
   const deleteOneRecord = async (id) => {
     try {
@@ -38,7 +41,7 @@ function CommonList() {
       render: (text, record) => (
         <a onClick={() => {
           localStorage.setItem("commonRecord", JSON.stringify(record));
-          navigate('/nav/common/detail');
+          navigate('/nav/common/detail', { state: { pageNumber: currentPage } });
         }}>
           {text}
         </a>
@@ -119,7 +122,12 @@ function CommonList() {
       }
     };
     zpddyz();
-  }, [xiaofang]);
+
+    // 2025/5/12 handle return navigation
+    if (location.state?.returnPage) {
+      setCurrentPage(location.state.returnPage);
+    }
+  }, [xiaofang, Location]);
 
   const getRowClassName = (_, index) => {
     let className = ''
@@ -142,6 +150,11 @@ function CommonList() {
               dataSource={user}
               rowClassName={getRowClassName}
               rowKey={rec => rec.id}
+              // 2025/5/12
+              pagination={{
+                current: currentPage,
+                onChange: (page) => setCurrentPage(page)
+              }}
             />
           </>
         }
