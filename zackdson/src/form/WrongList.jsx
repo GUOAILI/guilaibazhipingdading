@@ -30,7 +30,7 @@ function WrongList() {
     }
     const editRecord = (record)=>{
       localStorage.setItem("wrongRecord",JSON.stringify(record));
-      navigate('/nav/wrong/edit');
+      navigate('/nav/wrong/edit', { state: { pageNumber: currentPage }});
     }
     const columns = [
         {

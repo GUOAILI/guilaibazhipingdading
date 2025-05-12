@@ -22,7 +22,7 @@ function ExamList() {
 
     const editRecord = (record)=>{
       localStorage.setItem("examRecord",JSON.stringify(record));
-      navigate('/nav/exam/edit');
+      navigate('/nav/exam/edit', { state: { pageNumber: currentPage }});
     }
     const deleteOneRecord = async (id)=>{
       try{

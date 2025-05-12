@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Form, Input, Button, Select, Image, Checkbox, notification } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import UploadMe from '../component/UploadMe';
 import RichText from '../component/RichText';
 import TableService from '../util/tableService';
@@ -12,6 +12,7 @@ const { TextArea } = Input;
 
 const CommonEdit = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [pjddyz, setPjddyz] = useState([]);
   const zpddyz = useRef(null);
   const mjddyz = useRef(null);
@@ -25,19 +26,13 @@ const CommonEdit = () => {
         value: false
       }
     }));
-
-    // 确保 imp 值为数字类型
-    if (cxddyz.imp && typeof cxddyz.imp !== 'number') {
-      // 转换枚举值为数字
-      const impMapping = {
-        '高': 3,
-        '中': 2, 
-        '低': 1
-      };
-      cxddyz.imp = impMapping[cxddyz.imp] || 1; // 默认为低
-    }
   }, []);
-
+  // 添加返回处理函数
+  const handleCancel = () => {
+    navigate('/nav/common/list', { 
+      state: { returnPage: location.state?.pageNumber } 
+    });
+  };
   const onFinish = (values) => {
     // 确保 imp 是数字
     let impValue = values.imp;
@@ -161,7 +156,7 @@ const CommonEdit = () => {
           </Button>
           <Button type="primary"
             style={{ fontSize: '18px', width: '30%', marginLeft: '1em' }}
-            onClick={() => navigate(-1)}
+            onClick={handleCancel}
           >
             取消
           </Button>

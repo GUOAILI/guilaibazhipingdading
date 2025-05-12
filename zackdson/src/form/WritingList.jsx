@@ -31,7 +31,7 @@ function WritingList() {
     }
     const editRecord = (record)=>{
       localStorage.setItem("writingRecord",JSON.stringify(record));
-      navigate('/nav/writing/edit');
+      navigate('/nav/writing/edit', { state: { pageNumber: currentPage }});
     }
 
     const columns = [

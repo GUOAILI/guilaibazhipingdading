@@ -1,6 +1,6 @@
 import React, {useState,useEffect,useRef} from 'react';
 import { Form, Input, Button, Select,Image,Checkbox,notification } from 'antd';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useLocation} from 'react-router-dom';
 import UploadMe from '../component/UploadMe';
 import TableService from '../util/tableService';
 import base64ToFile from '../util/ImageTransformService';
@@ -11,6 +11,7 @@ const { TextArea } = Input;
 
 const ReviewEdit = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const [pjddyz,setPjddyz]=useState([]);
     const zpddyz=useRef(null);
   
@@ -25,6 +26,13 @@ const ReviewEdit = () => {
         })
       );
     },[]);
+
+  // 添加返回处理函数
+  const handleCancel = () => {
+    navigate('/nav/review/list', { 
+      state: { returnPage: location.state?.pageNumber } 
+    });
+  };
 
     const onFinish = (values) => {
       // console.log('form data is:',values);
@@ -143,7 +151,7 @@ const ReviewEdit = () => {
           </Button>
         <Button type="primary"
           style={{ fontSize:'18px',width: '30%' ,marginLeft:'1em'}}
-          onClick={()=>navigate(-1)}
+          onClick={handleCancel}
           >
             取消
           </Button>

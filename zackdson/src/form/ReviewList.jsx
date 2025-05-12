@@ -30,7 +30,7 @@ function ReviewList() {
     }
     const editRecord = (record)=>{
       localStorage.setItem("reviewRecord",JSON.stringify(record));
-      navigate('/nav/review/edit');
+      navigate('/nav/review/edit', { state: { pageNumber: currentPage }});
     }
     const columns = [
         {

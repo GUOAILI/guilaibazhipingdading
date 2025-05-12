@@ -1,6 +1,6 @@
 import React,{useRef} from 'react';
 import { Form, Input, Button, Select,Image } from 'antd';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useLocation} from 'react-router-dom';
 import RichText from '../component/RichText';
 
 const { TextArea } = Input;
@@ -9,8 +9,19 @@ const WritingShow = () => {
   // const [form] = Form.useForm();
   const navigate = useNavigate();
   const zpddyz=useRef(null);
+  const location = useLocation();
 
   const cxddyz=JSON.parse(localStorage.getItem('writingRecord'));
+  
+  // 2025/5/12 handle return navigation
+  const handleReturn = () => {
+    // navigate(-1, { 
+      navigate('/nav/writing/list', { 
+      state: { returnPage: location.state?.pageNumber } 
+    });
+  };
+  
+  
   return (
     <>
     <Form 
@@ -81,7 +92,7 @@ const WritingShow = () => {
     </ul>
     <hr />
     <div style={{display:'flex',justifyContent:'center', alignItems:'center'}}>
-        <Button style={{width:'8rem',marginTop:'1rem',marginBottom:'2rem'}}  type='primary' danger onClick={()=>navigate(-1)} >OK</Button>
+        <Button style={{width:'8rem',marginTop:'1rem',marginBottom:'2rem'}}  type='primary' danger  onClick={handleReturn} >OK</Button>
     </div>
     </>
   );

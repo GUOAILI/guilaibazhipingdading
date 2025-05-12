@@ -30,7 +30,7 @@ function ExtensionList() {
     }
     const editRecord = (record)=>{
       localStorage.setItem("extensionRecord",JSON.stringify(record));
-      navigate('/nav/extension/edit');
+      navigate('/nav/extension/edit', { state: { pageNumber: currentPage }});
     }
 
 

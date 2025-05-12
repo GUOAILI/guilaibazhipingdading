@@ -30,7 +30,7 @@ function NotebookList() {
     }
     const editRecord = (record)=>{
       localStorage.setItem("notebookRecord",JSON.stringify(record));
-      navigate('/nav/notebook/edit');
+      navigate('/nav/notebook/edit', { state: { pageNumber: currentPage }});
     }
 
     const columns = [

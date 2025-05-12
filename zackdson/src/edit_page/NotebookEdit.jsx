@@ -1,6 +1,6 @@
 import React, {useState,useEffect,useRef} from 'react';
 import { Form, Input, Button, Image,Checkbox,notification,Radio } from 'antd';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useLocation} from 'react-router-dom';
 import UploadMe from '../component/UploadMe';
 import TableService from '../util/tableService';
 import base64ToFile from '../util/ImageTransformService';
@@ -12,6 +12,7 @@ const { TextArea } = Input;
 
 const NotebookEdit = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [pjddyz,setPjddyz]=useState([]);
   const zpddyz=useRef(null);
 
@@ -26,6 +27,13 @@ const NotebookEdit = () => {
     );
   },[]);
 
+
+  // 添加返回处理函数
+  const handleCancel = () => {
+    navigate('/nav/notebook/list', { 
+      state: { returnPage: location.state?.pageNumber } 
+    });
+  };
 
   const onFinish = (values) => {
     // console.log('form data is:',values);
@@ -167,7 +175,7 @@ const NotebookEdit = () => {
           </Button>
         <Button type="primary"
           style={{ fontSize:'18px',width: '30%' ,marginLeft:'1em'}}
-          onClick={()=>navigate(-1)}
+          onClick={handleCancel}
           >
             取消
           </Button>

@@ -30,7 +30,7 @@ function CommonList() {
   }
   const editRecord = (record) => {
     localStorage.setItem("commonRecord", JSON.stringify(record));
-    navigate('/nav/common/edit');
+    navigate('/nav/common/edit', { state: { pageNumber: currentPage }});
   }
 
   const columns = [

@@ -1,6 +1,6 @@
 import React, {useState,useEffect,useRef} from 'react';
 import { Form, Input, Button, Select,Image,Checkbox,notification } from 'antd';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useLocation} from 'react-router-dom';
 import UploadMe from '../component/UploadMe';
 import RichText from '../component/RichText';
 import TableService from '../util/tableService';
@@ -12,6 +12,7 @@ const { TextArea } = Input;
 
 const WritingEdit = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [pjddyz,setPjddyz]=useState([]);
   const zpddyz=useRef(null);
   const mjddyz=useRef(null);
@@ -29,6 +30,12 @@ const WritingEdit = () => {
     );
   },[]);
 
+  // 添加返回处理函数
+  const handleCancel = () => {
+    navigate('/nav/writing/list', { 
+      state: { returnPage: location.state?.pageNumber } 
+    });
+  };
 
   const onFinish = (values) => {
     // 确保 imp 是数字
@@ -85,7 +92,10 @@ const WritingEdit = () => {
         try{
             await TableService.updateWritingDb(data);
             openNotificationWithIcon("success","写作数据更新成功!")
-            navigate('/nav/writing/list')
+            // 修改这里，添加页码信息
+            navigate('/nav/writing/list', { 
+              state: { returnPage: location.state?.pageNumber } 
+            });
         }catch(ex){
             openNotificationWithIcon("error","写作数据更新失败!")
         }
@@ -199,7 +209,7 @@ const WritingEdit = () => {
           </Button>
         <Button type="primary"
           style={{ fontSize:'18px',width: '30%' ,marginLeft:'1em'}}
-          onClick={()=>navigate(-1)}
+          onClick={handleCancel}
           >
             取消
           </Button>
