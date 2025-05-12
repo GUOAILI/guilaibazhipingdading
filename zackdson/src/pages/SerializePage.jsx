@@ -61,7 +61,7 @@ const SerializePage = () => {
         {filePath && (
           <Row gutter={[12, 12]} style={{ marginTop: '1em' }}>
             <span style={{ marginLeft: '2em', color: '#008000' }}>
-              数据库数据已保存在：{filePath}
+              数据库数据已保存在：{'C:/minhui'+filePath}
             </span>
           </Row>
         )}

@@ -156,7 +156,7 @@ public class PersistController {
                 }
             }
         }
-        return ResponseEntity.ok(absPath+";   图片文件已保存在:"+absPath1);
+        return ResponseEntity.ok(absPath+";   图片文件已保存在:C:/minhui"+absPath1);
         // return ResponseEntity.ok("所有表数据已持久化到: " + filePath);
     }    
     
