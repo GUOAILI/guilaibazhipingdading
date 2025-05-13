@@ -45,7 +45,7 @@ const ExtensionForm = () => {
             try{
                 await FileService.uploadFileAndSaveToExtDb(data);
                 openNotificationWithIcon("success","上传成功!")
-                navigate('/nav/extension/list')
+                navigate('/nav/extension/list?showLastPage=true')
             }catch(ex){
                 // console.log("error info is:",ex);
                 openNotificationWithIcon("error","上传失败!")

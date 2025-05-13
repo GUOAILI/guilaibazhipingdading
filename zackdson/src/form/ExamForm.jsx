@@ -41,7 +41,7 @@ const ExamForm = () => {
             try{
                 await FileService.uploadFileAndSaveToExamDb(data);
                 openNotificationWithIcon("success","上传成功!")
-                navigate('/nav/exam/list')
+                navigate('/nav/exam/list?showLastPage=true')
             }catch(ex){
                 // console.log("error info is:",ex);
                 openNotificationWithIcon("error","上传失败!")

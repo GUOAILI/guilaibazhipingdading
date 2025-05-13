@@ -36,7 +36,7 @@ const CommonForm = () => {
       try {
         await FileService.uploadFileAndSaveToCommonDb(data);
         openNotificationWithIcon("success", "上传成功!");
-        navigate('/nav/common/list');
+        navigate('/nav/common/list?showLastPage=true');
       } catch (ex) {
         openNotificationWithIcon("error", "上传失败!");
       }

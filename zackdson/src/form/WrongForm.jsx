@@ -39,7 +39,7 @@ const WrongForm = () => {
             try{
                 await FileService.uploadFileAndSaveToWrongDb(data);
                 openNotificationWithIcon("success","上传成功!")
-                navigate('/nav/wrong/list')
+                navigate('/nav/wrong/list?showLastPage=true')
             }catch(ex){
                 // console.log("error info is:",ex);
                 openNotificationWithIcon("error","上传失败!")

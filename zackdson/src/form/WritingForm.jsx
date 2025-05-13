@@ -46,7 +46,7 @@ const WritingForm = () => {
         try{
             await FileService.uploadFileAndSaveToWritingDb(data);
             openNotificationWithIcon("success","上传成功!")
-            navigate('/nav/writing/list')
+            navigate('/nav/writing/list?showLastPage=true')
         }catch(ex){
             openNotificationWithIcon("error","上传失败!")
         }

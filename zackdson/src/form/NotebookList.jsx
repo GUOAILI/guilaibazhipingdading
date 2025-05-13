@@ -1,5 +1,5 @@
 import React, { useEffect,useState,Fragment } from "react";
-import {useNavigate, useLocation} from 'react-router-dom';
+import {useNavigate, useLocation, useSearchParams} from 'react-router-dom';
 import {
   Button,Table,
   Spin,
@@ -18,6 +18,8 @@ function NotebookList() {
     // 2025/5/12 handle return navigation
     const [currentPage, setCurrentPage] = useState(1);
     const location = useLocation();
+    // 2025/5/13 add page control
+    const [searchParams] = useSearchParams();
 
     const deleteOneRecord = async (id)=>{
       try{
@@ -120,6 +122,16 @@ function NotebookList() {
           const res = await TableService.getAllNotebook(subject);
           // console.log(res.data);
           setUser(res.data);
+          // 2025/5/13计算总页数（假设每页10条记录，可根据实际分页设置调整）
+          const pageSize = 10; // 或者从分页配置中获取
+          const calculatedTotalPages = Math.ceil(res.data.length / pageSize);
+          
+          // 检查URL参数，如果需要显示最后一页
+          if (searchParams.get('showLastPage') === 'true') {
+              setCurrentPage(calculatedTotalPages);
+              // 可选：清除URL参数，防止刷新页面时再次跳转到最后一页
+              navigate('/nav/writing/list', { replace: true });
+          }
           setIsLoading(false);
         } catch(err){
           setIsLoading(false);
@@ -161,7 +173,8 @@ function NotebookList() {
               rowKey={rec=>rec.id} 
               pagination={{
                 current: currentPage,
-                onChange: (page) => setCurrentPage(page)
+                onChange: (page) => setCurrentPage(page),
+                total: user.length // 确保分页组件知道总记录数
               }}
               />
           </>

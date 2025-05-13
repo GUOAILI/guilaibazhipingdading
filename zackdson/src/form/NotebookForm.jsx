@@ -40,7 +40,7 @@ const NotebookForm = () => {
         try{
             await FileService.uploadFileAndSaveToNotebookDb(data);
             openNotificationWithIcon("success","上传成功!")
-            navigate('/nav/notebook/list')
+            navigate('/nav/notebook/list?showLastPage=true')
         }catch(ex){
             // console.log("error info is:",ex);
             openNotificationWithIcon("error","上传失败!")

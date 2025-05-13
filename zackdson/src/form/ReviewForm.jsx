@@ -38,7 +38,7 @@ const ReviewForm = () => {
             try{
                 await FileService.uploadFileAndSaveToReviewDb(data);
                 openNotificationWithIcon("success","上传成功!")
-                navigate('/nav/review/list')
+                navigate('/nav/review/list?showLastPage=true')
             }catch(ex){
                 // console.log("error info is:",ex);
                 openNotificationWithIcon("error","上传失败!")
