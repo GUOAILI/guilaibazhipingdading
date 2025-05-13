@@ -136,7 +136,7 @@ function ExtensionList() {
           if (searchParams.get('showLastPage') === 'true') {
               setCurrentPage(calculatedTotalPages);
               // 可选：清除URL参数，防止刷新页面时再次跳转到最后一页
-              navigate('/nav/writing/list', { replace: true });
+              navigate('/nav/extension/list', { replace: true });
           }
           setIsLoading(false);
         } catch(err){

@@ -68,7 +68,17 @@ const ExtensionForm = () => {
       <Form.Item  
         name="extDate"
         label={<span style={{ color: 'blue' }}>上课日</span>}  
-        rules={[{ required: true, message: '请选择授课日期!' }]}  
+        rules={[
+          { required: true, message: '请选择授课日期!' },
+          {
+            validator(_, value) {
+              if (!value || (value <= moment()))  {
+                return Promise.resolve();
+              }
+              return Promise.reject(new Error('不能输入还未发生的日期'));
+            },
+          },
+        ]}  
       >  
         <DatePicker  />  
       </Form.Item>  

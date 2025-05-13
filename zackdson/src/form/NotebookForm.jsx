@@ -61,8 +61,10 @@ const NotebookForm = () => {
     >
       <Form.Item >
         <span style={{color: 'blue',marginRight: '8px' }}>第</span>
-        <Form.Item name="num" noStyle rules={[{ required: true, message: '请输入课数!' }]}>
-          <Input type="number" style={{ width: '8%' }} />
+        <Form.Item name="num" noStyle 
+          rules={[{ required: true, message: '请输入课数!' }
+          ]}>
+          <Input type="number" min={1} style={{ width: '8%' }} />
         </Form.Item>
         <span style={{ color: 'blue',margin: '0 8px' }}>章(课)</span>
       </Form.Item>

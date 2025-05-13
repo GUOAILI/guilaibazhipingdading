@@ -117,16 +117,15 @@ function CommonList() {
         setIsLoading(true);
         const res = await TableService.getAllCommon(subject);
         setUser(res.data);
-          // 2025/5/13计算总页数（假设每页10条记录，可根据实际分页设置调整）
-          const pageSize = 10; // 或者从分页配置中获取
-          const calculatedTotalPages = Math.ceil(res.data.length / pageSize);
-          
-          // 检查URL参数，如果需要显示最后一页
-          if (searchParams.get('showLastPage') === 'true') {
-              setCurrentPage(calculatedTotalPages);
-              // 可选：清除URL参数，防止刷新页面时再次跳转到最后一页
-              navigate('/nav/writing/list', { replace: true });
-          }
+        // 2025/5/13计算总页数（假设每页10条记录，可根据实际分页设置调整）
+        const pageSize = 10; // 或者从分页配置中获取
+        const calculatedTotalPages = Math.ceil(res.data.length / pageSize);
+        
+        if (searchParams.get('showLastPage') === 'true' && calculatedTotalPages > 1) {
+          setCurrentPage(calculatedTotalPages);
+          // 清除URL参数
+          navigate('/nav/common/list', { replace: true });
+        } 
         setIsLoading(false);
       } catch (err) {
         setIsLoading(false);
