@@ -30,7 +30,7 @@ const NotebookShow = () => {
         <Form.Item name="num" noStyle >
           <Input type="number" style={{ width: '8%',color:'#00ad45' }} />
         </Form.Item>
-        <span style={{ color: 'blue',margin: '0 8px' }}>课</span>
+        <span style={{ color: 'blue',margin: '0 8px' }}>章</span>
       </Form.Item>
       <Form.Item  
         name="keyword"  

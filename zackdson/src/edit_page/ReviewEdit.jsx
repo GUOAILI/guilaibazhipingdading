@@ -99,12 +99,12 @@ const ReviewEdit = () => {
       </Form.Item> */}
       <Form.Item name="category" label={<label style={{color:'blue'}}>分类</label>} >
         <Select style={{ width: '30%' }}>
-          <Select.Option value={1}>随堂复习</Select.Option>
-          <Select.Option value={2}>周复习</Select.Option>
-          <Select.Option value={3}>月复习</Select.Option>
-          <Select.Option value={4}>期中复习</Select.Option>
-          <Select.Option value={5}>期末复习</Select.Option>
-          <Select.Option value={6}>总复习</Select.Option>
+          <Select.Option value="随堂复习">随堂复习</Select.Option>
+          <Select.Option value="周复习">周复习</Select.Option>
+          <Select.Option value="月复习">月复习</Select.Option>
+          <Select.Option value="期中复习">期中复习</Select.Option>
+          <Select.Option value="期末复习">期末复习</Select.Option>
+          <Select.Option value="总复习">总复习</Select.Option>
         </Select>
       </Form.Item>
       <Form.Item name="title" label={<label style={{color:'blue'}}>复习内容概述</label>}>

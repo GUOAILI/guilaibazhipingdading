@@ -120,7 +120,7 @@ const ExamForm = () => {
         label={<span style={{ color: 'blue' }}>成绩</span>} 
         rules={[{ required: true, message: '请输入成绩!' }]}  
       >  
-        <Input type="number" min={0} max={150} />  
+        <Input type="number" min={0} max={150} style={{ width: '120px' }} />  
       </Form.Item>  
   
       <Form.Item  

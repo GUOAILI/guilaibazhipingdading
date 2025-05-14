@@ -27,7 +27,7 @@ public class CommonEntity extends DpjEntity implements Serializable {
     // private String username;
     // private String school;
     // private int grade;
-    private boolean deleted;
+    // private boolean deleted;
     // private String subject;
 
     private String title;

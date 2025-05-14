@@ -48,7 +48,7 @@ function NotebookList() {
                 localStorage.setItem("notebookRecord",JSON.stringify(record));
                 navigate('/nav/notebook/detail', { state: { pageNumber: currentPage } });
             }}>
-                第{text}课
+                第{text}章
             </a>
             }
         },
@@ -102,7 +102,7 @@ function NotebookList() {
           render: (text, record) => (
             <Fragment>
               <Popconfirm
-                title={`删除 第${record.num}课记录`} 
+                title={`删除 第${record.num}章记录`} 
                 description="你确定真的要删除吗?"
                 onConfirm={() => deleteOneRecord(record.id)} okText='确定' cancelText='取消'
               >

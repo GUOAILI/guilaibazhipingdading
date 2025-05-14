@@ -96,10 +96,10 @@ public class TableServiceImpl implements TableService{
     public void deleteOneNotebook(long id) {
         try{
             notebookRepository.logicalDeleteById(id);
-            System.out.println("success");
+            // System.out.println("success");
         }catch(Exception e){
             // System.out.println("error");
-            throw new RuntimeException(e.getMessage());
+            throw new RuntimeException("删除课本记录时发生异常");
         }
     }
 
@@ -113,9 +113,9 @@ public class TableServiceImpl implements TableService{
     public void deleteOneExam(long id) {
         try{
             examRepository.logicalDeleteById(id);
-            System.out.println("success");
+            // System.out.println("success");
         }catch(Exception e){
-            throw new RuntimeException(e.getMessage());
+            throw new RuntimeException("删除试卷汇总记录时发生异常");
         }
     }
 
@@ -123,9 +123,9 @@ public class TableServiceImpl implements TableService{
     public void deleteOneReview(long id) {
         try{
             reviewRepository.logicalDeleteById(id);
-            System.out.println("success");
+            // System.out.println("success");
         }catch(Exception e){
-            throw new RuntimeException(e.getMessage());
+            throw new RuntimeException("删除复习记录时发生异常");
         }
     }
 
@@ -139,9 +139,9 @@ public class TableServiceImpl implements TableService{
     public void deleteOneWrong(long id) {
         try{
             wrongRepository.logicalDeleteById(id);
-            System.out.println("success");
+            // System.out.println("success");
         }catch(Exception e){
-            throw new RuntimeException(e.getMessage());
+            throw new RuntimeException("删除错题积累记录时发生异常");
         }
     }
 
@@ -156,9 +156,9 @@ public class TableServiceImpl implements TableService{
     public void deleteOneExtension(long id) {
         try{
             extensionRepository.logicalDeleteById(id);
-            System.out.println("success");
+            // System.out.println("success");
         }catch(Exception e){
-            throw new RuntimeException(e.getMessage());
+            throw new RuntimeException("删除课外扩展记录时发生异常");
         }
     }
 
@@ -348,21 +348,17 @@ public class TableServiceImpl implements TableService{
 
 @Override
 public List<CommonEntity> getAllCommon(String subject) {
-    List<CommonEntity> bySubject = commonRepository.findBySubjectAndDeletedFalse(subject);
+    List<CommonEntity> bySubject = commonRepository.findBySubject(userService.getUser().getUsername(),subject);
     return bySubject;
 }
 
 @Override
 public void deleteOneCommon(long id) {
-    try {
-        // 逻辑删除
-        CommonEntity entity = commonRepository.findById(id).orElse(null);
-        if (entity != null) {
-            entity.setDeleted(true);
-            commonRepository.save(entity);
-        }
-    } catch (Exception ex) {
-        throw new RuntimeException("删除common记录时发生异常");
+    try{
+        commonRepository.logicalDeleteById(id);
+        // System.out.println("success");
+    }catch(Exception e){
+        throw new RuntimeException("删除记录时发生异常");
     }
 }
 

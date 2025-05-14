@@ -100,7 +100,7 @@ const ExamEdit = () => {
         easy:cxddyz.easy==='高'?'high':cxddyz.easy==='中'?'medium':'low',
         score:cxddyz.score,
         examType:cxddyz.examType,
-        errSum:cxddyz.errSum,
+        errsum:cxddyz.errsum,
         evaluation:cxddyz.evaluation,
         weakpoint:cxddyz.weakpoint,
       }}
@@ -133,7 +133,7 @@ const ExamEdit = () => {
         name="examType"  
         label={<span style={{ color: 'blue' }}>考试分类</span>} 
       >  
-        <Select style={{ width: '100%' }}>  
+        <Select style={{ width: '30%' }}>  
           <Select.Option value="随堂">随堂</Select.Option>  
           <Select.Option value="自测">自测</Select.Option>  
           <Select.Option value="期中">期中</Select.Option>  
@@ -148,7 +148,7 @@ const ExamEdit = () => {
         name="score"  
         label={<span style={{ color: 'blue' }}>成绩</span>} 
       >  
-        <Input type="number" min={0} max={150} />  
+        <Input type="number" min={0} max={150} style={{ width: '120px' }} />  
       </Form.Item>  
   
       <Form.Item  
