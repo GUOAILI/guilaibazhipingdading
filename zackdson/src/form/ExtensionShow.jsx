@@ -1,13 +1,22 @@
 import React from 'react';
 import { Form, Input, Radio, Button,Image } from 'antd';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useLocation} from 'react-router-dom';
 
 const { TextArea } = Input;
 
 const ExtensionShow = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const cxddyz=JSON.parse(localStorage.getItem('extensionRecord'));
+
+  // 2025/5/14 handle return navigation
+  const handleReturn = () => {
+    navigate('/nav/extension/list', { 
+      state: { returnPage: location.state?.pageNumber } 
+    });
+  };
+
   return (
     <>
     <Form 
@@ -84,7 +93,7 @@ const ExtensionShow = () => {
     </ul>
       <hr />
       <div style={{display:'flex',justifyContent:'center', alignItems:'center'}}>
-        <Button style={{width:'8rem',marginTop:'1rem',marginBottom:'2rem'}}  type='primary' danger onClick={()=>navigate(-1)} >OK</Button>
+        <Button style={{width:'8rem',marginTop:'1rem',marginBottom:'2rem'}}  type='primary' danger  onClick={handleReturn}>OK</Button>
       </div>
     </>
   );
