@@ -118,8 +118,8 @@ UploadMe.propTypes = {
 };
 
 // Add default props
-UploadMe.defaultProps = {
-  up_btn_txt: '上传文件'
-};
+// UploadMe.defaultProps = {
+//   up_btn_txt: '上传文件'
+// };
 
 export default UploadMe;

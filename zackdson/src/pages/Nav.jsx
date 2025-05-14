@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react';
 import { Layout, Menu,Button,Tooltip,Modal,Form,Input,Popconfirm } from 'antd';
 const { Header, Content, Sider,Footer } = Layout;
-import { Outlet,useNavigate,useLoaderData,redirect } from 'react-router-dom';
+import { Outlet,useNavigate,useLoaderData } from 'react-router-dom';
 // import MenuService from '../util/menuService';
 import { notification } from "antd";
 // import { tokenLoader } from '../util/authentication';
@@ -100,7 +100,6 @@ export { loader };
 
 export default function Nav () {
   // console.log('items main=',items);
-  const levelKeys = getLevelKeys(items);
   const navigate = useNavigate();
   const [stateOpenKeys, setStateOpenKeys] = useState([]);
   // 导航页面nav显示时，显示 【日夜脑未停留,心力用尽学丘】用
@@ -119,34 +118,43 @@ export default function Nav () {
     college: '大学'
   };
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setHeaderIndex((prev) => (prev + 1) % headerTexts.length);
+    }, 15000); // 每3秒切换一次
+    return () => clearInterval(timer);
+  }, []);
+
   const items=useLoaderData();
-    if(!items){
-        // alert("main主科目取得异常,请检查后端是否开启");
-        // openNotificationWithIcon("error","主科目取得异常,请联系管理员",ex);
-      return null;
-    }
-    // 新增：Header 轮播内容
-    const headerTexts = [
-      "我曾经看过山和大海，也穿过人山人海",
-      "日夜脑未停留，心力用尽学丘",
-      "宝剑锋从磨砺出，梅花香自苦寒来",
-      "书山有路勤为径，学海无涯苦作舟",
-    ];
-    const getLevelKeys = (items1) => {
-        const key = {};
-        const func = (items2, level = 1) => {
-        items2.forEach((item) => {
-          if (item.key) {
-            key[item.key] = level;
-          }
-          if (item.children) {
-            func(item.children, level + 1);
-          }
-        });
-      };
-      func(items1);
-      return key;
-  };    
+  if(!items){
+      // alert("main主科目取得异常,请检查后端是否开启");
+      // openNotificationWithIcon("error","主科目取得异常,请联系管理员",ex);
+    return null;
+  }
+  const getLevelKeys = (items1) => {
+    const key = {};
+    const func = (items2, level = 1) => {
+      items2.forEach((item) => {
+        if (item.key) {
+          key[item.key] = level;
+        }
+        if (item.children) {
+          func(item.children, level + 1);
+        }
+      });
+    };
+    func(items1);
+    return key;
+  }; 
+
+  const levelKeys = getLevelKeys(items);
+  // 新增：Header 轮播内容
+  const headerTexts = [
+    "我曾经看过山和大海，也穿过人山人海",
+    "日夜脑未停留，心力用尽学丘",
+    "宝剑锋从磨砺出，梅花香自苦寒来",
+    "书山有路勤为径，学海无涯苦作舟",
+  ];
 
   const handleGuoailiBeigan =({key }) => {
     setBeforeSubject(false);
@@ -155,13 +163,6 @@ export default function Nav () {
     localStorage.setItem("branchDetail",key);
       navigate('/nav/empty');
   };
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setHeaderIndex((prev) => (prev + 1) % headerTexts.length);
-    }, 15000); // 每3秒切换一次
-    return () => clearInterval(timer);
-  }, []);
 
   useEffect(() => {
     // 优先判断 lastBackupTip，如果没有则用 lastUseTip

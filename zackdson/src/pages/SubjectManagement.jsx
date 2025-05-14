@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import { Form,redirect} from "react-router-dom";
+import { Form } from "react-router-dom";
 import MenuService from "../util/menuService";
 import { Button, notification } from "antd";
 
@@ -143,10 +143,10 @@ export default function SubjectManagement() {
                         })
                         )
                         // 2025/4/25 add for submit button management
-                        setInitArrzpd(abc.map((zpd)=>({
-                            name: zpd.label,
-                            value: true
-                        })));
+                        // setInitArrzpd(abc.map((zpd)=>({
+                        //     name: zpd.label,
+                        //     value: true
+                        // })));
                         // setIsSubChecked(true);
                         // console.log('=SubjectManagment=after filter:',zhongguo);
                     }else{

@@ -4,7 +4,7 @@ import ReactQuill from 'react-quill';
 import PropTypes from 'prop-types';
 import 'react-quill/dist/quill.snow.css';
 
-const RichText = (props,ref) => {
+const RichText = forwardRef((props,ref) => {
 //   const [form] = Form.useForm();
   const [content, setContent] = useState('');
 
@@ -66,7 +66,7 @@ const RichText = (props,ref) => {
 //   const handleSubjectButtonClick=(button)=>{
 //     form.setFieldValue('content',button);
 // }
-useImperativeHandle(ref,()=>{
+  useImperativeHandle(ref,()=>{
     return {
         richtext:content,
     }
@@ -88,7 +88,7 @@ useImperativeHandle(ref,()=>{
     </Form.Item>
     // </Form>
   );
-};
+});
 
 // Add display name for debugging
 RichText.displayName = 'RichText';
@@ -99,9 +99,9 @@ RichText.propTypes = {
 };
 
 // Add default props
-RichText.defaultProps = {
-  content: ''
-};
+// RichText.defaultProps = {
+//   content: ''
+// };
 
 // export default forwardRef(RichText);
 export default RichText;

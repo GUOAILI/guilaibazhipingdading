@@ -4,12 +4,16 @@ import {
   // createHashRouter,
   RouterProvider
 } from 'react-router-dom';
-import HomePage,{loader as HomeLoader} from './pages/Home';
-import Nav,{loader as NavLoader} from './pages/Nav';
+// import HomePage,{loader as HomeLoader} from './pages/Home';
+import HomePage from './pages/Home';
+import {loader as HomeLoader} from './pages/HomeLoader';
+// import Nav,{loader as NavLoader} from './pages/Nav';
+import Nav from './pages/Nav';
+import {loader as NavLoader} from './pages/NavLoader';
 import EmptyLayout from "./pages/EmptyPage";
-import SubjectManagement,{ action as subjectAction} from "./pages/SubjectManagement";
-// import SubjectManagement,{loader as subjectLoader, action as subjectAction} from "./pages/SubjectManagement";
-// import SubjectExtLayout from "./pages/SubjectExt";
+// import SubjectManagement,{ action as subjectAction} from "./pages/SubjectManagement";
+import SubjectManagement from "./pages/SubjectManagement";
+import { action as subjectAction} from "./pages/SubjectAction";
 import WritingForm from "./form/WritingForm";
 import WritingList from "./form/WritingList";
 import WritingShow from "./form/WritingShow";
@@ -26,7 +30,8 @@ import WrongForm from "./form/WrongForm";
 import WrongShow from "./form/WrongShow";
 import WrongList from "./form/WrongList";
 import LoginForm from "./pages/Login";
-import LogoutPage,{loader as logoutLoader} from "./pages/Logout";
+// import LogoutPage,{loader as logoutLoader} from "./pages/Logout";
+import LogoutPage from "./pages/Logout";
 import ExtensionForm from "./form/ExtensionForm";
 import ExtensionShow from "./form/ExtensionShow";
 import ExtensionList from "./form/ExtensionList";
@@ -65,7 +70,7 @@ const router = createBrowserRouter([
       element: <LogoutPage />,
       // errorElement: <ErrorPage />,
       id: 'logout',
-      loader: logoutLoader,
+      // loader: logoutLoader,
   },
   {
       path: '/nav',
