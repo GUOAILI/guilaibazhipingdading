@@ -8,7 +8,7 @@ const NotebookShow = () => {
   const navigate = useNavigate();
 
   const cxddyz=JSON.parse(localStorage.getItem('notebookRecord'));
-  console.log("num=",cxddyz.num);
+  // console.log("num=",cxddyz.num);
   return (
     <>
     <Form 

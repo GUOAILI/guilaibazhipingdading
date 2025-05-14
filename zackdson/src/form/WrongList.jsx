@@ -149,7 +149,7 @@ function WrongList() {
     if (location.state?.returnPage) {
       setCurrentPage(location.state.returnPage);
     }
-  },[xiaofang, location]);
+  },[xiaofang, location, navigate, searchParams, subject]);
 
   const getRowClassName = (_, index) => {
     let className = ''

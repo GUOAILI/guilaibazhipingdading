@@ -1,6 +1,7 @@
 import React, { useState,useImperativeHandle,forwardRef } from 'react';
-import { Form, Button } from 'antd';
+import { Form } from 'antd';
 import ReactQuill from 'react-quill';
+import PropTypes from 'prop-types';
 import 'react-quill/dist/quill.snow.css';
 
 const RichText = (props,ref) => {
@@ -89,4 +90,18 @@ useImperativeHandle(ref,()=>{
   );
 };
 
-export default forwardRef(RichText);
+// Add display name for debugging
+RichText.displayName = 'RichText';
+
+// Add prop types validation
+RichText.propTypes = {
+  content: PropTypes.string
+};
+
+// Add default props
+RichText.defaultProps = {
+  content: ''
+};
+
+// export default forwardRef(RichText);
+export default RichText;

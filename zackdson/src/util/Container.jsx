@@ -1,5 +1,6 @@
-import React from 'react';  
-  
+import React from 'react';
+import PropTypes from 'prop-types';
+
 // CenteredContainer 函数组件  
 const Container = ({ children }) => {  
   return (  
@@ -7,6 +8,10 @@ const Container = ({ children }) => {
       {children}  
     </div>  
   );  
-};  
-  
+};
+
+Container.propTypes = {
+  children: PropTypes.node
+};
+
 export default Container;

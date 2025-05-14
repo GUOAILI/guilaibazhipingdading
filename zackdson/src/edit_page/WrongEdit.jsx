@@ -168,7 +168,7 @@ const WrongEdit = () => {
         <Image key={index} width={480} src={smap} />
           <Checkbox 
             // here is bery important
-            onChange={(e)=>{
+            onChange={()=>{
                 setPjddyz((oldzpd)=>{
                   const newzpd=[...oldzpd];
                   newzpd[index].value=!newzpd[index].value;

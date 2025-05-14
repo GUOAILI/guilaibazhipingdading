@@ -1,49 +1,54 @@
 import React, { useState,useEffect } from "react";
-import { useLoaderData,Form,redirect} from "react-router-dom";
+import { Form,redirect} from "react-router-dom";
 import MenuService from "../util/menuService";
 import { Button, notification } from "antd";
 
 const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 
-export async function action({ request }) {
-    const formData=await request.formData();
-    const updates = Object.fromEntries(formData);
-    const subject = localStorage.getItem('subject');
-    // console.log("form data:",updates);
-    if (Object.keys(updates).length < 1) {
-        openNotificationWithIcon("warning","你没有选择任何子分类!主学科会从左侧菜单移除！")
-        // return null;
-    }
-    // 2024/6/13 thera are a lot of code try here to transform a array to anothre format
-    // console.log("after reformat of update:",JSON.stringify(updates));
-    let arr=[];
-    for(let obj in updates){
-        arr.push({
-            key:subject + ' ' + obj,
-            // key:updates['subject']+obj,
-            label:updates[obj]
-        })
-    }
-    // console.log("object to array:",arr)
+// Import it instead
+import { action } from './SubjectAction';
 
-    // const requestData=`${arr[0].value}guoaili${JSON.stringify(arr.slice(1))}`
-    const requestData={
-        subject:subject,
-        // subject:updates['subject'],
-        // allsub:JSON.stringify(arr.slice(1))
-        // 2024/6/26 add
-        allsub:JSON.stringify(arr),
-    }
-    try{
-        // await MenuService.updateOneSubject(requestData);
-        await MenuService.updateOneInitDson(requestData);
-        openNotificationWithIcon("success",subject+" 设定成功!")
-        return redirect("/nav/");
-    }catch{
-        openNotificationWithIcon("error","科目管理后台更新失败!请联系管理员")
-        return null;
-    }
-}
+// Re-export the loader for use in router configuration
+export { action };
+// export async function action({ request }) {
+//     const formData=await request.formData();
+//     const updates = Object.fromEntries(formData);
+//     const subject = localStorage.getItem('subject');
+//     // console.log("form data:",updates);
+//     if (Object.keys(updates).length < 1) {
+//         openNotificationWithIcon("warning","你没有选择任何子分类!主学科会从左侧菜单移除！")
+//         // return null;
+//     }
+//     // 2024/6/13 thera are a lot of code try here to transform a array to anothre format
+//     // console.log("after reformat of update:",JSON.stringify(updates));
+//     let arr=[];
+//     for(let obj in updates){
+//         arr.push({
+//             key:subject + ' ' + obj,
+//             // key:updates['subject']+obj,
+//             label:updates[obj]
+//         })
+//     }
+//     // console.log("object to array:",arr)
+
+//     // const requestData=`${arr[0].value}guoaili${JSON.stringify(arr.slice(1))}`
+//     const requestData={
+//         subject:subject,
+//         // subject:updates['subject'],
+//         // allsub:JSON.stringify(arr.slice(1))
+//         // 2024/6/26 add
+//         allsub:JSON.stringify(arr),
+//     }
+//     try{
+//         // await MenuService.updateOneSubject(requestData);
+//         await MenuService.updateOneInitDson(requestData);
+//         openNotificationWithIcon("success",subject+" 设定成功!")
+//         return redirect("/nav/");
+//     }catch{
+//         openNotificationWithIcon("error","科目管理后台更新失败!请联系管理员")
+//         return null;
+//     }
+// }
 
 function isArrzpdChanged(arrzpd, branches, xiaoguo) {
     // 已选过的子分类都应该为 true
@@ -67,7 +72,7 @@ export default function SubjectManagement() {
     const [isSubChecked,setIsSubChecked]=useState(false);
     const [arrzpd,setArrzpd]=useState([]);
     // 2025/4/25 add for submit button management
-    const [initArrzpd, setInitArrzpd] = useState([]);
+    // const [initArrzpd, setInitArrzpd] = useState([]);
     useEffect( ()=>{
         async function zpd(){
             try{
@@ -214,7 +219,7 @@ export default function SubjectManagement() {
                   {branches.length ? (
                     <div>
                         <ul style={{listStyle:'none'}}>
-                          {branches.map( (sub,idx) => (
+                          {branches.map( (sub) => (
                             <li key={sub.label}>
                                 <input 
                                     type="checkbox"

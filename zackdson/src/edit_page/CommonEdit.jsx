@@ -8,7 +8,7 @@ import base64ToFile from '../util/ImageTransformService';
 import moment from 'moment';
 const openNotificationWithIcon = (type, message, description) => notification[type]({ message, description });
 
-const { TextArea } = Input;
+// const { TextArea } = Input;
 
 const CommonEdit = () => {
   const navigate = useNavigate();
@@ -130,7 +130,7 @@ const CommonEdit = () => {
               <div key={smap} style={{ display: 'flex', alignItems: 'center' }}>
                 <Image key={index} width={480} src={smap} />
                 <Checkbox
-                  onChange={(e) => {
+                  onChange={() => {
                     setPjddyz((oldzpd) => {
                       const newzpd = [...oldzpd];
                       newzpd[index].value = !newzpd[index].value;

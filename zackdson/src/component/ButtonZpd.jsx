@@ -1,6 +1,8 @@
 import { TinyColor } from '@ctrl/tinycolor';
 import { Button, ConfigProvider, Space } from 'antd';
 import React from 'react';
+import PropTypes from 'prop-types';
+
 // const colors1 = ['#6253E1', '#04BEFE'];
 // const colors2 = ['#fc6076', '#ff9a44', '#ef9d43', '#e75516'];
 // const colors3 = ['#40e495', '#30dd8a', '#2bb673'];
@@ -34,3 +36,17 @@ export default function ButtonZpd({onClick,title,htmlType,marginLeft,colorZpd}){
       </Space>        
     )
 }
+
+ButtonZpd.propTypes = {
+  onClick: PropTypes.func,
+  title: PropTypes.node.isRequired,
+  htmlType: PropTypes.string,
+  marginLeft: PropTypes.string,
+  colorZpd: PropTypes.arrayOf(PropTypes.string).isRequired
+};
+
+ButtonZpd.defaultProps = {
+  onClick: () => {},
+  htmlType: 'button',
+  marginLeft: '0'
+};

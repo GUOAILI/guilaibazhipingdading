@@ -38,7 +38,7 @@ const LoginForm = () => {
         }catch(err){
             openNotificationWithIcon('error','同学注册失败!请联系管理员')
         }
-      };
+      }
     register(values);
   };  
 //   登录服务请求

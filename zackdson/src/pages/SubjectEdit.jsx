@@ -68,7 +68,7 @@ const SubjectEdit = () => {
         }
     }
 
-    const onFinish1=(values)=>{
+    const onFinish1=()=>{
         async function addbranch(brhname){
             try{
                 await MenuService.addOneBranch(brhname);

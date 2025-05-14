@@ -11,7 +11,7 @@ const SerializePage = () => {
   const [filePath, setFilePath] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(false); // ✅ 控制按钮状态
 
-  const onFinish = (values) => {
+  const onFinish = () => {
     async function serializeAll() {
       try {
         // 设置按钮禁用

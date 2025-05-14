@@ -8,7 +8,6 @@ import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 
 const openNotificationWithIcon = (type, message, description) => notification[type]({ message, description });
-const { TextArea } = Input;
 
 const CommonForm = () => {
   const [form] = Form.useForm();

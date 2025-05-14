@@ -2,97 +2,124 @@ import React, { useState,useEffect } from 'react';
 import { Layout, Menu,Button,Tooltip,Modal,Form,Input,Popconfirm } from 'antd';
 const { Header, Content, Sider,Footer } = Layout;
 import { Outlet,useNavigate,useLoaderData,redirect } from 'react-router-dom';
-import MenuService from '../util/menuService';
+// import MenuService from '../util/menuService';
 import { notification } from "antd";
-import { tokenLoader } from '../util/authentication';
+// import { tokenLoader } from '../util/authentication';
 import { LogoutOutlined,UserOutlined,
   ToolOutlined,CheckCircleOutlined,
   ArrowDownOutlined,ArrowUpOutlined,
-  AppstoreOutlined } from '@ant-design/icons';
+  // AppstoreOutlined 
+} from '@ant-design/icons';
 import GradeService from '../util/gradeService';
 import UserService from '../util/userService';
 import dayjs from 'dayjs'; // 需要安装 dayjs: npm install dayjs
 
 const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 
-export async function loader(){
-    // look if the token is expired!
-    // tokenLoader();
-    // 判断tokenLoader返回值
-    // const tokenResult = tokenLoader();
-    if (tokenLoader() == null) {
-        notification.warning({
-            message: '警告',
-            description: 'token过期，请重新登录'
-        });
-        localStorage.removeItem("dpj-sb");
-        localStorage.removeItem("school");
-        localStorage.removeItem("grade");
-        localStorage.removeItem("resetGrade");
-        localStorage.removeItem("subject");
-        localStorage.removeItem("branchDetail");
-        localStorage.removeItem("notebookRecord");
-        localStorage.removeItem("writingRecord");
-        localStorage.removeItem("commonRecord");
-        localStorage.removeItem("wrongRecord");
-        localStorage.removeItem("examRecord");
-        localStorage.removeItem("reviewRecord");
-        localStorage.removeItem("extensionRecord");
-        localStorage.removeItem("long");
-        localStorage.removeItem("token");
-        localStorage.removeItem("expiration");
+// Import it instead
+import { loader } from './NavLoader';
 
-        return redirect('/');
-    }
-    try {
-      // 2024/6/24 此处需要修改，根据年级抽取科目getInitSetting()
-        // const restData = await MenuService.getAllSubjects();
-        const restData = await MenuService.getInitDson();
-        const subjects = await restData.data;
-        // console.log('=nav=,subjects=',subjects);
-        // 2025/4/28 toczpd 解释如果initdson表中allsub没有实际数据那么职位'[]'
-        // 2025/4/28 toczpd 则长度为2，有值的话，比如[{"key":"英语 写作","label":"写作"},{"key":"英语 其他","label":"其他"}]
-        // 2025/4/28 toczpd 则长度大于2。这就是筛选的原则'
-        // 2025/4/28 toczpd 所有条件也可以写成xg.allsub.length !== 2'
-        let guoaili=subjects.filter(xg=>xg.allsub !== null && xg.allsub.length>2);
-        // console.log('=nav=guoaili length:',guoaili.length);
+// Re-export the loader for use in router configuration
+export { loader };
 
-        // 2024/6/24 if no subject and subtype available,go to the congfig page.
-        // there is an infinite loop when the bellow code runs.
-        // I think the logic is 'if the father page (nav) is not renderd, then
-        // there is no possible of diving into its son page firstly.
-        // if(guoaili.length===0) return redirect('/nav/manage');
-        if(guoaili.length===0){
-          openNotificationWithIcon('warning',"您还设定没有科目，请首先点击左上方的【学科管理】按钮");
-        }else{
-          // 2024/7/3 add for subject and branch table curd request
-          localStorage.setItem('dpj-sb',JSON.stringify(guoaili.map((ini)=>ini.chname)));
-        }
+// export async function loader(){
+//     // look if the token is expired!
+//     // tokenLoader();
+//     // 判断tokenLoader返回值
+//     // const tokenResult = tokenLoader();
+//     if (tokenLoader() == null) {
+//         notification.warning({
+//             message: '警告',
+//             description: 'token过期，请重新登录'
+//         });
+//         localStorage.removeItem("dpj-sb");
+//         localStorage.removeItem("school");
+//         localStorage.removeItem("grade");
+//         localStorage.removeItem("resetGrade");
+//         localStorage.removeItem("subject");
+//         localStorage.removeItem("branchDetail");
+//         localStorage.removeItem("notebookRecord");
+//         localStorage.removeItem("writingRecord");
+//         localStorage.removeItem("commonRecord");
+//         localStorage.removeItem("wrongRecord");
+//         localStorage.removeItem("examRecord");
+//         localStorage.removeItem("reviewRecord");
+//         localStorage.removeItem("extensionRecord");
+//         localStorage.removeItem("long");
+//         localStorage.removeItem("token");
+//         localStorage.removeItem("expiration");
 
-        let items=[];
-        items=guoaili.map((xxg)=>{
-            return {
-                // key: xxg.name,
-                key: xxg.chname,
-                icon: <AppstoreOutlined />,
-                label: xxg.chname,
-                children:JSON.parse(xxg.allsub),           
-            }
-        });
-        // console.log("=nav=after transformming of subject and subtype,items=",items);
-        return items;
+//         return redirect('/');
+//     }
+//     try {
+//       // 2024/6/24 此处需要修改，根据年级抽取科目getInitSetting()
+//         // const restData = await MenuService.getAllSubjects();
+//         const restData = await MenuService.getInitDson();
+//         const subjects = await restData.data;
+//         // console.log('=nav=,subjects=',subjects);
+//         // 2025/4/28 toczpd 解释如果initdson表中allsub没有实际数据那么职位'[]'
+//         // 2025/4/28 toczpd 则长度为2，有值的话，比如[{"key":"英语 写作","label":"写作"},{"key":"英语 其他","label":"其他"}]
+//         // 2025/4/28 toczpd 则长度大于2。这就是筛选的原则'
+//         // 2025/4/28 toczpd 所有条件也可以写成xg.allsub.length !== 2'
+//         let guoaili=subjects.filter(xg=>xg.allsub !== null && xg.allsub.length>2);
+//         // console.log('=nav=guoaili length:',guoaili.length);
 
-    }catch(ex){
-        // alert("主科目取得异常,请检查后端是否开启");
-        // openNotificationWithIcon("error","主科目取得异常,请联系管理员");
-        openNotificationWithIcon("error","令牌过期，请重新登录");
-        return redirect('/');
-    }
-}
+//         // 2024/6/24 if no subject and subtype available,go to the congfig page.
+//         // there is an infinite loop when the bellow code runs.
+//         // I think the logic is 'if the father page (nav) is not renderd, then
+//         // there is no possible of diving into its son page firstly.
+//         // if(guoaili.length===0) return redirect('/nav/manage');
+//         if(guoaili.length===0){
+//           openNotificationWithIcon('warning',"您还设定没有科目，请首先点击左上方的【学科管理】按钮");
+//         }else{
+//           // 2024/7/3 add for subject and branch table curd request
+//           localStorage.setItem('dpj-sb',JSON.stringify(guoaili.map((ini)=>ini.chname)));
+//         }
+
+//         let items=[];
+//         items=guoaili.map((xxg)=>{
+//             return {
+//                 // key: xxg.name,
+//                 key: xxg.chname,
+//                 icon: <AppstoreOutlined />,
+//                 label: xxg.chname,
+//                 children:JSON.parse(xxg.allsub),           
+//             }
+//         });
+//         // console.log("=nav=after transformming of subject and subtype,items=",items);
+//         return items;
+
+//     }catch(ex){
+//         // alert("主科目取得异常,请检查后端是否开启");
+//         // openNotificationWithIcon("error","主科目取得异常,请联系管理员");
+//         openNotificationWithIcon("error","令牌过期，请重新登录");
+//         return redirect('/');
+//     }
+// }
 
 
 export default function Nav () {
-    const items=useLoaderData();
+  // console.log('items main=',items);
+  const levelKeys = getLevelKeys(items);
+  const navigate = useNavigate();
+  const [stateOpenKeys, setStateOpenKeys] = useState([]);
+  // 导航页面nav显示时，显示 【日夜脑未停留,心力用尽学丘】用
+  const [beforeSubject, setBeforeSubject] = useState(true);
+  const [visible,setVisible]=useState(false);
+  const [zpddyz,setZpddyz]=useState({});
+  const [headerIndex, setHeaderIndex] = useState(0);
+  const [backupVisible, setBackupVisible] = useState(false);
+  const [useVisible, setUseVisible] = useState(false);
+
+  const schoolMap = {
+    kindergarten: '幼儿园',
+    primary: '小学',
+    middle: '初中',
+    high: '高中',
+    college: '大学'
+  };
+
+  const items=useLoaderData();
     if(!items){
         // alert("main主科目取得异常,请检查后端是否开启");
         // openNotificationWithIcon("error","主科目取得异常,请联系管理员",ex);
@@ -120,25 +147,6 @@ export default function Nav () {
       func(items1);
       return key;
   };    
-  // console.log('items main=',items);
-  const levelKeys = getLevelKeys(items);
-  const navigate = useNavigate();
-  const [stateOpenKeys, setStateOpenKeys] = useState([]);
-  // 导航页面nav显示时，显示 【日夜脑未停留,心力用尽学丘】用
-  const [beforeSubject, setBeforeSubject] = useState(true);
-  const [visible,setVisible]=useState(false);
-  const [zpddyz,setZpddyz]=useState({});
-  const [headerIndex, setHeaderIndex] = useState(0);
-  const [backupVisible, setBackupVisible] = useState(false);
-  const [useVisible, setUseVisible] = useState(false);
-
-  const schoolMap = {
-    kindergarten: '幼儿园',
-    primary: '小学',
-    middle: '初中',
-    high: '高中',
-    college: '大学'
-  };
 
   const handleGuoailiBeigan =({key }) => {
     setBeforeSubject(false);
@@ -425,5 +433,5 @@ export default function Nav () {
         </Layout>
       </Layout>
   )
-};
+}
 // export default Nav;

@@ -1,11 +1,13 @@
-import React, { useRef,useState,useImperativeHandle,forwardRef } from 'react';
-import { Form,Button, Upload, message } from 'antd';
-import { UploadOutlined,CloseOutlined } from '@ant-design/icons';
+import React, { useRef, useState, useImperativeHandle, forwardRef } from 'react';
+import { Form, Button, Upload, message } from 'antd';
+import { UploadOutlined, CloseOutlined } from '@ant-design/icons';
 import Webcam from 'react-webcam';
+import PropTypes from 'prop-types';
 import ButtonZpd from './ButtonZpd';
 import ButtonColor from './colorButton';
 
-const UploadMe=(props,ref) =>{
+// Named component for better fast refresh support
+const UploadMe = forwardRef((props, ref) => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [uploadedImages, setUploadedImages] = useState([]);
 
@@ -40,10 +42,10 @@ const UploadMe=(props,ref) =>{
     setUploadedImages(uploadedImages.filter(image => image.uid !== uid));  
   };  
 
-  useImperativeHandle(ref,()=>{
+  useImperativeHandle(ref, () => {
     return {
-        files:uploadedFiles,
-        images:uploadedImages
+        files: uploadedFiles,
+        images: uploadedImages
     }
   });
 
@@ -51,7 +53,7 @@ const UploadMe=(props,ref) =>{
     <>
     <Form.Item name="fileUpload"
 //    label="范文上传"
-        label={<label  style={{color:'#00C9A7'}}>
+        label={<label style={{color:'#00C9A7'}}>
         {props.up_btn_txt}
         </label>} 
     >
@@ -66,7 +68,7 @@ const UploadMe=(props,ref) =>{
     </Form.Item>
     <Form.Item name="photoUpload"
     //    label="拍照上传">
-    label={<label  style={{color:'#00C9A7'}}>
+    label={<label style={{color:'#00C9A7'}}>
             *或者将资料对准电脑摄像头,现在就可以拍照上传
             </label>} >
     <div>
@@ -81,9 +83,9 @@ const UploadMe=(props,ref) =>{
     {/* <Button type='primary' danger style={{marginBottom:'1em'}} onClick={handleImageCapture}>拍照</Button> */}
         <ButtonZpd title='拍照' onClick={handleImageCapture} colorZpd={ButtonColor.colors4} />
         {uploadedImages.map((image) => (
-        <>
-            <div key={image.uid} style={{ position: 'relative', display: 'inline-block' }}>  
-                <img key={image.uid} src={image.url} alt={image.name} style={{ width: '100px', marginRight: '10px' }} />
+        <React.Fragment key={image.uid}>
+            <div style={{ position: 'relative', display: 'inline-block' }}>  
+                <img src={image.url} alt={image.name} style={{ width: '100px', marginRight: '10px' }} />
             
                 {/* 使用 CloseOutlined 图标作为删除按钮，并镶嵌在图片右上角 */}  
                 <CloseOutlined  
@@ -99,11 +101,25 @@ const UploadMe=(props,ref) =>{
                     onClick={() => handleImageDelete(image.uid)}  
                 />  
             </div>    
-        </>    
+        </React.Fragment>    
       ))}
     </div>
     </Form.Item>
   </>
  )
-}
-export default forwardRef(UploadMe);
+});
+
+// Add display name for debugging
+UploadMe.displayName = 'UploadMe';
+
+// Add prop types validation
+UploadMe.propTypes = {
+  up_btn_txt: PropTypes.string
+};
+
+// Add default props
+UploadMe.defaultProps = {
+  up_btn_txt: '上传文件'
+};
+
+export default UploadMe;

@@ -68,7 +68,7 @@ const EmptyLayout = () =>{
           navigate('/nav/common/list');
           break;
       }      
-    }, []);
+    }, [jiangshan, navigate]);
       return (
         <>
           <h1 style={{color:'#e32636'}}>

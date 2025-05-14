@@ -152,11 +152,8 @@ function WritingList() {
     if (location.state?.returnPage) {
       setCurrentPage(location.state.returnPage);
     }
-  },[xiaofang, location]);
-  const handleLink= (id) => {
-    alert("i am here");
-  }
-const getRowClassName = (_, index) => {
+  },[xiaofang, location, navigate, searchParams, subject]);
+  const getRowClassName = (_, index) => {
     let className = ''
     // oddRow 和 evenRow为我们css文件中的样式名称
     className = index % 2 === 0 ? "oddRow" : "evenRow"

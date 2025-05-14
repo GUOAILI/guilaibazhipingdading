@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Radio,DatePicker,Select, Button,Image } from 'antd';
+import { Form, Input, Radio, Select, Button,Image } from 'antd';
 import {useNavigate} from 'react-router-dom';
 
 const { TextArea } = Input;

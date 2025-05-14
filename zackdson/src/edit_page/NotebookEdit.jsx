@@ -5,7 +5,6 @@ import UploadMe from '../component/UploadMe';
 import TableService from '../util/tableService';
 import base64ToFile from '../util/ImageTransformService';
 import moment from 'moment';
-import { DeliveredProcedureOutlined } from '@ant-design/icons';
 const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 
 const { TextArea } = Input;
@@ -85,8 +84,6 @@ const NotebookEdit = () => {
     innerMethod(formData);
   };
 
-
-  console.log("num=",cxddyz.num);
   return (
     <>
     <h1>{localStorage.getItem("branchDetail") + ' 修改当前数据'}</h1>
@@ -148,7 +145,7 @@ const NotebookEdit = () => {
             {/* <FormItem name={smap}> */}
               <Checkbox 
                 // here is bery important
-                onChange={(e)=>{
+                onChange={()=>{
                     setPjddyz((oldzpd)=>{
                       const newzpd=[...oldzpd];
                       newzpd[index].value=!newzpd[index].value;
