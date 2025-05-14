@@ -111,6 +111,13 @@ export default function Nav () {
     high: '高中',
     college: '大学'
   };
+  // 新增：Header 轮播内容
+  const headerTexts = [
+    "我曾经看过山和大海，也穿过人山人海",
+    "日夜脑未停留，心力用尽学丘",
+    "宝剑锋从磨砺出，梅花香自苦寒来",
+    "书山有路勤为径，学海无涯苦作舟",
+  ];
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -162,14 +169,6 @@ export default function Nav () {
   }; 
 
   const levelKeys = getLevelKeys(items);
-  // 新增：Header 轮播内容
-  const headerTexts = [
-    "我曾经看过山和大海，也穿过人山人海",
-    "日夜脑未停留，心力用尽学丘",
-    "宝剑锋从磨砺出，梅花香自苦寒来",
-    "书山有路勤为径，学海无涯苦作舟",
-  ];
-
   const handleGuoailiBeigan =({key }) => {
     setBeforeSubject(false);
     // let 江珊=String(key).slice(2);
