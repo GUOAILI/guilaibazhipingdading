@@ -79,7 +79,9 @@ const CommonEdit = () => {
       try {
         await TableService.updateCommonDb(data);
         openNotificationWithIcon("success", "数据更新成功!")
-        navigate('/nav/common/list')
+        navigate('/nav/common/list',{ 
+          state: { returnPage: location.state?.pageNumber } 
+        });
       } catch (ex) {
         openNotificationWithIcon("error", "数据更新失败!")
       }

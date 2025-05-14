@@ -74,7 +74,9 @@ const WrongEdit = () => {
         try{
             await TableService.updateWrongDb(data);
             openNotificationWithIcon("success","错题 数据更新成功!")
-            navigate('/nav/wrong/list')
+            navigate('/nav/wrong/list',{ 
+              state: { returnPage: location.state?.pageNumber } 
+            });
         }catch(ex){
             openNotificationWithIcon("error","错题 数据更新失败!")
         }

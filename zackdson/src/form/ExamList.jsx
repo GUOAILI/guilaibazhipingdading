@@ -124,10 +124,10 @@ function ExamList() {
             </Fragment>
           ),
         }                
-];
+    ];
 
-  useEffect( ()=>{
-    const zpddyz = async ()=> {
+    useEffect( ()=>{
+      const zpddyz = async ()=> {
         try{
           setIsLoading(true);
           const res = await TableService.getAllExam(subject);

@@ -75,7 +75,9 @@ const ExtensionEdit = () => {
         try{
             await TableService.updateExtensionDb(data);
             openNotificationWithIcon("success","课外扩展 数据更新成功!")
-            navigate('/nav/extension/list')
+            navigate('/nav/extension/list',{ 
+              state: { returnPage: location.state?.pageNumber } 
+            });
         }catch(ex){
             openNotificationWithIcon("error","课外扩展 数据更新失败!")
         }

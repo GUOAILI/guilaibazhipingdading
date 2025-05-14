@@ -78,7 +78,9 @@ const ExamEdit = () => {
         try{
             await TableService.updateExamDb(data);
             openNotificationWithIcon("success","试卷 数据更新成功!")
-            navigate('/nav/exam/list')
+            navigate('/nav/exam/list',{ 
+              state: { returnPage: location.state?.pageNumber } 
+            });
         }catch(ex){
             openNotificationWithIcon("error","试卷 数据更新失败!")
         }

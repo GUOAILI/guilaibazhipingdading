@@ -76,7 +76,9 @@ const NotebookEdit = () => {
         try{
             await TableService.updateNotebookDb(data);
             openNotificationWithIcon("success","课本数据更新成功!")
-            navigate('/nav/notebook/list')
+            navigate('/nav/notebook/list',{ 
+              state: { returnPage: location.state?.pageNumber } 
+            });
         }catch(ex){
             openNotificationWithIcon("error","课本数据更新失败!")
         }

@@ -72,7 +72,9 @@ const ReviewEdit = () => {
           try{
               await TableService.updateReviewDb(data);
               openNotificationWithIcon("success","复习 数据更新成功!")
-              navigate('/nav/review/list')
+              navigate('/nav/review/list',{ 
+                state: { returnPage: location.state?.pageNumber } 
+              });
           }catch(ex){
               openNotificationWithIcon("error","复习 数据更新失败!")
           }
