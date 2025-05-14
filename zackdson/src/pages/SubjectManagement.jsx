@@ -2,14 +2,8 @@ import React, { useState,useEffect } from "react";
 import { Form } from "react-router-dom";
 import MenuService from "../util/menuService";
 import { Button, notification } from "antd";
-
 const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 
-// Import it instead
-import { action } from './SubjectAction';
-
-// Re-export the loader for use in router configuration
-export { action };
 // export async function action({ request }) {
 //     const formData=await request.formData();
 //     const updates = Object.fromEntries(formData);

@@ -6,12 +6,6 @@ import MenuService from '../util/menuService';
 
 const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 
-// Import it instead
-import { loader } from './HomeLoader';
-
-// Re-export the loader for use in router configuration
-export { loader };
-
 // export async function loader() {
 //   try{
 //     const resData=await GradeService.getGrade();

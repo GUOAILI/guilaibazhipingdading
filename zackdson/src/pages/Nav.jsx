@@ -16,12 +16,6 @@ import dayjs from 'dayjs'; // 需要安装 dayjs: npm install dayjs
 
 const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 
-// Import it instead
-import { loader } from './NavLoader';
-
-// Re-export the loader for use in router configuration
-export { loader };
-
 // export async function loader(){
 //     // look if the token is expired!
 //     // tokenLoader();
@@ -123,6 +117,26 @@ export default function Nav () {
       setHeaderIndex((prev) => (prev + 1) % headerTexts.length);
     }, 15000); // 每3秒切换一次
     return () => clearInterval(timer);
+  }, [headerTexts.length]);
+
+
+  useEffect(() => {
+    // 优先判断 lastBackupTip，如果没有则用 lastUseTip
+    const lastBackupTip = localStorage.getItem('lastBackupTip');
+    const lastUseTip = localStorage.getItem('lastUseTip');
+    const now = dayjs();
+  
+    if (!lastBackupTip) {
+      // 如果还未设定 lastBackupTip，则用 lastUseTip 判断
+      if (!lastUseTip) {
+        // 第一次使用，记录 lastUseTip
+        localStorage.setItem('lastUseTip', now.toISOString());
+      } else if (now.diff(dayjs(lastUseTip), 'month') >= 1) {
+        setUseVisible(true);
+      }
+    } else if (now.diff(dayjs(lastBackupTip), 'month') >= 1) {
+      setBackupVisible(true);
+    }
   }, []);
 
   const items=useLoaderData();
@@ -164,25 +178,6 @@ export default function Nav () {
       navigate('/nav/empty');
   };
 
-  useEffect(() => {
-    // 优先判断 lastBackupTip，如果没有则用 lastUseTip
-    const lastBackupTip = localStorage.getItem('lastBackupTip');
-    const lastUseTip = localStorage.getItem('lastUseTip');
-    const now = dayjs();
-  
-    if (!lastBackupTip) {
-      // 如果还未设定 lastBackupTip，则用 lastUseTip 判断
-      if (!lastUseTip) {
-        // 第一次使用，记录 lastUseTip
-        localStorage.setItem('lastUseTip', now.toISOString());
-      } else if (now.diff(dayjs(lastUseTip), 'month') >= 1) {
-        setUseVisible(true);
-      }
-    } else if (now.diff(dayjs(lastBackupTip), 'month') >= 1) {
-      setBackupVisible(true);
-    }
-  }, []);
-  
   const handleUseTipOk = () => {
     setUseVisible(false);
   };
