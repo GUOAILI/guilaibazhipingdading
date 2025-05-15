@@ -1,25 +1,18 @@
-import axios from "axios";
-import authHeader from "./authHeader";
+import http from './axiosInstance';
 import { BASE_URL } from "./config";
 
 const API_GRADE_URL = `${BASE_URL}/grade/`;
 
 const getGrade = () => {
-  return axios.get(API_GRADE_URL + "get",{
-    headers : authHeader()
-  });
+  return http.get(API_GRADE_URL + "get");
 };
 
 const saveGrade= (school,grade) => {
-    return axios.post(API_GRADE_URL + "save"+`?school=${school}&grade=${grade}`,null,{
-      headers : authHeader()
-    });
+    return http.post(API_GRADE_URL + "save"+`?school=${school}&grade=${grade}`,null);
 };
 
 const deleteGrade= () => {
-    return axios.get(API_GRADE_URL + "delete",{
-      headers : authHeader()
-    });
+    return http.get(API_GRADE_URL + "delete");
 };
 
 const GradeService = {

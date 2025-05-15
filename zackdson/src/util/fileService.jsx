@@ -1,5 +1,4 @@
-import axios from "axios";
-import authHeader from "./authHeader";
+import http from './axiosInstance';
 import { BASE_URL } from "./config";
 
 const API_FILE_URL = `${BASE_URL}/localupload/`;
@@ -21,49 +20,31 @@ const API_FILE_URL = `${BASE_URL}/localupload/`;
 //       }
 // )};
 const uploadFileAndSaveToWritingDb = (updData) => {
-    return axios.post(API_FILE_URL + "baiduwenxin/writing",updData,{
-    //   headers: {  
-    //     'Content-Type': 'multipart/form-data'  
-    // }  
-    headers : authHeader()
-  }
-)};
+    return http.post(API_FILE_URL + "baiduwenxin/writing", updData);
+};
 const uploadFileAndSaveToCommonDb = (updData) => {
-  return axios.post(API_FILE_URL + "baiduwenxin/common", updData, {
-    headers: authHeader()
-  });
+    return http.post(API_FILE_URL + "baiduwenxin/common", updData);
 };
 
 const uploadFileAndSaveToNotebookDb = (updData) => {
-    return axios.post(API_FILE_URL + "baiduwenxin/notebook",updData,{
-      headers : authHeader()
-    //   headers: {  
-    //     'Content-Type': 'multipart/form-data',
-    // }  
-  }
-)};
+    return http.post(API_FILE_URL + "baiduwenxin/notebook", updData);
+};
+
 const uploadFileAndSaveToExamDb = (updData) => {
-    return axios.post(API_FILE_URL + "baiduwenxin/exam",updData,{
-      headers : authHeader()
-  }
-)};
+    return http.post(API_FILE_URL + "baiduwenxin/exam", updData);
+};
+
 const uploadFileAndSaveToReviewDb = (updData) => {
-    return axios.post(API_FILE_URL + "baiduwenxin/review",updData,{
-      headers : authHeader() 
-  }
-)};
+    return http.post(API_FILE_URL + "baiduwenxin/review", updData);
+};
 
 const uploadFileAndSaveToWrongDb = (updData) => {
-    return axios.post(API_FILE_URL + "baiduwenxin/wrong",updData,{
-      headers : authHeader()
-  }
-)};
+    return http.post(API_FILE_URL + "baiduwenxin/wrong", updData);
+};
 
 const uploadFileAndSaveToExtDb = (updData) => {
-    return axios.post(API_FILE_URL + "baiduwenxin/extension",updData,{
-      headers : authHeader()
-  }
-)};
+    return http.post(API_FILE_URL + "baiduwenxin/extension", updData);
+};
 
 
 const FileService = {

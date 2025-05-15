@@ -47,20 +47,26 @@ export default function HomePage() {
               localStorage.setItem('grade',values.grade); 
               setVisible(false);
               // navigate('/nav/manage')
-      // 调用 MenuService.getAllSubjects 获取所有 subject
-      try {
-        const res = await MenuService.getAllSubjects();
-        if (res && Array.isArray(res.data) && res.data.length > 0) {
-          navigate('/nav');
-        } else {
-          navigate('/nav/manage');
-        }
-      } catch (err) {
-        navigate('/nav/manage');
-      }
+              // 调用 MenuService.getAllSubjects 获取所有 subject
+              try {
+                const res = await MenuService.getAllSubjects();
+                if (res && Array.isArray(res.data) && res.data.length > 0) {
+                  navigate('/nav');
+                } else {
+                  navigate('/nav/manage');
+                }
+              } catch (err) {
+                // navigate('/nav/manage');
+                // token 过期已在拦截器中处理，这里只需处理其他错误
+                if (!err.response || err.response.status !== 401) {
+                  openNotificationWithIcon("error","科目查询异常!请联系管理员")}
+                return null;
+              }
 
             }catch(err){
-              openNotificationWithIcon("error","年级设定失败!请联系管理员")
+            // token 过期已在拦截器中处理，这里只需处理其他错误
+            if (!err.response || err.response.status !== 401) {
+              openNotificationWithIcon("error","年级设定失败!请联系管理员")}
               return null;
           }
       }

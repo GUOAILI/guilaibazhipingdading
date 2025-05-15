@@ -29,8 +29,10 @@ export async function action({ request }) {
         await MenuService.updateOneInitDson(requestData);
         openNotificationWithIcon("success",subject+" 设定成功!")
         return redirect("/nav/");
-    }catch{
-        openNotificationWithIcon("error","科目管理后台更新失败!请联系管理员")
+    }catch(ex){
+        // token 过期已在拦截器中处理，这里只需处理其他错误
+        if (!ex.response || ex.response.status !== 401) {
+            openNotificationWithIcon("error","科目管理后台更新失败!请联系管理员")}
         return null;
     }
 }

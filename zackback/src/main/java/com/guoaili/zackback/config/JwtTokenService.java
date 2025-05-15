@@ -2,7 +2,6 @@ package com.guoaili.zackback.config;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Function;
 
 import javax.crypto.SecretKey;
@@ -10,8 +9,11 @@ import javax.crypto.SecretKey;
 import org.springframework.stereotype.Component;
 
 import com.guoaili.zackback.entity.Role;
+import com.guoaili.zackback.model.TokenValidationResult;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -30,29 +32,60 @@ public class JwtTokenService {
                 .compact();
     }
 
-    public String extractUsernameFromToken(String token) {
-        if (isTokenExpired(token)) {
-            return null;
+    public TokenValidationResult validateToken(String token) {
+        try {
+            Claims claims = Jwts.parser()
+                    .verifyWith(getSecretKey())
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
+            
+            String username = claims.getSubject();
+            Date expiration = claims.getExpiration();
+            
+            if (expiration.before(new Date())) {
+                return TokenValidationResult.expired();
+            }
+            
+            return TokenValidationResult.valid(username);
+        } catch (ExpiredJwtException e) {
+            return TokenValidationResult.expired();
+        } catch (JwtException e) {
+            return TokenValidationResult.invalid("Invalid token: " + e.getMessage());
+        } catch (Exception e) {
+            return TokenValidationResult.invalid("Error validating token: " + e.getMessage());
         }
-        return getClaims(token, Claims::getSubject);
     }
 
-    public <T> T getClaims(String token, Function<Claims, T> resolver) {
-        return resolver.apply(Jwts.parser().verifyWith(getSecretKey()).build().parseSignedClaims(token).getPayload());
-    }
+    // public String extractUsernameFromToken(String token) {
+    //     TokenValidationResult result = validateToken(token);
+    //     return result.isValid() ? result.getUsername() : null;
+    // }
 
-    public boolean isTokenExpired(String token) {
-        Date expiration = getClaims(token, Claims::getExpiration);
-        return expiration.before(new Date());
-    }
+    // public <T> T getClaims(String token, Function<Claims, T> resolver) {
+    //     try {
+    //         return resolver.apply(Jwts.parser().verifyWith(getSecretKey()).build().parseSignedClaims(token).getPayload());
+    //     } catch (ExpiredJwtException e) {
+    //         // 返回过期的Claims，但标记为过期
+    //         return resolver.apply(e.getClaims());
+    //     }
+    // }
+
+    // public boolean isTokenExpired(String token) {
+    //     try {
+    //         Date expiration = getClaims(token, Claims::getExpiration);
+    //         return expiration.before(new Date());
+    //     } catch (ExpiredJwtException e) {
+    //         return true;
+    //     }
+    // }
 
     private SecretKey getSecretKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    SecretKey getSigningKey() {
-        return Jwts.SIG.HS256.key().build();
-    }
-
+    // SecretKey getSigningKey() {
+    //     return Jwts.SIG.HS256.key().build();
+    // }
 }

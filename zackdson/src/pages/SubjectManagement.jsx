@@ -76,7 +76,9 @@ export default function SubjectManagement() {
                 // console.log(subjects);
                 // return {subjects};
             }catch(ex){
-                openNotificationWithIcon('error','后台获取学科信息失败，请检查后台是否启动，或者联系管理员');
+                // token 过期已在拦截器中处理，这里只需处理其他错误
+                if (!ex.response || ex.response.status !== 401) {
+                    openNotificationWithIcon('error','后台获取学科信息失败，请联系管理员')}
                 // return null;
             }
         }
@@ -152,12 +154,16 @@ export default function SubjectManagement() {
                 }
                 catch (ex) {
                     // alert("子分类查询异常!",ex);
-                    openNotificationWithIcon("error","子分类查询异常!请联系管理员")
+                    // token 过期已在拦截器中处理，这里只需处理其他错误
+                    if (!ex.response || ex.response.status !== 401) {
+                        openNotificationWithIcon("error","子分类查询异常!请联系管理员")}
                 }
             }
             catch (ex) {
                 // alert("查询主科目表异常error!"+ex);
-                openNotificationWithIcon("error","查询主科目表异常!请联系管理员")
+                // token 过期已在拦截器中处理，这里只需处理其他错误
+                if (!ex.response || ex.response.status !== 401) {
+                    openNotificationWithIcon("error","查询主科目表异常!请联系管理员")}
             }
         }
         httpRequestForBranchs(value);

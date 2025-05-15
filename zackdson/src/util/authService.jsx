@@ -1,20 +1,21 @@
-import axios from 'axios'
+import http from './axiosInstance';
 import { BASE_URL } from "./config";
 
 const API_LOGIN_URL = `${BASE_URL}/auth`;
 
 const createuser = (user) => {
-    return axios.post(API_LOGIN_URL + '/register/save', user)
+    // 登录和注册不需要认证头
+    return http.noAuth.post(API_LOGIN_URL + '/register/save', user);
 }
 
 const loginuser = (user) => {
-    // return axios.post(API_LOGIN_URL + '/login', user,{timeout:10000})
-    return axios.post(API_LOGIN_URL + '/login', user)
+    // 登录和注册不需要认证头
+    return http.noAuth.post(API_LOGIN_URL + '/login', user);
 }
 
 const AuthService = {
     createuser,
     loginuser,
-  };
+};
   
 export default AuthService;

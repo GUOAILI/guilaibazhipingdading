@@ -27,7 +27,9 @@ function ExtensionList() {
         setXiaofang(x=>!x);
         openNotificationWithIcon("success","删除课外记录成功");
       }catch(ex){
-        openNotificationWithIcon("error","删除课外记录异常,请联系管理员");
+        // token 过期已在拦截器中处理，这里只需处理其他错误
+        if (!ex.response || ex.response.status !== 401) {
+          openNotificationWithIcon("error","删除课外扩展记录异常,请联系管理员")}
       }
     }
     const editRecord = (record)=>{
@@ -141,7 +143,9 @@ function ExtensionList() {
           setIsLoading(false);
         } catch(err){
           setIsLoading(false);
-          openNotificationWithIcon("error","获取后台 课外课 数据出错,请联系管理员")
+          // token 过期已在拦截器中处理，这里只需处理其他错误
+          if (!err.response || err.response.status !== 401) {
+            openNotificationWithIcon("error","获取后台课外扩展数据出错,请联系管理员")}
           // setIsLoading(true);
           // console.log(err);
         }

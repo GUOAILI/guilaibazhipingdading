@@ -69,14 +69,14 @@ const EmptyLayout = () =>{
           break;
       }      
     }, [jiangshan, navigate]);
-      return (
-        <>
-          <h1 style={{color:'#e32636'}}>
-            这是一门新的还没有响应页面的子分类,请联系管理员。
-          </h1>
-          <button onClick={()=>navigate('/nav')}>返回上一页面</button>
-        </>
-      )
+      // return (
+      //   <>
+      //     <h1 style={{color:'#e32636'}}>
+      //       这是一门新的还没有响应页面的子分类,请联系管理员。
+      //     </h1>
+      //     <button onClick={()=>navigate('/nav')}>返回上一页面</button>
+      //   </>
+      // )
 
 }
 export default EmptyLayout

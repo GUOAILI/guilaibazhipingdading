@@ -10,10 +10,11 @@ const SerializePage = () => {
   const navigate = useNavigate();
   const [filePath, setFilePath] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(false); // ✅ 控制按钮状态
-
+  const [isLoading, setIsLoading] = useState(false); // ✅ 添加 loading 状态
   const onFinish = () => {
     async function serializeAll() {
       try {
+        setIsLoading(true); // ✅ 开始加载
         // 设置按钮禁用
         setIsButtonDisabled(true);
 
@@ -34,9 +35,10 @@ const SerializePage = () => {
         openNotificationWithIcon('error', '数据库数据持久化失败');
         setFilePath('');
         setIsButtonDisabled(false); // 失败时恢复按钮可用
+      } finally {
+        setIsLoading(false); // ✅ 结束加载，无论成功或失败都关闭 loading
       }
     }
-
     serializeAll();
   };
 
@@ -72,6 +74,7 @@ const SerializePage = () => {
             danger
             htmlType="submit"
             disabled={isButtonDisabled} // ✅ 绑定禁用状态
+            loading={isLoading}
           >
             备份数据
           </Button>

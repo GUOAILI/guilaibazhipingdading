@@ -1,20 +1,15 @@
-import axios from "axios";
-import authHeader from "./authHeader";
+import http from './axiosInstance';
 import { BASE_URL } from "./config";
 
 const API_TABLE_URL = `${BASE_URL}/table/`;
 
 
 const getAllWriting = (subject) => {
-  return axios.get(API_TABLE_URL + "writing"+`?subject=${subject}`,{
-    headers : authHeader()
-  });
+  return http.get(API_TABLE_URL + "writing"+`?subject=${subject}`);
 };
 
 const delOneWriting = (id) => {
-  return axios.post(API_TABLE_URL + "writing/delete"+`?id=${id}`,null,{
-    headers : authHeader()
-  });
+  return http.post(API_TABLE_URL + "writing/delete"+`?id=${id}`,null);
   // return axios.put(API_TABLE_URL + "writing/delete",
   //   {
   //     params:{id:id}
@@ -23,116 +18,78 @@ const delOneWriting = (id) => {
 };
 
 const getAllNotebook = (subject) => {
-  return axios.get(API_TABLE_URL + "notebook"+`?subject=${subject}`,{
-    headers : authHeader()
-  });
+  return http.get(API_TABLE_URL + "notebook"+`?subject=${subject}`);
 };
 
 const delOneNotebook = (id) => {
   // return axios.put(API_TABLE_URL + "notebook/delete"+`?id=${id}`,null,{
-  return axios.post(API_TABLE_URL + "notebook/delete"+`?id=${id}`,null,{
-    headers : authHeader()
-  });
+  return http.post(API_TABLE_URL + "notebook/delete"+`?id=${id}`,null);
 };
 // 2024/6/25
 const getAllExam = (subject) => {
-  return axios.get(API_TABLE_URL + "exam"+`?subject=${subject}`,{
-    headers : authHeader()
-  });
+  return http.get(API_TABLE_URL + "exam"+`?subject=${subject}`);
 };
 
 const delOneExam = (id) => {
-  return axios.post(API_TABLE_URL + "exam/delete"+`?id=${id}`,null,{
-    headers : authHeader()
-  });
+  return http.post(API_TABLE_URL + "exam/delete"+`?id=${id}`,null);
 };
 // 
 const getAllReview = (subject) => {
-  return axios.get(API_TABLE_URL + "review"+`?subject=${subject}`,{
-    headers : authHeader()
-  });
+  return http.get(API_TABLE_URL + "review"+`?subject=${subject}`);
 };
 
 const delOneReview = (id) => {
-  return axios.post(API_TABLE_URL + "review/delete"+`?id=${id}`,null,{
-    headers : authHeader()
-  });
+  return http.post(API_TABLE_URL + "review/delete"+`?id=${id}`,null);
 };
 // 2023/6/29
 const getAllWrong = (subject) => {
-  return axios.get(API_TABLE_URL + "wrong"+`?subject=${subject}`,{
-    headers : authHeader()
-  });
+  return http.get(API_TABLE_URL + "wrong"+`?subject=${subject}`);
 };
 
 const delOneWrong = (id) => {
-  return axios.post(API_TABLE_URL + "wrong/delete"+`?id=${id}`,null,{
-    headers : authHeader()
-  });
+  return http.post(API_TABLE_URL + "wrong/delete"+`?id=${id}`,null);
 };
 // 2023/6/29 night
 const getAllExt = (subject) => {
-  return axios.get(API_TABLE_URL + "extension"+`?subject=${subject}`,{
-    headers : authHeader()
-  });
+  return http.get(API_TABLE_URL + "extension"+`?subject=${subject}`);
 };
 
 const delOneExt = (id) => {
-  return axios.post(API_TABLE_URL + "extension/delete"+`?id=${id}`,null,{
-    headers : authHeader()
-  });
+  return http.post(API_TABLE_URL + "extension/delete"+`?id=${id}`,null);
 };
 // 2024/7/1 add 
 const updateWritingDb = (formData) => {
-  return axios.post(API_TABLE_URL + "writing/update",formData,{
-    headers : authHeader()
-  });
+  return http.post(API_TABLE_URL + "writing/update",formData);
 };
 const updateWrongDb = (formData) => {
-  return axios.post(API_TABLE_URL + "wrong/update",formData,{
-    headers : authHeader()
-  });
+  return http.post(API_TABLE_URL + "wrong/update",formData);
 };
 const updateExamDb = (formData) => {
-  return axios.post(API_TABLE_URL + "exam/update",formData,{
-    headers : authHeader()
-  });
+  return http.post(API_TABLE_URL + "exam/update",formData);
 };
 const updateReviewDb = (formData) => {
-  return axios.post(API_TABLE_URL + "review/update",formData,{
-    headers : authHeader()
-  });
+  return http.post(API_TABLE_URL + "review/update",formData);
 };
 const updateNotebookDb = (formData) => {
-  return axios.post(API_TABLE_URL + "notebook/update",formData,{
-    headers : authHeader()
-  });
+  return http.post(API_TABLE_URL + "notebook/update",formData);
 };
 const updateExtensionDb = (formData) => {
-  return axios.post(API_TABLE_URL + "extension/update",formData,{
-    headers : authHeader()
-  });
+  return http.post(API_TABLE_URL + "extension/update",formData);
 };
 
 // 获取所有common 2025/4/25 add
 const getAllCommon = (subject) => {
-  return axios.get(API_TABLE_URL + "common" + `?subject=${subject}`, {
-    headers: authHeader()
-  });
+  return http.get(API_TABLE_URL + "common" + `?subject=${subject}`);
 };
 
 // 删除common
 const delOneCommon = (id) => {
-  return axios.post(API_TABLE_URL + "common/delete" + `?id=${id}`, null, {
-    headers: authHeader()
-  });
+  return http.post(API_TABLE_URL + "common/delete" + `?id=${id}`, null);
 };
 
 // 更新common
 const updateCommonDb = (formData) => {
-  return axios.post(API_TABLE_URL + "common/update", formData, {
-    headers: authHeader()
-  });
+  return http.post(API_TABLE_URL + "common/update", formData);
 };
 
 const TableService = {

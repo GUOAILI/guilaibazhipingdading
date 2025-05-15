@@ -1,5 +1,4 @@
-import axios from "axios";
-import authHeader from "./authHeader";
+import http from './axiosInstance';
 import { BASE_URL } from "./config";
 
 const API_SUB_URL = `${BASE_URL}/subject/`;
@@ -7,9 +6,7 @@ const API_BRA_URL = `${BASE_URL}/branch/`;
 // const API_UPLOAD_URL = "http://localhost:9000/notebook/";
 
 const getAllSubjects = () => {
-  return axios.get(API_SUB_URL + "all",{
-    headers : authHeader()
-  });
+  return http.get(API_SUB_URL + "all");
 };
 
 // const getOneSubject = (subname) => {
@@ -26,49 +23,33 @@ const getAllSubjects = () => {
 // };
 // 2024/6/24 add
 const getInitDson = () => {
-  return axios.get(API_SUB_URL + "initDson",{
-    headers : authHeader()
-  });
+  return http.get(API_SUB_URL + "initDson");
 };
 
 const getOneInitDson = (subname) => {
-    return axios.post(API_SUB_URL + "initDson/one"+`?subname=${subname}`,null,{
-      headers : authHeader()
-    });
+    return http.post(API_SUB_URL + "initDson/one"+`?subname=${subname}`,null);
 };
 
 const updateOneInitDson = (updData) => {
-    return axios.post(API_SUB_URL + "initDson/update/one",updData,{
-      headers : authHeader()
-    });
+    return http.post(API_SUB_URL + "initDson/update/one",updData);
 };
 
 const getAllBranches = () => {
-  return axios.get(API_BRA_URL + "all",{
-    headers : authHeader()
-  });
+  return http.get(API_BRA_URL + "all");
 };
 
 // 2024/7/3
 const addOneSubject = (subname) => {
-  return axios.post(API_SUB_URL + "add/one"+`?subname=${subname}`,null,{
-    headers : authHeader()
-  });
+  return http.post(API_SUB_URL + "add/one"+`?subname=${subname}`,null);
 };
 const deleteOneSubject = (subname) => {
-  return axios.post(API_SUB_URL + "delete/one"+`?subname=${subname}`,null,{
-    headers : authHeader()
-  });
+  return http.post(API_SUB_URL + "delete/one"+`?subname=${subname}`,null);
 };
 const addOneBranch = (brhname) => {
-  return axios.post(API_BRA_URL + "add/one"+`?brhname=${brhname}`,null,{
-    headers : authHeader()
-  });
+  return http.post(API_BRA_URL + "add/one"+`?brhname=${brhname}`,null);
 };
 const deleteOneBranch = (brhname) => {
-  return axios.post(API_BRA_URL + "delete/one"+`?brhname=${brhname}`,null,{
-    headers : authHeader()
-  });
+  return http.post(API_BRA_URL + "delete/one"+`?brhname=${brhname}`,null);
 };
 
 

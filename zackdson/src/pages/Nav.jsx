@@ -221,7 +221,9 @@ export default function Nav () {
           localStorage.removeItem('grade');
           navigate('/home')
       }catch(err){
-          openNotificationWithIcon("error","年级变更处理后台异常!请联系管理员")
+          // token 过期已在拦截器中处理，这里只需处理其他错误
+          if (!err.response || err.response.status !== 401) {
+            openNotificationWithIcon("error","年级变更处理后台异常!请联系管理员")}
           return null;
       }
     }

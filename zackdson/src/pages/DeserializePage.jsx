@@ -15,6 +15,8 @@ const DeserializePage = () => {
   const fileInputRef = useRef(null);
   const zipInputRef = useRef(null);
 
+  const [isLoadingDatabase, setIsLoadingDatabase] = useState(false); // ✅ For database restore
+  const [isLoadingUnzip, setIsLoadingUnzip] = useState(false);     // ✅ For zip file extraction
   // 数据库文件选择
   const handleFileChange = (e) => {
     if (e.target.files.length > 0) {
@@ -51,6 +53,7 @@ const DeserializePage = () => {
 
   // 数据库文件提交
   const onFinishDatabase = (values) => {
+    setIsLoadingDatabase(true); // ✅ 开始加载
     async function deserialize(filename) {
       try {
         await PersistService.recoverToTable(filename);
@@ -59,6 +62,8 @@ const DeserializePage = () => {
         setFileInputKey(Date.now()); // ✅ 可选：重置隐藏的 file input
       } catch (ex) {
         openNotificationWithIcon('error', '备份数据恢复失败');
+      } finally {
+        setIsLoadingDatabase(false); // ✅ 结束加载
       }
     }
     deserialize(values.filename);
@@ -71,6 +76,7 @@ const DeserializePage = () => {
       openNotificationWithIcon('error', '请指定照片压缩文件名');
       return;
     }
+    setIsLoadingUnzip(true); // ✅ 开始加载
     async function unzip() {
       try {
         await PersistService.unZipTheFile(zipname);
@@ -79,6 +85,8 @@ const DeserializePage = () => {
         setZipInputKey(Date.now()); // ✅ 可选：重置隐藏的 zip input
       } catch (ex) {
         openNotificationWithIcon('error', '照片压缩包解压失败');
+      } finally {
+        setIsLoadingUnzip(false); // ✅ 结束加载
       }
     }
     unzip();
@@ -152,7 +160,13 @@ const DeserializePage = () => {
           onChange={handleFileChange}
         />
         <Form.Item style={{ display: 'flex', justifyContent: 'left' }}>
-          <Button type="primary" style={{ width: '150px' }} danger htmlType="submit">
+          <Button 
+            type="primary" 
+            style={{ width: '150px' }} 
+            danger 
+            htmlType="submit"
+            loading={isLoadingDatabase} // ✅ 绑定加载状态
+          >
             提交
           </Button>
         </Form.Item>
@@ -220,7 +234,12 @@ const DeserializePage = () => {
           onChange={handleZipChange}
         />
         <Form.Item style={{ display: 'flex', justifyContent: 'left' }}>
-          <Button type="primary" danger style={{ width: '150px' }} htmlType="submit">
+          <Button 
+            type="primary" danger 
+            style={{ width: '150px' }} 
+            htmlType="submit"
+            loading={isLoadingUnzip} // ✅ 绑定加载状态
+          >
             提交
           </Button>
         </Form.Item>

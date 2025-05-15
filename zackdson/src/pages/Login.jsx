@@ -62,7 +62,17 @@ const LoginForm = () => {
       const expiration = new Date();
       expiration.setMinutes(expiration.getMinutes() + 120);
       localStorage.setItem('expiration', expiration);
-      navigate('/home');
+      // 2025/5/15 检查是否有保存的重定向路径
+      const redirectPath = localStorage.getItem('redirectPath');
+      if (redirectPath) {
+        // 清除保存的路径
+        localStorage.removeItem('redirectPath');
+        // 导航到之前的页面
+        navigate(redirectPath);
+      } else {
+        // 没有重定向路径，导航到默认页面
+        navigate('/home');
+      }
     }catch(err){
       // console.log(err);
       if(err.response.status===404){
@@ -137,7 +147,7 @@ const LoginForm = () => {
         rules={[
           {
             required: true,
-            message: 'Please input your username',
+            message: '请输入用户名',
           },
         ]}
       >
@@ -150,7 +160,7 @@ const LoginForm = () => {
         rules={[
           {
             required: true,
-            message: 'Please input your password!',
+            message: '请输入密码',
           },
         ]}
         hasFeedback
@@ -166,14 +176,14 @@ const LoginForm = () => {
         rules={[
           {
             required: true,
-            message: 'Please confirm your password!',
+            message: '请确认密码',
           },
           ({ getFieldValue }) => ({
             validator(_, value) {
               if (!value || getFieldValue('password') === value) {
                 return Promise.resolve();
               }
-              return Promise.reject(new Error('The new password that you entered do not match!'));
+              return Promise.reject(new Error('您输入的密码不一致!'));
             },
           }),
         ]}

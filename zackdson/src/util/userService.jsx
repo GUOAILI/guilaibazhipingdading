@@ -1,18 +1,14 @@
-import axios from "axios";
-import authHeader from "./authHeader";
+import http from './axiosInstance';
 import { BASE_URL } from "./config";
 
 const API_USR_URL = `${BASE_URL}/user/`;
 
-
 const getCurrentUser = () => {
-    return axios.get(API_USR_URL + "current",{
-      headers : authHeader()
-    });
+  return http.get(API_USR_URL + "current");
 };
 
 const UserService = {
-    getCurrentUser,
-  };
+  getCurrentUser,
+};
   
-  export default UserService;
+export default UserService;
