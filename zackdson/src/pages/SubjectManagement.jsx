@@ -39,7 +39,7 @@ const openNotificationWithIcon = (type, message, description) => notification[ty
 //         openNotificationWithIcon("success",subject+" 设定成功!")
 //         return redirect("/nav/");
 //     }catch{
-//         openNotificationWithIcon("error","科目管理后台更新失败!请联系管理员")
+//         openNotificationWithIcon("error","科目管理后台更新失败!再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员")
 //         return null;
 //     }
 // }
@@ -78,7 +78,7 @@ export default function SubjectManagement() {
             }catch(ex){
                 // token 过期已在拦截器中处理，这里只需处理其他错误
                 if (!ex.response || ex.response.status !== 401) {
-                    openNotificationWithIcon('error','后台获取学科信息失败，请联系管理员')}
+                    openNotificationWithIcon('error','后台获取学科信息失败，再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员')}
                 // return null;
             }
         }
@@ -156,14 +156,14 @@ export default function SubjectManagement() {
                     // alert("子分类查询异常!",ex);
                     // token 过期已在拦截器中处理，这里只需处理其他错误
                     if (!ex.response || ex.response.status !== 401) {
-                        openNotificationWithIcon("error","子分类查询异常!请联系管理员")}
+                        openNotificationWithIcon("error","子分类查询异常!再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员")}
                 }
             }
             catch (ex) {
                 // alert("查询主科目表异常error!"+ex);
                 // token 过期已在拦截器中处理，这里只需处理其他错误
                 if (!ex.response || ex.response.status !== 401) {
-                    openNotificationWithIcon("error","查询主科目表异常!请联系管理员")}
+                    openNotificationWithIcon("error","查询主科目表异常!再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员")}
             }
         }
         httpRequestForBranchs(value);
@@ -316,7 +316,7 @@ export default function SubjectManagement() {
 
             ) : (
                 <p style={{color:'red'}}>
-                    数据库中没有任何初始化用数据,请联系管理员。
+                    数据库中没有任何初始化用数据,再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员。
                 </p> )
             }
         </>

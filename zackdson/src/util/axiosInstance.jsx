@@ -7,9 +7,9 @@ import authHeader from './authHeader';
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
   timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json',
-  }
+  // headers: {
+  //   'Content-Type': 'application/json',
+  // }
 });
 
 // 请求拦截器 - 自动添加认证头
@@ -48,9 +48,23 @@ axiosInstance.interceptors.response.use(
         
         if (isUnauthorized) {
           // 清除本地存储的 token
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
-          
+          localStorage.removeItem("dpj-sb");
+          localStorage.removeItem("school");
+          localStorage.removeItem("grade");
+          localStorage.removeItem("resetGrade");
+          localStorage.removeItem("subject");
+          localStorage.removeItem("branchDetail");
+          localStorage.removeItem("notebookRecord");
+          localStorage.removeItem("writingRecord");
+          localStorage.removeItem("commonRecord");
+          localStorage.removeItem("wrongRecord");
+          localStorage.removeItem("examRecord");
+          localStorage.removeItem("reviewRecord");
+          localStorage.removeItem("extensionRecord");
+          localStorage.removeItem("long");
+          localStorage.removeItem("token");
+          localStorage.removeItem("expiration");
+      
           // 显示通知
           notification.warning({
             message: '登录已过期',
@@ -58,24 +72,19 @@ axiosInstance.interceptors.response.use(
             duration: 3,
           });
           
-          // 记录当前页面路径，以便登录后可以返回
-          const currentPath = window.location.pathname;
-          if (currentPath !== '/login') {
-            localStorage.setItem('redirectPath', currentPath);
-            
-            // 延迟跳转，让用户有时间看到通知
-            setTimeout(() => {
-              window.location.href = '/login';
-            }, 1500);
-          }
-        } else {
-          // 其他授权错误
-          notification.error({
-            message: '权限错误',
-            description: data?.message || '您没有权限执行此操作',
-            duration: 4,
-          });
-        }
+          // 延迟跳转，让用户有时间看到通知
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 1500);
+        } 
+        // else {
+        //   // 其他授权错误
+        //   notification.error({
+        //     message: '权限错误',
+        //     description: data?.message || '您没有权限执行此操作',
+        //     duration: 4,
+        //   });
+        // }
       } else if (status >= 500) {
         // 服务器错误
         notification.error({
@@ -95,7 +104,7 @@ axiosInstance.interceptors.response.use(
       // 请求已发送但没有收到响应
       notification.error({
         message: '网络错误',
-        description: '无法连接到服务器，请检查您的网络连接',
+        description: '无法连接到后台服务器，再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员',
         duration: 4,
       });
     } else {

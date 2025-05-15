@@ -31,7 +31,9 @@ const SubjectEdit = () => {
                 // setXiaofang(!xiaofang);
                 navigate('/nav/empty');
             }catch(ex){
-                openNotificationWithIcon('error',subname+'追加失败');
+                // token 过期已在拦截器中处理，这里只需处理其他错误
+                if (!ex.response || ex.response.status !== 401) {
+                    openNotificationWithIcon('error',subname+'追加失败，再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员');}
                 return null;
             }
         }
@@ -44,7 +46,9 @@ const SubjectEdit = () => {
                 // setXiaofang(!xiaofang);
                 // navigate('/nav/subject');
             }catch(ex){
-                openNotificationWithIcon('error',subname+'删除失败');
+                // token 过期已在拦截器中处理，这里只需处理其他错误
+                if (!ex.response || ex.response.status !== 401) {
+                    openNotificationWithIcon('error',subname+'删除失败，再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员');}
                 return null;
             }
         }
@@ -77,7 +81,9 @@ const SubjectEdit = () => {
                 // setXiaofang(!xiaofang);
                 navigate('/nav/empty');
             }catch(ex){
-                openNotificationWithIcon('error',brhname+'追加失败');
+                // token 过期已在拦截器中处理，这里只需处理其他错误
+                if (!ex.response || ex.response.status !== 401) {
+                    openNotificationWithIcon('error',brhname+'追加失败，再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员');}
                 return null;
             }
         }
@@ -90,7 +96,9 @@ const SubjectEdit = () => {
                 // setXiaofang(!xiaofang);
                 // navigate('/nav/subject');
             }catch(ex){
-                openNotificationWithIcon('error',brhname+'删除失败');
+                // token 过期已在拦截器中处理，这里只需处理其他错误
+                if (!ex.response || ex.response.status !== 401) {
+                    openNotificationWithIcon('error',brhname+'删除失败，再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员');}
                 return null;
             }
         }

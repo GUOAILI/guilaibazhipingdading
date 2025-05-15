@@ -48,7 +48,7 @@ const ExtensionForm = () => {
                 navigate('/nav/extension/list?showLastPage=true')
             }catch(ex){
                 // console.log("error info is:",ex);
-                openNotificationWithIcon("error","上传失败!")
+                openNotificationWithIcon("error","上传失败，再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员")
             }
         }    
         innerMethod(formData);

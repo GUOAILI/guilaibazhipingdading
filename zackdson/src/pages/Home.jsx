@@ -27,7 +27,7 @@ const openNotificationWithIcon = (type, message, description) => notification[ty
 //     }
 
 //   }catch(err){
-//     openNotificationWithIcon("error","后台访问异常，请确认后台已经启动。或者请联系管理员");
+//     openNotificationWithIcon("error","后台访问异常，请确认后台已经启动。或者再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员");
 //     return redirect('/');
 //   }
 // }
@@ -40,34 +40,33 @@ export default function HomePage() {
   const onFinish =(values)=>{
       async function updateDb(a,b) {
           try{
-              await GradeService.saveGrade(a,b);
-              openNotificationWithIcon("success","年级设定成功。")
-              localStorage.removeItem('resetGrade');
-              localStorage.setItem('school',values.school); //string school, int grade
-              localStorage.setItem('grade',values.grade); 
-              setVisible(false);
-              // navigate('/nav/manage')
-              // 调用 MenuService.getAllSubjects 获取所有 subject
-              try {
-                const res = await MenuService.getAllSubjects();
-                if (res && Array.isArray(res.data) && res.data.length > 0) {
-                  navigate('/nav');
-                } else {
-                  navigate('/nav/manage');
-                }
-              } catch (err) {
-                // navigate('/nav/manage');
-                // token 过期已在拦截器中处理，这里只需处理其他错误
-                if (!err.response || err.response.status !== 401) {
-                  openNotificationWithIcon("error","科目查询异常!请联系管理员")}
-                return null;
+            await GradeService.saveGrade(a,b);
+            openNotificationWithIcon("success","年级设定成功。")
+            localStorage.removeItem('resetGrade');
+            localStorage.setItem('school',values.school); //string school, int grade
+            localStorage.setItem('grade',values.grade); 
+            setVisible(false);
+            // navigate('/nav/manage')
+            // 调用 MenuService.getAllSubjects 获取所有 subject
+            try {
+              const res = await MenuService.getAllSubjects();
+              if (res && Array.isArray(res.data) && res.data.length > 0) {
+                navigate('/nav');
+              } else {
+                navigate('/nav/manage');
               }
-
-            }catch(err){
+            } catch (err) {
+              // navigate('/nav/manage');
+              // token 过期已在拦截器中处理，这里只需处理其他错误
+              if (!err.response || err.response.status !== 401) {
+                openNotificationWithIcon("error","科目查询异常!再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员")}
+              return null;
+            }
+          }catch(err){
             // token 过期已在拦截器中处理，这里只需处理其他错误
             if (!err.response || err.response.status !== 401) {
-              openNotificationWithIcon("error","年级设定失败!请联系管理员")}
-              return null;
+              openNotificationWithIcon("error","年级设定失败!再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员")}
+            return null;
           }
       }
       // console.log('values:',values);

@@ -16,26 +16,8 @@ export function getAuthToken() {
   }
 
   const tokenDuration = getTokenDuration();
-
   if (tokenDuration < 0) {
-    localStorage.removeItem('dpj-sb');
-    localStorage.removeItem('long');
-    localStorage.removeItem('school');
-    localStorage.removeItem('grade');
-    localStorage.removeItem("resetGrade");
-    localStorage.removeItem('token');
-    localStorage.removeItem('expiration');
-
-    localStorage.removeItem("subject");
-    localStorage.removeItem("branchDetail");
-    localStorage.removeItem("notebookRecord");
-    localStorage.removeItem("writingRecord");
-    localStorage.removeItem("wrongRecord");
-    localStorage.removeItem("examRecord");
-    localStorage.removeItem("reviewRecord");
-    localStorage.removeItem("extensionRecord");
-    
-    return redirect('/');
+    return null;
   }
 
   return token;

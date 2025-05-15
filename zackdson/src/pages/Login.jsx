@@ -36,7 +36,8 @@ const LoginForm = () => {
           setVisible(false);
           // console.log('the return value: ', res);
         }catch(err){
-            openNotificationWithIcon('error','同学注册失败!请联系管理员')
+          // token 过期已在拦截器中处理，这里只需处理其他错误
+          openNotificationWithIcon('error','同学注册失败!再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员')
         }
       }
     register(values);
@@ -62,23 +63,14 @@ const LoginForm = () => {
       const expiration = new Date();
       expiration.setMinutes(expiration.getMinutes() + 120);
       localStorage.setItem('expiration', expiration);
-      // 2025/5/15 检查是否有保存的重定向路径
-      const redirectPath = localStorage.getItem('redirectPath');
-      if (redirectPath) {
-        // 清除保存的路径
-        localStorage.removeItem('redirectPath');
-        // 导航到之前的页面
-        navigate(redirectPath);
-      } else {
-        // 没有重定向路径，导航到默认页面
-        navigate('/home');
-      }
+      // 没有重定向路径，导航到默认页面
+      navigate('/home');
     }catch(err){
       // console.log(err);
       if(err.response.status===404){
           openNotificationWithIcon('error',values.username+' 同学身份验证失败，用户不存在或者密码错误');
       }else{
-          openNotificationWithIcon('error',values.username+' 同学登录失败',err.response.data.message);
+          openNotificationWithIcon('error',values.username+' 同学登录失败,再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员');
       }
       // console.log('err!',err);
     }

@@ -38,14 +38,15 @@ const ExamForm = () => {
        
         //send http request to store files & images as well as save other info into database
         async function innerMethod(data){
-            try{
-                await FileService.uploadFileAndSaveToExamDb(data);
-                openNotificationWithIcon("success","上传成功!")
-                navigate('/nav/exam/list?showLastPage=true')
-            }catch(ex){
-                // console.log("error info is:",ex);
-                openNotificationWithIcon("error","上传失败!")
-            }
+          try{
+            await FileService.uploadFileAndSaveToExamDb(data);
+            openNotificationWithIcon("success","上传成功!")
+            navigate('/nav/exam/list?showLastPage=true')
+          }catch(ex){
+            // token 过期已在拦截器中处理，这里只需处理其他错误
+            if (!ex.response || ex.response.status !== 401) {
+              openNotificationWithIcon("error","上传失败，再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员")}
+          }
         }    
         innerMethod(formData);
       };

@@ -70,13 +70,15 @@ const ReviewEdit = () => {
       //send http request to store files & images as well as save other info into database
       async function innerMethod(data){
           try{
-              await TableService.updateReviewDb(data);
-              openNotificationWithIcon("success","复习 数据更新成功!")
-              navigate('/nav/review/list',{ 
-                state: { returnPage: location.state?.pageNumber } 
-              });
+            await TableService.updateReviewDb(data);
+            openNotificationWithIcon("success","复习 数据更新成功!")
+            navigate('/nav/review/list',{ 
+              state: { returnPage: location.state?.pageNumber } 
+            });
           }catch(ex){
-              openNotificationWithIcon("error","复习 数据更新失败!")
+            // token 过期已在拦截器中处理，这里只需处理其他错误
+            if (!ex.response || ex.response.status !== 401) {
+              openNotificationWithIcon("error","复习 数据更新失败，再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员")}
           }
       }    
       innerMethod(formData);

@@ -27,9 +27,9 @@ function CommonList() {
       setXiaofang(x => !x);
       openNotificationWithIcon("success", "删除记录成功");
     } catch (ex) {
-    // token 过期已在拦截器中处理，这里只需处理其他错误
-    if (!ex.response || ex.response.status !== 401) {
-      openNotificationWithIcon("error", "删除记录异常,请联系管理员")}
+      // token 过期已在拦截器中处理，这里只需处理其他错误
+      if (!ex.response || ex.response.status !== 401) {
+        openNotificationWithIcon("error", "删除记录异常,再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员")}
     }
   }
   const editRecord = (record) => {
@@ -133,7 +133,7 @@ function CommonList() {
         setIsLoading(false);
         // token 过期已在拦截器中处理，这里只需处理其他错误
         if (!err.response || err.response.status !== 401) {
-          openNotificationWithIcon("error", "获取后台数据出错,请联系管理员")}
+          openNotificationWithIcon("error", "获取后台数据出错,再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员")}
       }
     };
     zpddyz();

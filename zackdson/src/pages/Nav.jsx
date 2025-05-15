@@ -85,7 +85,7 @@ const openNotificationWithIcon = (type, message, description) => notification[ty
 
 //     }catch(ex){
 //         // alert("主科目取得异常,请检查后端是否开启");
-//         // openNotificationWithIcon("error","主科目取得异常,请联系管理员");
+//         // openNotificationWithIcon("error","主科目取得异常,再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员");
 //         openNotificationWithIcon("error","令牌过期，请重新登录");
 //         return redirect('/');
 //     }
@@ -149,7 +149,7 @@ export default function Nav () {
   const items=useLoaderData();
   if(!items){
       // alert("main主科目取得异常,请检查后端是否开启");
-      // openNotificationWithIcon("error","主科目取得异常,请联系管理员",ex);
+      // openNotificationWithIcon("error","主科目取得异常,再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员",ex);
     return null;
   }
   const getLevelKeys = (items1) => {
@@ -201,13 +201,15 @@ export default function Nav () {
           username:username,
           // school:localStorage.getItem('school')==='primary'?'小学'
           //       :localStorage.getItem('school')==='middle'?'初中':'高中',
-                school: schoolMap[localStorage.getItem('school')],
-                grade:localStorage.getItem('grade') }
+          school: schoolMap[localStorage.getItem('school')],
+          grade:localStorage.getItem('grade') }
         return mjddyz;
       });
       setVisible(true);
       }catch(ex){
-      openNotificationWithIcon("error","后台取得用户异常");
+        // token 过期已在拦截器中处理，这里只需处理其他错误
+        if (!ex.response || ex.response.status !== 401) {
+          openNotificationWithIcon("error","后台取得用户异常，再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员")}
       return null;
     }
   }
@@ -223,7 +225,7 @@ export default function Nav () {
       }catch(err){
           // token 过期已在拦截器中处理，这里只需处理其他错误
           if (!err.response || err.response.status !== 401) {
-            openNotificationWithIcon("error","年级变更处理后台异常!请联系管理员")}
+            openNotificationWithIcon("error","年级变更处理后台异常!再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员")}
           return null;
       }
     }
