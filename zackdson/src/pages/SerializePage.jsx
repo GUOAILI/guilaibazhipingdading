@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import { Form, Button, Row, notification } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import PersistService from '../util/persistService';
+import { useDispatch } from 'react-redux';
+import { setBackupTip,setUseTip } from '../store/backupSlice';
 
 const openNotificationWithIcon = (type, message, description) =>
   notification[type]({ message, description });
 
 const SerializePage = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [filePath, setFilePath] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(false); // ✅ 控制按钮状态
@@ -26,8 +29,11 @@ const SerializePage = () => {
           openNotificationWithIcon('success', '数据库数据持久化成功');
 
           // 设置 localStorage
-          localStorage.setItem('lastBackupTip', new Date().toISOString());
-          localStorage.removeItem('lastUseTip');
+          // localStorage.setItem('lastBackupTip', new Date().toISOString());
+          dispatch(setBackupTip(new Date().toISOString()));
+          // localStorage.removeItem('lastUseTip');
+          dispatch(setUseTip(null));
+
         } else {
           throw new Error('接口返回无有效数据');
         }

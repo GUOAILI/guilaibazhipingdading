@@ -5,6 +5,7 @@ import UploadMe from '../component/UploadMe';
 import TableService from '../util/tableService';
 import base64ToFile from '../util/ImageTransformService';
 import moment from 'moment';
+import { useSelector } from 'react-redux';
 const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 
 const { TextArea } = Input;
@@ -15,7 +16,8 @@ const WrongEdit = () => {
   const [pjddyz,setPjddyz]=useState([]);
   const zpddyz=useRef(null);
 
-  const cxddyz=JSON.parse(localStorage.getItem('wrongRecord'));
+  // const cxddyz=JSON.parse(localStorage.getItem('wrongRecord'));
+  const cxddyz= JSON.parse(useSelector((state) => state.record.wrongRecord));
 
   useEffect(()=>{
     setPjddyz(cxddyz.mjddyz.map((zpd)=>{
@@ -88,7 +90,7 @@ const WrongEdit = () => {
 
   return (
     <>
-    <h1>{localStorage.getItem("branchDetail") + ' 修改当前数据'}</h1>
+    <h1>{useSelector(state => state.subject.branchDetail) + ' 修改当前数据'}</h1>
     <Form 
       layout="vertical" 
       // disabled

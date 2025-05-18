@@ -6,15 +6,18 @@ import {
   notification,Popconfirm
 } from 'antd';
 import TableService from "../util/tableService";
-
+import { useSelector, useDispatch } from 'react-redux';
+import { setRecord } from '../store/recordSlice';
 const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 
 function ExtensionList() {
+  const dispatch = useDispatch();
     const navigate = useNavigate();
     const [user, setUser]=useState([]);
     const [xiaofang,setXiaofang]=useState(false);
     const [isLoading, setIsLoading]=useState(false);
-    const subject=localStorage.getItem("branchDetail");
+    // const subject=localStorage.getItem("branchDetail");
+    const subject = useSelector((state) => state.subject.branchDetail);
     // 2025/5/12 handle return navigation
     const [currentPage, setCurrentPage] = useState(1);
     const location = useLocation();
@@ -33,7 +36,8 @@ function ExtensionList() {
       }
     }
     const editRecord = (record)=>{
-      localStorage.setItem("extensionRecord",JSON.stringify(record));
+      // localStorage.setItem("extensionRecord",JSON.stringify(record));
+      dispatch(setRecord({ type: 'extensionRecord', value: JSON.stringify(record) }));
       navigate('/nav/extension/edit', { state: { pageNumber: currentPage }});
     }
 
@@ -47,7 +51,8 @@ function ExtensionList() {
           render: (text, record) => {
             
             return <a onClick={()=>{
-                localStorage.setItem("extensionRecord",JSON.stringify(record));
+                // localStorage.setItem("extensionRecord",JSON.stringify(record));
+                dispatch(setRecord({ type: 'extensionRecord', value: JSON.stringify(record) }));
                 navigate('/nav/extension/detail', { state: { pageNumber: currentPage } });
             }}>
                 {text}
@@ -167,7 +172,8 @@ function ExtensionList() {
 
   return (
     <>
-    <h1>{localStorage.getItem("branchDetail")}</h1>
+    {/* <h1>{localStorage.getItem("branchDetail")}</h1> */}
+    <h1>{subject}</h1>
     <div style={{background:'white'}}>
           {isLoading ?
           <>

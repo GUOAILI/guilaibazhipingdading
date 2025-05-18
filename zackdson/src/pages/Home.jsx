@@ -1,8 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { notification,Modal,Form,Button,Select } from "antd";
 import GradeService from "../util/gradeService";
-import React,{ useState } from 'react';
+import { useState } from 'react';
 import MenuService from '../util/menuService';
+import { useDispatch } from 'react-redux';
+import { setSchool, setGrade, setResetGrade } from '../store/userSlice';
 
 const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 
@@ -36,15 +38,19 @@ const openNotificationWithIcon = (type, message, description) => notification[ty
 export default function HomePage() {
   const navigate = useNavigate();
   const [visible,setVisible]=useState(true);
+  const dispatch = useDispatch();
 
   const onFinish =(values)=>{
       async function updateDb(a,b) {
           try{
             await GradeService.saveGrade(a,b);
             openNotificationWithIcon("success","年级设定成功。")
-            localStorage.removeItem('resetGrade');
-            localStorage.setItem('school',values.school); //string school, int grade
-            localStorage.setItem('grade',values.grade); 
+            // localStorage.removeItem('resetGrade');
+            // localStorage.setItem('school',values.school); //string school, int grade
+            // localStorage.setItem('grade',values.grade); 
+            dispatch(setResetGrade(null));
+            dispatch(setSchool(values.school));
+            dispatch(setGrade(values.grade));
             setVisible(false);
             // navigate('/nav/manage')
             // 调用 MenuService.getAllSubjects 获取所有 subject

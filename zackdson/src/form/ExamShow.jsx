@@ -1,14 +1,15 @@
 import React from 'react';
 import { Form, Input, Radio, Select, Button,Image } from 'antd';
 import {useNavigate, useLocation} from 'react-router-dom';
-
+import { useSelector } from 'react-redux';
 const { TextArea } = Input;
 
 const ExamShow = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const cxddyz=JSON.parse(localStorage.getItem('examRecord'));
+  // const cxddyz=JSON.parse(localStorage.getItem('examRecord'));
+  const cxddyz = JSON.parse(useSelector((state) => state.record.examRecord));
 
   // 2025/5/14 handle return navigation
   const handleReturn = () => {

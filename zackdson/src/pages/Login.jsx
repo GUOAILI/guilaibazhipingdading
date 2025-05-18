@@ -1,16 +1,19 @@
 import React, { useState } from 'react';  
-import { Modal, Form, Input, Button,notification } from 'antd';
+import { Modal, Form, Input, Button, notification } from 'antd';
 import Container from '../util/Container';
 import AuthService from '../util/authService';
-import {useNavigate} from 'react-router-dom';
-  
-const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setUserInfo } from '../store/userSlice'; // 新增
+
+const openNotificationWithIcon = (type, message, description) => notification[type]({ message, description });
 // 登录功能组件  
 const LoginForm = () => { 
-  const [visible,setVisible]=useState(false);
+  const [visible, setVisible] = useState(false);
   const [form] = Form.useForm();
   const navigate = useNavigate();
-  
+  const dispatch = useDispatch(); // 新增
+
   // 处理注册Modal的显示与隐藏  
   const showRegisterModal = () => {  
     setVisible(true);  
@@ -23,175 +26,163 @@ const LoginForm = () => {
   
   // 处理注册表单的提交（这里仅作演示，实际应发送请求到服务器）  
   const handleRegisterFinish = values => {  
-    // console.log('Received values of register form:', values);  
     async function register(val) {
-        try {
-          await AuthService.createuser({
-            username:val.username,
-            password:val.password,
-          });
-          // const rtn = await res.data;
-          form.resetFields();
-          openNotificationWithIcon('success','同学注册成功!')
-          setVisible(false);
-          // console.log('the return value: ', res);
-        }catch(err){
-          // token 过期已在拦截器中处理，这里只需处理其他错误
-          openNotificationWithIcon('error','同学注册失败!再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员')
-        }
+      try {
+        await AuthService.createuser({
+          username: val.username,
+          password: val.password,
+        });
+        form.resetFields();
+        openNotificationWithIcon('success', '同学注册成功!')
+        setVisible(false);
+      } catch (err) {
+        openNotificationWithIcon('error', '同学注册失败!再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员')
       }
+    }
     register(values);
   };  
-//   登录服务请求
+
+  // 登录服务请求
   const onFinish = async (values) => {
     try {
       const res = await AuthService.loginuser({
-        username:values.username,
-        password:values.password,
+        username: values.username,
+        password: values.password,
       });
-      openNotificationWithIcon('success',values.username+' 同学登录成功');
+      openNotificationWithIcon('success', values.username + ' 同学登录成功');
       form.resetFields();
-      // console.log('the return value: ', res);
-    //   the token is saved in the ruturn password 2024/6/29
-      localStorage.setItem('token', res.data.password);
-      // localStorage.setItem('user',res.data.username);  //2024/5/9
-      if(res.data.username){
-        localStorage.setItem('long',"donglai");  //2024/7/4
-      }else{
-        localStorage.setItem('long',"dongqiang");  //2024/7/4
-      }
+      // Redux 统一管理用户信息
       const expiration = new Date();
       expiration.setMinutes(expiration.getMinutes() + 120);
-      localStorage.setItem('expiration', expiration);
-      // 没有重定向路径，导航到默认页面
+      dispatch(setUserInfo({
+        token: res.data.password,
+        username: res.data.username,
+        long: res.data.username ? "donglai" : "dongqiang",
+        expiration: expiration.toISOString(),
+        // 可根据需要补充其它字段
+      }));
       navigate('/home');
-    }catch(err){
-      // console.log(err);
-      if(err.response.status===404){
-          openNotificationWithIcon('error',values.username+' 同学身份验证失败，用户不存在或者密码错误');
-      }else{
-          openNotificationWithIcon('error',values.username+' 同学登录失败,再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员');
+    } catch (err) {
+      if (err.response && err.response.status === 404) {
+        openNotificationWithIcon('error', values.username + ' 同学身份验证失败，用户不存在或者密码错误');
+      } else {
+        openNotificationWithIcon('error', values.username + ' 同学登录失败,再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员');
       }
-      // console.log('err!',err);
     }
   };
 
-
   return (  
     <>
-      <h1 style={{textAlign:'center', fontSize:'4em'}}>学习辅助系统</h1>
-      <h2 style={{textAlign:'center',color:'blue'}}>请登录</h2>
+      <h1 style={{ textAlign: 'center', fontSize: '4em' }}>学习辅助系统</h1>
+      <h2 style={{ textAlign: 'center', color: 'blue' }}>请登录</h2>
       <Container>
         <Form  
-            name="login"  
-            initialValues={{ remember: true }}  
-            onFinish={onFinish}
-            labelCol={{ span: 6 }} // 统一label宽度
-            // 这里可以添加onFinish来处理登录表单的提交  
+          name="login"  
+          initialValues={{ remember: true }}  
+          onFinish={onFinish}
+          labelCol={{ span: 6 }}
         >  
-            <Form.Item  
+          <Form.Item  
             name="username"  
             label="用户名"  
             rules={[{ required: true, message: '请输入用户名!' }]}  
-            >  
+          >  
             <Input />  
-            </Form.Item>  
+          </Form.Item>  
     
-            <Form.Item  
+          <Form.Item  
             name="password"  
             label="密码"  
             rules={[{ required: true, message: '请输入密码!' }]}  
-            >  
+          >  
             <Input.Password />  
-            </Form.Item>  
+          </Form.Item>  
     
-            <Form.Item>  
+          <Form.Item>  
             <Button type="primary" htmlType="submit"
-                style={{marginLeft:'5em'}}
+              style={{ marginLeft: '5em' }}
             >  
-                登录  
+              登录  
             </Button>  
             <Button type="link" onClick={showRegisterModal}>  
-                注册新用户  
+              注册新用户  
             </Button>  
-            </Form.Item>  
+          </Form.Item>  
         </Form>  
       </Container>
   
       {/* 注册Modal */}  
-    <Modal  
-      title="注册新用户"  
-      open={visible} 
-      destroyOnClose
-      onCancel={()=>setVisible(false)}  
-      footer={null}  
-    >  
-      <Form  
-        form={form}  
-        name="register"  
-        onFinish={handleRegisterFinish}  
+      <Modal  
+        title="注册新用户"  
+        open={visible} 
+        destroyOnClose
+        onCancel={() => setVisible(false)}  
+        footer={null}  
       >  
-        {/* 表单项，如姓名、电子邮件、密码等 */}  
+        <Form  
+          form={form}  
+          name="register"  
+          onFinish={handleRegisterFinish}  
+        >  
+          <Form.Item
+            name="username"
+            label="用户名"
+            rules={[
+              {
+                required: true,
+                message: '请输入用户名',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
 
-      <Form.Item
-        name="username"
-        label="用户名"
-        rules={[
-          {
-            required: true,
-            message: '请输入用户名',
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
+          <Form.Item
+            name="password"
+            label="密码"
+            rules={[
+              {
+                required: true,
+                message: '请输入密码',
+              },
+            ]}
+            hasFeedback
+          >
+            <Input.Password />
+          </Form.Item>
 
-      <Form.Item
-        name="password"
-        label="密码"
-        rules={[
-          {
-            required: true,
-            message: '请输入密码',
-          },
-        ]}
-        hasFeedback
-      >
-        <Input.Password />
-      </Form.Item>
-
-      <Form.Item
-        name="confirm"
-        label="密码确认"
-        dependencies={['password']}
-        hasFeedback
-        rules={[
-          {
-            required: true,
-            message: '请确认密码',
-          },
-          ({ getFieldValue }) => ({
-            validator(_, value) {
-              if (!value || getFieldValue('password') === value) {
-                return Promise.resolve();
-              }
-              return Promise.reject(new Error('您输入的密码不一致!'));
-            },
-          }),
-        ]}
-      >
-        <Input.Password />
-      </Form.Item>
-        <Form.Item>  
-          <Button type="primary" danger htmlType="submit" style={{marginLeft:'10em',marginRight:'2em'}}>  
-            注册  
-          </Button>  
-          <Button type="primary" onClick={handleRegisterCancel} >  
-            取消
-          </Button>  
-        </Form.Item>  
-      </Form>  
-    </Modal>   
+          <Form.Item
+            name="confirm"
+            label="密码确认"
+            dependencies={['password']}
+            hasFeedback
+            rules={[
+              {
+                required: true,
+                message: '请确认密码',
+              },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue('password') === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error('您输入的密码不一致!'));
+                },
+              }),
+            ]}
+          >
+            <Input.Password />
+          </Form.Item>
+          <Form.Item>  
+            <Button type="primary" danger htmlType="submit" style={{ marginLeft: '10em', marginRight: '2em' }}>  
+              注册  
+            </Button>  
+            <Button type="primary" onClick={handleRegisterCancel} >  
+              取消
+            </Button>  
+          </Form.Item>  
+        </Form>  
+      </Modal>   
     </> 
   );  
 };  

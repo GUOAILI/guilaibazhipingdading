@@ -6,6 +6,7 @@ import FileService from '../util/fileService';
 import base64ToFile from '../util/ImageTransformService';
 import moment from 'moment';
 import {useNavigate} from 'react-router-dom';
+import { useSelector } from 'react-redux'; // 用于获取redux中的数据
 
 const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 const { TextArea } = Input;
@@ -15,6 +16,7 @@ const WritingForm = () => {
   const zpddyz=useRef(null);
   const cxddyz=useRef(null);
   const navigate = useNavigate();
+  const subject=useSelector((state)=>state.subject.branchDetail);
   // const [uploadedFiles, setUploadedFiles] = useState([]);
   // const [uploadedImages, setUploadedImages] = useState([]);
 
@@ -39,7 +41,8 @@ const WritingForm = () => {
     formData.append('sample', cxddyz.current.richtext);  
     formData.append('comments', values.comments);
     // a invisible variable that contains the key info of this page
-    formData.append('subject', localStorage.getItem("branchDetail"));
+    // formData.append('subject', localStorage.getItem("branchDetail"));
+    formData.append('subject', subject);
    
     //send http request to store files & images as well as save other info into database
     async function innerMethod(data){
@@ -58,7 +61,8 @@ const WritingForm = () => {
 
   return (
     <>
-    <h1>{localStorage.getItem("branchDetail") + ' 录入新数据'}</h1>
+    {/* <h1>{localStorage.getItem("branchDetail") + ' 录入新数据'}</h1> */}
+    <h1>{subject + ' 录入新数据'}</h1>
     <Form form={form} 
       layout="vertical" 
       onFinish={onFinish}

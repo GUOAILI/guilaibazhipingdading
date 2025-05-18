@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Input, Select, Button,Image } from 'antd';
 import {useNavigate, useLocation} from 'react-router-dom';
+import { useSelector } from 'react-redux'; // 用于获取redux中的数据
 
 const { TextArea } = Input;
 
@@ -8,8 +9,8 @@ const ReviewShow = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const cxddyz=JSON.parse(localStorage.getItem('reviewRecord'));
-
+  // const cxddyz=JSON.parse(localStorage.getItem('reviewRecord'));
+  const cxddyz = JSON.parse(useSelector((state) => state.record.reviewRecord));
   // 2025/5/14 handle return navigation
   const handleReturn = () => {
     navigate('/nav/review/list', { 

@@ -5,14 +5,14 @@ import FileService from '../util/fileService';
 import UploadMe from '../component/UploadMe';
 import {useNavigate} from 'react-router-dom';
 import moment from 'moment'; // 日期选择组件需要moment.js来处理日期  
-
+import { useSelector } from 'react-redux'; // 用于获取redux中的数据
 const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 const { TextArea } = Input;
   
 const WrongForm = () => {  
     const navigate = useNavigate();
     const zpddyz=useRef(null);
-
+    const subject=useSelector((state)=>state.subject.branchDetail);
     const onFinish = (values) => {
         const formData=new FormData();
         zpddyz.current.files.forEach((file)=>{
@@ -32,7 +32,8 @@ const WrongForm = () => {
         formData.append('dpjno', values.dpjno);  
         formData.append('correct', values.correct ? values.correct : '');
         // a invisible variable that contains the key info of this page,it's nessessary
-        formData.append('subject', localStorage.getItem("branchDetail"));
+        // formData.append('subject', localStorage.getItem("branchDetail"));
+        formData.append('subject', subject);
        
         //send http request to store files & images as well as save other info into database
         async function innerMethod(data){
@@ -51,7 +52,8 @@ const WrongForm = () => {
       
   return (
     <>
-    <h1>{localStorage.getItem("branchDetail") + ' 录入新数据'}</h1>
+    {/* <h1>{localStorage.getItem("branchDetail") + ' 录入新数据'}</h1> */}
+    <h1>{subject + ' 录入新数据'}</h1>
     <Form  
         name="wrong_form"  
         layout="vertical"

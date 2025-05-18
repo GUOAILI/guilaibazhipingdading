@@ -2,13 +2,17 @@
 import { redirect} from "react-router-dom";
 import MenuService from "../util/menuService";
 import { notification } from "antd";
+// import { useSelector } from "react-redux";
+import store from '../store';
 
 const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 
 export async function action({ request }) {
     const formData=await request.formData();
     const updates = Object.fromEntries(formData);
-    const subject = localStorage.getItem('subject');
+    // const subject = localStorage.getItem('subject');
+    // const subject = useSelector((state) => state.subject.subject); 
+    store.getState().user.subject.subject;
     if (Object.keys(updates).length < 1) {
         openNotificationWithIcon("warning","你没有选择任何子分类!主学科会从左侧菜单移除！")
     }

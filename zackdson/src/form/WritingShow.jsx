@@ -2,6 +2,7 @@ import React,{useRef} from 'react';
 import { Form, Input, Button, Select,Image } from 'antd';
 import {useNavigate, useLocation} from 'react-router-dom';
 import RichText from '../component/RichText';
+import { useSelector } from 'react-redux'; // 用于获取redux中的数据
 
 const { TextArea } = Input;
 
@@ -11,8 +12,8 @@ const WritingShow = () => {
   const zpddyz=useRef(null);
   const location = useLocation();
 
-  const cxddyz=JSON.parse(localStorage.getItem('writingRecord'));
-  
+  // const cxddyz=JSON.parse(localStorage.getItem('writingRecord'));
+  const cxddyz=JSON.parse(useSelector((state) => state.record.writingRecord));
   // 2025/5/12 handle return navigation
   const handleReturn = () => {
     // navigate(-1, { 

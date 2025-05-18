@@ -5,6 +5,7 @@ import UploadMe from '../component/UploadMe';
 import TableService from '../util/tableService';
 import base64ToFile from '../util/ImageTransformService';
 import moment from 'moment';
+import { useSelector } from 'react-redux';
 const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 
 const { TextArea } = Input;
@@ -14,7 +15,9 @@ const ExamEdit = () => {
   const location = useLocation();
   const [pjddyz,setPjddyz]=useState([]);
   const zpddyz=useRef(null);
-  const cxddyz=JSON.parse(localStorage.getItem('examRecord'));
+  // const cxddyz=JSON.parse(localStorage.getItem('examRecord'));
+  const cxddyz= JSON.parse(useSelector((state)=>state.record.examRecord));
+  const subject=useSelector((state)=>state.subject.branchDetail);
 
   
   useEffect(()=>{
@@ -94,7 +97,8 @@ const ExamEdit = () => {
 
   return (
     <>
-    <h1>{localStorage.getItem("branchDetail") + ' 修改当前数据'}</h1>
+    {/* <h1>{localStorage.getItem("branchDetail") + ' 修改当前数据'}</h1> */}
+    <h1>{subject + ' 修改当前数据'}</h1>
     <Form 
       layout="vertical" 
       onFinish={onFinish}

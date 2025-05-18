@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Input, Radio, Button,Image } from 'antd';
 import {useNavigate, useLocation} from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const { TextArea } = Input;
 
@@ -8,7 +9,8 @@ const NotebookShow = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const cxddyz=JSON.parse(localStorage.getItem('notebookRecord'));
+  // const cxddyz=JSON.parse(localStorage.getItem('notebookRecord'));
+  const cxddyz=JSON.parse(useSelector((state) => state.record.notebookRecord));
 
   // 2025/5/14 handle return navigation
   const handleReturn = () => {

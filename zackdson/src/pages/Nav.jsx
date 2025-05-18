@@ -13,7 +13,10 @@ import { LogoutOutlined,UserOutlined,
 import GradeService from '../util/gradeService';
 import UserService from '../util/userService';
 import dayjs from 'dayjs'; // 需要安装 dayjs: npm install dayjs
-
+import { useSelector, useDispatch } from 'react-redux';
+import { setBranchDetail } from '../store/subjectSlice';
+import { setUseTip } from '../store/backupSlice';
+import { setSchool, setGrade, setResetGrade } from '../store/userSlice';
 const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 
 // export async function loader(){
@@ -104,6 +107,14 @@ export default function Nav () {
   const [backupVisible, setBackupVisible] = useState(false);
   const [useVisible, setUseVisible] = useState(false);
 
+  const dispatch = useDispatch();
+  const school = useSelector(state => state.user.school);
+  const grade = useSelector(state => state.user.grade);
+  const long = useSelector(state => state.user.long);
+  const lastBackupTip = useSelector(state => state.backup.lastBackupTip);
+  const lastUseTip = useSelector(state => state.backup.lastUseTip);
+
+
   const schoolMap = {
     kindergarten: '幼儿园',
     primary: '小学',
@@ -129,22 +140,22 @@ export default function Nav () {
 
   useEffect(() => {
     // 优先判断 lastBackupTip，如果没有则用 lastUseTip
-    const lastBackupTip = localStorage.getItem('lastBackupTip');
-    const lastUseTip = localStorage.getItem('lastUseTip');
+    // const lastBackupTip = localStorage.getItem('lastBackupTip');
+    // const lastUseTip = localStorage.getItem('lastUseTip');
     const now = dayjs();
   
     if (!lastBackupTip) {
       // 如果还未设定 lastBackupTip，则用 lastUseTip 判断
       if (!lastUseTip) {
         // 第一次使用，记录 lastUseTip
-        localStorage.setItem('lastUseTip', now.toISOString());
+        dispatch(setUseTip(now.toISOString()));
       } else if (now.diff(dayjs(lastUseTip), 'month') >= 1) {
         setUseVisible(true);
       }
     } else if (now.diff(dayjs(lastBackupTip), 'month') >= 1) {
       setBackupVisible(true);
     }
-  }, []);
+  }, [lastBackupTip, lastUseTip, dispatch]);
 
   const items=useLoaderData();
   if(!items){
@@ -173,8 +184,8 @@ export default function Nav () {
     setBeforeSubject(false);
     // let 江珊=String(key).slice(2);
     // console.log('江珊=',江珊);
-    localStorage.setItem("branchDetail",key);
-      navigate('/nav/empty');
+    dispatch(setBranchDetail(key));
+    navigate('/nav/empty');
   };
 
   const handleUseTipOk = () => {
@@ -218,9 +229,9 @@ export default function Nav () {
     async function delGrade() {
       try{
           await GradeService.deleteGrade();
-          localStorage.setItem('resetGrade','yes');
-          localStorage.removeItem('school'); 
-          localStorage.removeItem('grade');
+          dispatch(setResetGrade('yes'));
+          dispatch(setSchool(null));
+          dispatch(setGrade(null));
           navigate('/home')
       }catch(err){
           // token 过期已在拦截器中处理，这里只需处理其他错误
@@ -317,7 +328,7 @@ export default function Nav () {
                       style={{ marginRight: '10px',backgroundColor:'#2529d8' }}
               />
             </Tooltip>
-            {localStorage.getItem('long') === 'donglai' && (
+            {long === 'donglai' && (
               <Tooltip title="从本地文件导入数据">
                 <Button
                   type="primary"

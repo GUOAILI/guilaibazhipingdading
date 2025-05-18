@@ -6,15 +6,19 @@ import {
   notification, Popconfirm
 } from 'antd';
 import TableService from "../util/tableService";
+import { useSelector, useDispatch } from 'react-redux';
+import { setRecord } from '../store/recordSlice';
 
 const openNotificationWithIcon = (type, message, description) => notification[type]({ message, description });
 
 function CommonList() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [user, setUser] = useState([]);
   const [xiaofang, setXiaofang] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const subject = localStorage.getItem("branchDetail");
+  // const subject = localStorage.getItem("branchDetail");
+  const subject = useSelector((state) => state.subject.branchDetail);
   // 2025/5/12 handle return navigation
   const [currentPage, setCurrentPage] = useState(1);
   const location = useLocation();
@@ -33,7 +37,8 @@ function CommonList() {
     }
   }
   const editRecord = (record) => {
-    localStorage.setItem("commonRecord", JSON.stringify(record));
+    // localStorage.setItem("commonRecord", JSON.stringify(record));
+    dispatch(setRecord({ type: 'commonRecord', value: JSON.stringify(record) }));
     navigate('/nav/common/edit', { state: { pageNumber: currentPage }});
   }
 
@@ -44,7 +49,8 @@ function CommonList() {
       key: 'title',
       render: (text, record) => (
         <a onClick={() => {
-          localStorage.setItem("commonRecord", JSON.stringify(record));
+          // localStorage.setItem("commonRecord", JSON.stringify(record));
+          dispatch(setRecord({ type: 'commonRecord', value: JSON.stringify(record) }));
           navigate('/nav/common/detail', { state: { pageNumber: currentPage } });
         }}>
           {text}
@@ -152,7 +158,8 @@ function CommonList() {
 
   return (
     <>
-      <h1>{localStorage.getItem("branchDetail")}</h1>
+      {/* <h1>{localStorage.getItem("branchDetail")}</h1> */}
+      <h1>{subject}</h1>
       <div style={{ background: 'white' }}>
         {isLoading ?
           <>

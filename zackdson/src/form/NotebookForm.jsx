@@ -5,6 +5,7 @@ import FileService from '../util/fileService';
 import UploadMe from '../component/UploadMe';
 import moment from 'moment';
 import {useNavigate} from 'react-router-dom';
+import { useSelector } from 'react-redux'; // 用于获取redux中的数据
 
 const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 
@@ -13,6 +14,7 @@ const { TextArea } = Input;
 const NotebookForm = () => {
   const navigate = useNavigate();
   const zpddyz=useRef(null);
+  const subject=useSelector((state)=>state.subject.branchDetail);
   const onFinish = (values) => {
     const formData=new FormData();
     zpddyz.current.files.forEach((file)=>{
@@ -33,7 +35,8 @@ const NotebookForm = () => {
     formData.append('remarks', values.remarks ? values.remarks : '');
     formData.append('post', values.post ? values.post : '');
     // a invisible variable that contains the key info of this page
-    formData.append('subject', localStorage.getItem("branchDetail"));
+    // formData.append('subject', localStorage.getItem("branchDetail"));
+    formData.append('subject', subject);
    
     //send http request to store files & images as well as save other info into database
     async function innerMethod(data){
@@ -52,7 +55,8 @@ const NotebookForm = () => {
 
   return (
     <>
-    <h1>{localStorage.getItem("branchDetail") + ' 录入新数据'}</h1>
+    {/* <h1>{localStorage.getItem("branchDetail") + ' 录入新数据'}</h1> */}
+    <h1>{subject + ' 录入新数据'}</h1>
     <Form
       name="notebook_form"
       layout="vertical"

@@ -2,13 +2,14 @@ import React, { useRef } from 'react';
 import { Form, Input, Button, Image } from 'antd';
 import { useNavigate, useLocation } from 'react-router-dom';
 import RichText from '../component/RichText';
+import { useSelector } from 'react-redux';
 const CommonShow = () => {
   const navigate = useNavigate();
   const zpddyz = useRef(null);
   const location = useLocation();
 
-  const cxddyz = JSON.parse(localStorage.getItem('commonRecord'));
-
+  // const cxddyz = JSON.parse(localStorage.getItem('commonRecord'));
+  const cxddyz = JSON.parse(useSelector((state) => state.record.commonRecord));
   // 2025/5/14 handle return navigation
   const handleReturn = () => {
     navigate('/nav/common/list', { 

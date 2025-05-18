@@ -6,6 +6,7 @@ import FileService from '../util/fileService';
 import base64ToFile from '../util/ImageTransformService';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const openNotificationWithIcon = (type, message, description) => notification[type]({ message, description });
 
@@ -14,6 +15,7 @@ const CommonForm = () => {
   const zpddyz = useRef(null);
   const cxddyz = useRef(null);
   const navigate = useNavigate();
+  const subject = useSelector((state) => state.subject.branchDetail);
 
   const onFinish = (values) => {
     const formData = new FormData();
@@ -29,7 +31,8 @@ const CommonForm = () => {
     formData.append('imp', values.imp);  
     formData.append('title', values.title);
     formData.append('sample', cxddyz.current.richtext);
-    formData.append('subject', localStorage.getItem("branchDetail"));
+    // formData.append('subject', localStorage.getItem("branchDetail"));
+    formData.append('subject', subject);
 
     async function innerMethod(data) {
       try {
@@ -47,7 +50,8 @@ const CommonForm = () => {
 
   return (
     <>
-    <h1>{localStorage.getItem("branchDetail") + ' 录入新数据'}</h1>
+    {/* <h1>{localStorage.getItem("branchDetail") + ' 录入新数据'}</h1> */}
+    <h1>{subject + ' 录入新数据'}</h1>
     <Form form={form}
       layout="vertical"
       onFinish={onFinish}

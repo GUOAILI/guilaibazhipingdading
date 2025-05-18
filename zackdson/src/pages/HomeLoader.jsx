@@ -1,6 +1,9 @@
+import React from 'react';
 import { redirect } from 'react-router-dom';
 import { notification } from "antd";
 import GradeService from "../util/gradeService";
+import { setSchool, setGrade } from '../store/userSlice';
+import store from '../store';
 
 const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 
@@ -8,15 +11,21 @@ export async function loader() {
   try{
     const resData = await GradeService.getGrade();
     const zpddyz = await resData.data;
+    // const dispatch = useDispatch();
+
+
     if (zpddyz)  {
-      localStorage.setItem('school', zpddyz.school); //string school, int grade
-      localStorage.setItem('grade', zpddyz.grade); //string school, int grade
+      // localStorage.setItem('school', zpddyz.school); //string school, int grade
+      store.dispatch(setSchool(zpddyz.school));
+      // localStorage.setItem('grade', zpddyz.grade); //string school, int grade
+      store.dispatch(setGrade(zpddyz.grade));
       // 2024/6/25 first look at the initdson to verify the subject existing status
 
       return redirect('/nav');
       // return redirect('/nav');
     } else {
-      if(localStorage.getItem('resetGrade')){
+      // if(localStorage.getItem('resetGrade')){
+      if(store.getState().user.resetGrade){
         openNotificationWithIcon("info", "正在重新设定年级情报");
       } else {
         openNotificationWithIcon("warning", "发现您是新用户，初次使用需要设定年级情报");

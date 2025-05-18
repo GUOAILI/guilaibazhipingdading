@@ -2,7 +2,14 @@ import axios from 'axios';
 import { notification } from 'antd';
 import { BASE_URL } from './config';
 import authHeader from './authHeader';
+// import { useDispatch } from "react-redux";
+import { clearUserInfo } from "../store/userSlice";
+import { clearSubject } from "../store/subjectSlice";
+import { clearRecords } from "../store/recordSlice";
+import { clearBackup } from "../store/backupSlice"; // 如果有
+import store from '../store';
 
+// const dispatch = useDispatch();
 // 创建 axios 实例
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
@@ -48,22 +55,26 @@ axiosInstance.interceptors.response.use(
         
         if (isUnauthorized) {
           // 清除本地存储的 token
-          localStorage.removeItem("dpj-sb");
-          localStorage.removeItem("school");
-          localStorage.removeItem("grade");
-          localStorage.removeItem("resetGrade");
-          localStorage.removeItem("subject");
-          localStorage.removeItem("branchDetail");
-          localStorage.removeItem("notebookRecord");
-          localStorage.removeItem("writingRecord");
-          localStorage.removeItem("commonRecord");
-          localStorage.removeItem("wrongRecord");
-          localStorage.removeItem("examRecord");
-          localStorage.removeItem("reviewRecord");
-          localStorage.removeItem("extensionRecord");
-          localStorage.removeItem("long");
-          localStorage.removeItem("token");
-          localStorage.removeItem("expiration");
+          // localStorage.removeItem("dpj-sb");
+          // localStorage.removeItem("school");
+          // localStorage.removeItem("grade");
+          // localStorage.removeItem("resetGrade");
+          // localStorage.removeItem("subject");
+          // localStorage.removeItem("branchDetail");
+          // localStorage.removeItem("notebookRecord");
+          // localStorage.removeItem("writingRecord");
+          // localStorage.removeItem("commonRecord");
+          // localStorage.removeItem("wrongRecord");
+          // localStorage.removeItem("examRecord");
+          // localStorage.removeItem("reviewRecord");
+          // localStorage.removeItem("extensionRecord");
+          // localStorage.removeItem("long");
+          // localStorage.removeItem("token");
+          // localStorage.removeItem("expiration");
+          store.dispatch(clearUserInfo());
+          store.dispatch(clearSubject());
+          store.dispatch(clearRecords());
+          store.dispatch(clearBackup()); // 如果有
       
           // 显示通知
           notification.warning({

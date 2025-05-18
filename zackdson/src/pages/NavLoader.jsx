@@ -4,6 +4,9 @@ import MenuService from '../util/menuService';
 import { notification } from "antd";
 import { tokenLoader } from '../util/authentication';
 import { AppstoreOutlined } from '@ant-design/icons';
+import store from '../store';
+import { setDpjSb } from '../store/subjectSlice';
+
 const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 
 export async function loader(){
@@ -39,7 +42,8 @@ export async function loader(){
           openNotificationWithIcon('warning',"您还设定没有科目，请首先点击左上方的【学科管理】按钮");
         }else{
           // 2024/7/3 add for subject and branch table curd request
-          localStorage.setItem('dpj-sb',JSON.stringify(guoaili.map((ini)=>ini.chname)));
+        //   localStorage.setItem('dpj-sb',JSON.stringify(guoaili.map((ini)=>ini.chname)));
+            store.dispatch(setDpjSb(JSON.stringify(guoaili.map((ini)=>ini.chname))));
         }
 
         let items=[];

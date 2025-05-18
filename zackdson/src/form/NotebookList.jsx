@@ -6,15 +6,18 @@ import {
   notification,Popconfirm
 } from 'antd';
 import TableService from "../util/tableService";
-
+import { useSelector, useDispatch } from 'react-redux';
+import { setRecord } from '../store/recordSlice';
 const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 
 function NotebookList() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [user, setUser]=useState([]);
     const [xiaofang,setXiaofang]=useState(false);
     const [isLoading, setIsLoading]=useState(false);
-    const subject=localStorage.getItem("branchDetail");
+    // const subject=localStorage.getItem("branchDetail");
+    const subject = useSelector((state) => state.subject.branchDetail);
     // 2025/5/12 handle return navigation
     const [currentPage, setCurrentPage] = useState(1);
     const location = useLocation();
@@ -33,7 +36,8 @@ function NotebookList() {
       }
     }
     const editRecord = (record)=>{
-      localStorage.setItem("notebookRecord",JSON.stringify(record));
+      // localStorage.setItem("notebookRecord",JSON.stringify(record));
+      dispatch(setRecord({ type: 'notebookRecord', value: JSON.stringify(record) }));
       navigate('/nav/notebook/edit', { state: { pageNumber: currentPage }});
     }
 
@@ -47,7 +51,9 @@ function NotebookList() {
           render: (text, record) => {
             
             return <a onClick={()=>{
-                localStorage.setItem("notebookRecord",JSON.stringify(record));
+                // localStorage.setItem("notebookRecord",JSON.stringify(record));
+                dispatch(setRecord({ type: 'notebookRecord', value: JSON.stringify(record) }));
+                // navigate('/nav/notebook/detail', { state: { pageNumber: currentPage } });
                 navigate('/nav/notebook/detail', { state: { pageNumber: currentPage } });
             }}>
                 第{text}章
@@ -160,7 +166,8 @@ function NotebookList() {
 
   return (
     <>
-    <h1>{localStorage.getItem("branchDetail")}</h1>
+    {/* <h1>{localStorage.getItem("branchDetail")}</h1> */}
+    <h1>{subject}</h1>
     <div style={{background:'white'}}>
           {isLoading ?
           <>

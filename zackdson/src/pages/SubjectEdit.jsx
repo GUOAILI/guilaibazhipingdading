@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Form, Button, Row, Col, Input,Radio,notification } from 'antd'; 
 import MenuService from '../util/menuService';
 import {useNavigate} from 'react-router-dom';
+import { useSelector,useDispatch } from 'react-redux';
+import { setBranchDetail } from '../store/subjectSlice';
 
 const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
   
 const SubjectEdit = () => {  
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [form_sad] = Form.useForm(); //subject add
     const [form_cad] = Form.useForm(); //category add
@@ -15,12 +18,14 @@ const SubjectEdit = () => {
     //   here are just two counter for caculating the subjects and subcategory only 
     // const [filledSlots, setFilledSlots] = useState({ subjects: 0, 
     //     subCategories: 0 });  
-    localStorage.setItem('branchDetail','东珠苹静')
+    // localStorage.setItem('branchDetail','东珠苹静')
+    dispatch(setBranchDetail('东珠苹静'));
     const sub_name = Form.useWatch('subject_ad', form_sad);
     const sad = Form.useWatch('sad', form_sad);
     const branch_name = Form.useWatch('branch_ad', form_cad);
     const cad = Form.useWatch('cad', form_cad);
-    const dpj=JSON.parse( localStorage.getItem('dpj-sb'));
+    // const dpj=JSON.parse( localStorage.getItem('dpj-sb'));
+    const dpj=useSelector((state)=>state.subject.dpjSb);
     const onFinish=()=>{
         // console.log('subname:',sub_name);
         async function addSub(subname){

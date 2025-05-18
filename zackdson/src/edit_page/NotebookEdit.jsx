@@ -5,6 +5,7 @@ import UploadMe from '../component/UploadMe';
 import TableService from '../util/tableService';
 import base64ToFile from '../util/ImageTransformService';
 import moment from 'moment';
+import { useSelector } from 'react-redux';
 const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 
 const { TextArea } = Input;
@@ -15,7 +16,10 @@ const NotebookEdit = () => {
   const [pjddyz,setPjddyz]=useState([]);
   const zpddyz=useRef(null);
 
-  const cxddyz=JSON.parse(localStorage.getItem('notebookRecord'));
+  // const cxddyz=JSON.parse(localStorage.getItem('notebookRecord'));
+  const cxddyz= JSON.parse(useSelector((state) => state.record.notebookRecord));
+  const subject=useSelector((state)=>state.subject.branchDetail);
+
   useEffect(()=>{
     setPjddyz(cxddyz.mjddyz.map((zpd)=>{
         return {
@@ -90,7 +94,8 @@ const NotebookEdit = () => {
 
   return (
     <>
-    <h1>{localStorage.getItem("branchDetail") + ' 修改当前数据'}</h1>
+    {/* <h1>{localStorage.getItem("branchDetail") + ' 修改当前数据'}</h1> */}
+    <h1>{subject + ' 修改当前数据'}</h1>
     <Form 
       layout="vertical" 
       // disabled

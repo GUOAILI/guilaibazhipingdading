@@ -2,12 +2,21 @@ import { useNavigate } from "react-router-dom";
 import React,{ useEffect } from "react";
 import { tokenLoader } from '../util/authentication';
 import { notification } from "antd";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { clearUserInfo } from "../store/userSlice";
+import { clearSubject } from "../store/subjectSlice";
+import { clearRecords } from "../store/recordSlice";
+import { clearBackup } from "../store/backupSlice"; // 如果有
+
 
 const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 
 const EmptyLayout = () =>{
+    const dispatch = useDispatch();
     const navigate=useNavigate();
-    let jiangshan1=localStorage.getItem("branchDetail");
+    // let jiangshan1=localStorage.getItem("branchDetail");
+    let jiangshan1=useSelector((state)=>state.subject.branchDetail);
     let jiangshan = '';
     if (jiangshan1) {
       jiangshan = jiangshan1.slice(jiangshan1.indexOf(' ') + 1);
@@ -18,22 +27,27 @@ const EmptyLayout = () =>{
       const tokenValid = tokenLoader();
       if (!tokenValid) {
         openNotificationWithIcon("warning","登录已过期，请重新登录");
-        localStorage.removeItem("dpj-sb");
-        localStorage.removeItem("school");
-        localStorage.removeItem("grade");
-        localStorage.removeItem("resetGrade");
-        localStorage.removeItem("subject");
-        localStorage.removeItem("branchDetail");
-        localStorage.removeItem("notebookRecord");
-        localStorage.removeItem("writingRecord");
-        localStorage.removeItem("commonRecord");
-        localStorage.removeItem("wrongRecord");
-        localStorage.removeItem("examRecord");
-        localStorage.removeItem("reviewRecord");
-        localStorage.removeItem("extensionRecord");
-        localStorage.removeItem("long");
-        localStorage.removeItem("token");
-        localStorage.removeItem("expiration");
+        // localStorage.removeItem("dpj-sb");
+        // localStorage.removeItem("school");
+        // localStorage.removeItem("grade");
+        // localStorage.removeItem("resetGrade");
+        // localStorage.removeItem("subject");
+        // localStorage.removeItem("branchDetail");
+        // localStorage.removeItem("notebookRecord");
+        // localStorage.removeItem("writingRecord");
+        // localStorage.removeItem("commonRecord");
+        // localStorage.removeItem("wrongRecord");
+        // localStorage.removeItem("examRecord");
+        // localStorage.removeItem("reviewRecord");
+        // localStorage.removeItem("extensionRecord");
+        // localStorage.removeItem("long");
+        // localStorage.removeItem("token");
+        // localStorage.removeItem("expiration");
+        dispatch(clearUserInfo());
+        dispatch(clearSubject());
+        dispatch(clearRecords());
+        dispatch(clearBackup()); // 如果有
+
         navigate('/');
         return;
       }

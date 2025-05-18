@@ -2,6 +2,8 @@ import React, { useState,useEffect } from "react";
 import { Form } from "react-router-dom";
 import MenuService from "../util/menuService";
 import { Button, notification } from "antd";
+import { useDispatch } from "react-redux";
+import { setSubject } from '../store/subjectSlice';
 const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 
 // export async function action({ request }) {
@@ -57,7 +59,8 @@ function isArrzpdChanged(arrzpd, branches, xiaoguo) {
 }
 
 export default function SubjectManagement() {
-    const [subjects,setSubject]=useState([]);
+    const dispatch = useDispatch();
+    const [subjects,setSubjects]=useState([]);
     // const {subjects} = useLoaderData();
     const [branches,setBranches]=useState([]);
     const [xiaoguo,setXiaoguo]=useState([]);
@@ -72,7 +75,7 @@ export default function SubjectManagement() {
             try{
                 const restData = await MenuService.getAllSubjects();
                 const zpddyz = await restData.data;
-                setSubject(zpddyz);
+                setSubjects(zpddyz);
                 // console.log(subjects);
                 // return {subjects};
             }catch(ex){
@@ -167,7 +170,8 @@ export default function SubjectManagement() {
             }
         }
         httpRequestForBranchs(value);
-        localStorage.setItem('subject',value);
+        // localStorage.setItem('subject',value);
+        dispatch(setSubject(value));
         setZpddyz(true);
 }
     // const handleRadioSelect = (value) => {
