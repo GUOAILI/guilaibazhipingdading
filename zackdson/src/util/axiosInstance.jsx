@@ -2,17 +2,21 @@ import axios from 'axios';
 import { notification } from 'antd';
 import { BASE_URL } from './config';
 import authHeader from './authHeader';
+import { encrypt } from './crypto';
+import { decrypt } from './crypto';
 
 // 创建 axios 实例
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
   timeout: 10000,
-  // headers: {
-  //   'Content-Type': 'application/json',
-  // }
+  headers: {
+    'X-Content-Type-Options': 'nosniff',
+    'X-XSS-Protection': '1; mode=block'
+  }
 });
 
 // 请求拦截器 - 自动添加认证头
+// 2025/5/16修改请求拦截器，加密请求数据
 axiosInstance.interceptors.request.use(
   config => {
     // 如果请求配置中没有指定不添加认证头
@@ -24,6 +28,24 @@ axiosInstance.interceptors.request.use(
         ...headers
       };
     }
+
+    // 加密请求数据
+    if (config.data && config.encryptRequest !== false) {
+      // config.data = {
+      //   encryptedData: encrypt(config.data, secretKey)
+      // };
+        try {
+          const secretKey = import.meta.env.VITE_ENCRYPTION_KEY; // 从环境变量获取密钥
+          const result = encrypt(config.data,secretKey);
+          config.data = { 
+            iv: result.iv,
+            encryptedData: result.content 
+          };
+        } catch (error) {
+          console.error('Encryption error:', error);
+        }
+    }
+
     return config;
   },
   error => {
@@ -32,8 +54,14 @@ axiosInstance.interceptors.request.use(
 );
 
 // 响应拦截器 - 处理 token 过期等错误
+// 2025/5/16修改响应拦截器，解密响应数据
 axiosInstance.interceptors.response.use(
   response => {
+   // 解密响应数据
+    if (response.data && response.data.encryptedData && response.config.decryptResponse !== false) {
+      const secretKey = import.meta.env.VITE_ENCRYPTION_KEY;
+      response.data = decrypt(response.data.encryptedData, secretKey);
+    }
     return response;
   },
   error => {

@@ -12,13 +12,13 @@ spring:
     password: ailI59/zpddyz
     driver-class-name: com.mysql.cj.jdbc.Driver
     # this configuration is for it test only
-    # url: jdbc:mysql://localhost:3306/minhui?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=utf8&&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/minhui?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=utf8&&serverTimezone=UTC
     
     # 2025/5/8 this is for  access local mysql (for docker but access local mysql)
     # url: jdbc:mysql://host.docker.internal:3306/minhui?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=utf8&&serverTimezone=UTC
     
     # 2025/5/9 test mysql container
-    url: jdbc:mysql://mysql-minhui:3306/minhui?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=utf8&&serverTimezone=UTC
+    # url: jdbc:mysql://mysql-minhui:3306/minhui?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=utf8&&serverTimezone=UTC
 
     # 2022/6/28 for dockerizing the springboot app, i need change the mysql setting
     # note that mysql is also treated as docker container
@@ -31,7 +31,7 @@ spring:
   jpa:
     # database: MYSQL
     # database-platform: org.hibernate.dialect.MySQL5Dialect
-    show-sql: true
+    # show-sql: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
@@ -53,3 +53,7 @@ management:
     web:
       exposure:
         include: '*'
+#for crypt
+app:
+  encryption:
+    key: wocengjingfuckguozhiping
