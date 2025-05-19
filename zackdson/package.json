@@ -14,6 +14,7 @@
     "@reduxjs/toolkit": "^2.8.2",
     "antd": "^5.16.1",
     "axios": "^1.7.3",
+    "crypto-js": "^4.2.0",
     "day": "^0.0.2",
     "dayjs": "^1.11.13",
     "minhui": "file:",

@@ -37,6 +37,11 @@ public class WebSecurityConfig {
     @Autowired
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
+    @Autowired
+    private RequestDecryptionFilter requestDecryptionFilter;
+
+    @Autowired
+    private ResponseEncryptionFilter responseEncryptionFilter;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -52,10 +57,12 @@ public class WebSecurityConfig {
                 // 添加这一行，配置认证入口点
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-        return http.build();
-    }
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(requestDecryptionFilter, JwtAuthenticationFilter.class)
+                .addFilterAfter(responseEncryptionFilter, RequestDecryptionFilter.class);
 
+                return http.build();
+    }
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
