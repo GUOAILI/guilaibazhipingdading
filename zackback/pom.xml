@@ -71,17 +71,28 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-	<!-- 2025/4/29 add for serialization -->
-	<dependency>
+		<!-- 2025/4/29 add for serialization -->
+		<dependency>
 			<groupId>org.reflections</groupId>
 			<artifactId>reflections</artifactId>
 			<version>0.10.2</version>
 		</dependency>	
-	<dependency>
-		<groupId>jakarta.persistence</groupId>
-		<artifactId>jakarta.persistence-api</artifactId>
-		<version>3.1.0</version>
-	</dependency>
+		<dependency>
+			<groupId>jakarta.persistence</groupId>
+			<artifactId>jakarta.persistence-api</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+		<!-- 2025/5/19 add for properties file password crypt -->
+		<!-- <dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt</artifactId>
+			<version>1.9.3</version>
+		</dependency> -->
+		<dependency>
+			<groupId>com.github.ulisesbocchio</groupId>
+			<artifactId>jasypt-spring-boot-starter</artifactId>
+			<version>2.1.1</version>
+		</dependency>		
 	</dependencies>
 
 	<build>

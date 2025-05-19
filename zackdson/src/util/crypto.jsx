@@ -6,7 +6,9 @@ export const encrypt = (data, secretKey) => {
   
   // 使用固定的密钥和 IV (仅用于测试)
   const key = CryptoJS.enc.Utf8.parse(secretKey); // 24字符密钥
-  const iv = CryptoJS.enc.Utf8.parse("1234567890123456"); // 16字节 IV
+  // const iv = CryptoJS.enc.Utf8.parse("1234567890123456"); // 16字节 IV
+  // 随机生成16字节 IV
+  const iv = CryptoJS.lib.WordArray.random(16);
   
   // 使用明确的参数
   const encrypted = CryptoJS.AES.encrypt(jsonStr, key, {

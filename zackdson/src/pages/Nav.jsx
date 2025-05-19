@@ -212,8 +212,9 @@ export default function Nav () {
           username:username,
           // school:localStorage.getItem('school')==='primary'?'小学'
           //       :localStorage.getItem('school')==='middle'?'初中':'高中',
-          school: schoolMap[localStorage.getItem('school')],
-          grade:localStorage.getItem('grade') }
+          school: school,
+          grade:grade 
+        }
         return mjddyz;
       });
       setVisible(true);

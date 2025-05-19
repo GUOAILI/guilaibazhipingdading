@@ -1,18 +1,15 @@
 import axios from 'axios';
 import { notification } from 'antd';
-import { BASE_URL } from './config';
+import { BASE_URL,BASE_ZPD } from './config';
 import authHeader from './authHeader';
-<<<<<<< HEAD
 // import { useDispatch } from "react-redux";
 import { clearUserInfo } from "../store/userSlice";
 import { clearSubject } from "../store/subjectSlice";
 import { clearRecords } from "../store/recordSlice";
 import { clearBackup } from "../store/backupSlice"; // 如果有
 import store from '../store';
-=======
 import { encrypt } from './crypto';
 import { decrypt } from './crypto';
->>>>>>> baruzhiping
 
 // const dispatch = useDispatch();
 // 创建 axios 实例
@@ -45,8 +42,9 @@ axiosInstance.interceptors.request.use(
       //   encryptedData: encrypt(config.data, secretKey)
       // };
         try {
-          const secretKey = import.meta.env.VITE_ENCRYPTION_KEY; // 从环境变量获取密钥
+          const secretKey = import.meta.env.VITE_ENCRYPTION_KEY+BASE_ZPD+'zhiping'; // 从环境变量获取密钥
           const result = encrypt(config.data,secretKey);
+
           config.data = { 
             iv: result.iv,
             encryptedData: result.content 
@@ -69,7 +67,7 @@ axiosInstance.interceptors.response.use(
   response => {
    // 解密响应数据
     if (response.data && response.data.encryptedData && response.config.decryptResponse !== false) {
-      const secretKey = import.meta.env.VITE_ENCRYPTION_KEY;
+      const secretKey = import.meta.env.VITE_ENCRYPTION_KEY+BASE_ZPD+'zhiping'; // 从环境变量获取密钥
       response.data = decrypt(response.data.encryptedData, secretKey);
     }
     return response;

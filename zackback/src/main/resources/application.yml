@@ -56,4 +56,12 @@ management:
 #for crypt
 app:
   encryption:
-    key: wocengjingfuckguozhiping
+    key: ENC(TAn8kpPHI9k3byavEOkrEpuHS6IYpzW44NcvuyT4mL1ewUEkCUPBaw==)
+jasypt:
+  encryptor:
+    algorithm: PBEWithMD5AndDES
+    # ProviderName: SunJCE
+    # SaltGeneratorClassName: org.jasypt.salt.RandomSaltGenerator
+    # # IvGeneratorClassName: org.jasypt.salt.NoOpIVGenerator
+    # StringOutputType: base64
+    password: zhipingdadingZhaojingfeidingZhuzhufeitunChuxuanfengtun

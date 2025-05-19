@@ -32,6 +32,8 @@ public class CryptoUtil {
             
             // 准备密钥
             byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
+// byte[] secretKeyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
+// System.arraycopy(secretKeyBytes, 0, keyBytes, 0, Math.min(secretKeyBytes.length, keyBytes.length));
             SecretKeySpec keySpec = new SecretKeySpec(keyBytes, "AES");
             IvParameterSpec ivSpec = new IvParameterSpec(ivBytes);
             
