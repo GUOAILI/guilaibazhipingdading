@@ -10,6 +10,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 
+import com.guoaili.zackback.exception.BusinessException;
 import com.guoaili.zackback.service.serviceImpl.FileStorageServiceImpl;
 
 @Aspect
@@ -17,7 +18,7 @@ import com.guoaili.zackback.service.serviceImpl.FileStorageServiceImpl;
 public class MyAspect {
 
     @Before("execution(* com.guoaili.zackback.service.serviceImpl.FileStorageServiceImpl.*(..))")
-    public void beforeMethodExecution() {
+    public void beforeMethodExecution() throws BusinessException {
         // Modify the value of the 'root' variable
         // 2024/06/18 ad comment
         // 此处的日期需要分情况设定，此时切面不能针对类，需要针对方法
@@ -28,7 +29,8 @@ public class MyAspect {
         try{
             Files.createDirectories(FileStorageServiceImpl.root);
         }catch(IOException e){
-            throw new RuntimeException("做成当日文件夹失败!");
+            // throw new RuntimeException("做成当日文件夹失败!");
+            throw new BusinessException("做成当日文件夹失败!");
         }
     }
 }

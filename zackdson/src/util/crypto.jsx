@@ -35,11 +35,11 @@ export const decrypt = (encryptedStr, secretKey) => {
     // 处理密钥
     const key = formatKey(secretKey);
     // 分离IV和密文
-    const [iv, encryptedData] = encryptedStr.split(':');
+    const [iv, minhuizpd] = encryptedStr.split(':');
     
     // // 创建CipherParams对象
     // const cipherParams = CryptoJS.lib.CipherParams.create({
-    //   ciphertext: CryptoJS.enc.Base64.parse(encryptedData),
+    //   ciphertext: CryptoJS.enc.Base64.parse(minhuizpd),
     //   iv: CryptoJS.enc.Base64.parse(iv),
     //   salt: undefined
     // });
@@ -56,7 +56,7 @@ export const decrypt = (encryptedStr, secretKey) => {
 
     // 解密
     const decrypted = CryptoJS.AES.decrypt(
-      { ciphertext: CryptoJS.enc.Base64.parse(encryptedData) },
+      { ciphertext: CryptoJS.enc.Base64.parse(minhuizpd) },
       key,
       {
         iv: CryptoJS.enc.Base64.parse(iv),

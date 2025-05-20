@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.guoaili.zackback.exception.BusinessException;
+
 import jakarta.persistence.Entity;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -48,7 +51,7 @@ public class PersistController {
         }
     }
     @GetMapping("/serializeAll")
-    public ResponseEntity<String> serializeAllEntities() throws IOException {
+    public ResponseEntity<String> serializeAllEntities() throws IOException, BusinessException {
         // 1. 扫描entity包下所有实体类
         Reflections reflections = new Reflections("com.guoaili.zackback.entity");
         Set<Class<?>> entityClasses = reflections.getTypesAnnotatedWith(Entity.class)
@@ -81,7 +84,8 @@ public class PersistController {
                 // 打印表名和记录数
                 System.out.println("Table: " + entityClass.getSimpleName() + ", Records: " + data.size());
             } catch (Exception e) {
-                e.printStackTrace();
+                // e.printStackTrace();
+                throw new BusinessException("序列化失败，调用反射方法出错");
             }
         }
         // 备份users_roles交叉表
@@ -109,7 +113,8 @@ public class PersistController {
                 try {
                     Files.deleteIfExists(serFiles.get(i));
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    // e.printStackTrace();
+                    throw new BusinessException("删除旧的序列化文件失败");
                 }
             }
         }
@@ -121,7 +126,7 @@ public class PersistController {
         String zipFilePath = "persist/" + zipFileName;
         String absPath1 = Paths.get(zipFilePath).toAbsolutePath().toString();
         try (FileOutputStream fos = new FileOutputStream(zipFilePath);
-             java.util.zip.ZipOutputStream zos = new java.util.zip.ZipOutputStream(fos)) {
+            java.util.zip.ZipOutputStream zos = new java.util.zip.ZipOutputStream(fos)) {
             java.nio.file.Path uploadsPath = Paths.get(uploadsDir);
             if (Files.exists(uploadsPath)) {
                 Files.walk(uploadsPath).filter(Files::isRegularFile).forEach(path -> {
@@ -131,7 +136,8 @@ public class PersistController {
                         Files.copy(path, zos);
                         zos.closeEntry();
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        // e.printStackTrace();
+                        throw new BusinessException("压缩上传文件失败");
                     }
                 });
             }
@@ -152,7 +158,8 @@ public class PersistController {
                 try {
                     Files.deleteIfExists(zipFiles.get(i));
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    // e.printStackTrace();
+                    throw new BusinessException("删除旧的压缩文件失败");
                 }
             }
         }
@@ -162,14 +169,16 @@ public class PersistController {
     
     @GetMapping("/deserializeAll/{filename}")
     @Transactional
-    public ResponseEntity<String> deserializeAllEntities(@PathVariable String filename) throws IOException {
+    public ResponseEntity<String> deserializeAllEntities(@PathVariable String filename) throws IOException, BusinessException {
         String filePath = "persist/" + filename;
-        if (!Files.exists(Paths.get(filePath))) throw new RuntimeException("文件不存在");
+        // if (!Files.exists(Paths.get(filePath))) throw new RuntimeException("文件不存在");
+        if (!Files.exists(Paths.get(filePath))) throw new BusinessException("文件不存在");
         Map<String, List<?>> allData;
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath))) {
             allData = (Map<String, List<?>>) in.readObject();
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException("反序列化失败", e);
+            // throw new RuntimeException("反序列化失败", e);
+            throw new BusinessException("反序列化失败，未找到对象类");
         }
         ApplicationContext ctx = SpringContextUtil.getContext();
         for (Map.Entry<String, List<?>> entry : allData.entrySet()) {
@@ -211,19 +220,18 @@ public class PersistController {
                     repo.getClass().getMethod("save", Object.class).invoke(repo, entity);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                // e.printStackTrace();
+                throw new BusinessException("反序列化失败，调用反射方法出错");
             }
         }
-
-
 
         return ResponseEntity.ok("所有表数据已恢复");
     }
 
     @GetMapping("/unzipAll/{filename}")
-    public ResponseEntity<String> unzipAllPictures(@PathVariable String filename) throws IOException {
+    public ResponseEntity<String> unzipAllPictures(@PathVariable String filename) throws IOException, BusinessException {
         String filePath = "persist/" + filename;
-        if (!Files.exists(Paths.get(filePath))) throw new RuntimeException("文件不存在");
+        if (!Files.exists(Paths.get(filePath))) throw new BusinessException("文件不存在");
         
         // Create uploads directory if it doesn't exist
         Files.createDirectories(Paths.get("uploads"));
@@ -248,8 +256,9 @@ public class PersistController {
             
             return ResponseEntity.ok("所有备份压缩图片已恢复，共解压 " + filesExtracted + " 个文件到 uploads 目录");
         } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(500).body("解压失败: " + e.getMessage());
+            // e.printStackTrace();
+            throw new BusinessException("解压失败: " + e.getMessage());
+            // return ResponseEntity.status(500).body("解压失败: " + e.getMessage());
         }
     }
     

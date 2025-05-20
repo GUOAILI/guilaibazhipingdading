@@ -25,7 +25,7 @@ const axiosInstance = axios.create({
 // 请求拦截器 - 自动添加认证头
 // 2025/5/16修改请求拦截器，加密请求数据
 axiosInstance.interceptors.request.use(
-  config => {
+  async config => {
     // 如果请求配置中没有指定不添加认证头
     if (config.noAuth !== true) {
       const headers = authHeader();
@@ -39,16 +39,61 @@ axiosInstance.interceptors.request.use(
     // 加密请求数据
     if (config.data && config.encryptRequest !== false) {
       // config.data = {
-      //   encryptedData: encrypt(config.data, secretKey)
+      //   minhuizpd: encrypt(config.data, secretKey)
       // };
         try {
           const secretKey = import.meta.env.VITE_ENCRYPTION_KEY+BASE_ZPD+'zhiping'; // 从环境变量获取密钥
-          const result = encrypt(config.data,secretKey);
+          let dataToEncrypt = config.data;
+
+          // 如果是FormData，转换为普通对象
+          // if (config.data instanceof FormData) {
+          //   dataToEncrypt = {};
+          //   for (let [key, value] of config.data.entries()) {
+          //     // 如果是文件，直接赋值；否则转为字符串
+          //     dataToEncrypt[key] = value;
+          //   }
+          // }
+
+          if (config.data instanceof FormData) {
+            dataToEncrypt = {};
+            const filePromises = [];
+            for (let [key, value] of config.data.entries()) {
+              if (value instanceof File) {
+                // 支持多文件字段
+                if (!dataToEncrypt[key]) dataToEncrypt[key] = [];
+                // 转base64
+                filePromises.push(new Promise((resolve, reject) => {
+                  const reader = new FileReader();
+                  reader.onload = e => {
+                    dataToEncrypt[key].push({
+                      fileName: value.name,
+                      contentType: value.type,
+                      base64: e.target.result.split(',')[1]
+                    });
+                    resolve();
+                  };
+                  reader.onerror = reject;
+                  reader.readAsDataURL(value);
+                }));
+              } else {
+                dataToEncrypt[key] = value;
+              }
+            }
+            // 等待所有文件转码完成
+            await Promise.all(filePromises);
+          }
+
+          const result = encrypt(dataToEncrypt, secretKey);
+
+          // const result = encrypt(config.data,secretKey);
 
           config.data = { 
             iv: result.iv,
-            encryptedData: result.content 
+            minhuizpd: result.content 
           };
+          // 关键：加密后强制设置 Content-Type 为 application/json
+          config.headers['Content-Type'] = 'application/json';
+
         } catch (error) {
           console.error('Encryption error:', error);
         }
@@ -66,9 +111,9 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   response => {
    // 解密响应数据
-    if (response.data && response.data.encryptedData && response.config.decryptResponse !== false) {
+    if (response.data && response.data.minhuizpd && response.config.decryptResponse !== false) {
       const secretKey = import.meta.env.VITE_ENCRYPTION_KEY+BASE_ZPD+'zhiping'; // 从环境变量获取密钥
-      response.data = decrypt(response.data.encryptedData, secretKey);
+      response.data = decrypt(response.data.minhuizpd, secretKey);
     }
     return response;
   },

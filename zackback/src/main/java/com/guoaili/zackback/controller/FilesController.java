@@ -3,7 +3,6 @@ package com.guoaili.zackback.controller;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +32,7 @@ import com.guoaili.zackback.DTO.ReviewVo;
 import com.guoaili.zackback.DTO.WritingVo;
 import com.guoaili.zackback.DTO.WrongVo;
 import com.guoaili.zackback.service.FileStorageService;
+import com.guoaili.zackback.util.FileParamUtil;
 
 
 @RestController
@@ -60,16 +60,27 @@ public class FilesController {
 
     // 2024/6/20
     @PostMapping("/baiduwenxin/writing")  
-    public ResponseEntity<String> handleFileUpload(  
-            @RequestParam(value = "files",required = false) List<MultipartFile> files, 
-            @RequestParam("imp") int imp,  
-            @RequestParam("title") String title,  
-            @RequestParam("topic") String topic,  
-            @RequestParam("sample") String sample,  
-            @RequestParam("comments") String comments,
-            @RequestParam("subject") String subject) {  
+    public ResponseEntity<String> handleFileUpload(
+        @RequestBody Map<String, Object> params) {
+    
+        int imp = Integer.parseInt(params.get("imp").toString());
+        String title = params.get("title").toString();
+        String topic = params.get("topic").toString();
+        String sample = params.get("sample").toString();
+        String comments = params.get("comments").toString();
+        String subject = params.get("subject").toString();
+
+        List<MultipartFile> multipartFiles = FileParamUtil.parseFilesFromParam(params, "files");
   
-        WritingVo wv=new WritingVo(imp, title,topic, sample, comments,subject ,files);
+            // @RequestParam(value = "files",required = false) List<MultipartFile> files, 
+            // @RequestParam("imp") int imp,  
+            // @RequestParam("title") String title,  
+            // @RequestParam("topic") String topic,  
+            // @RequestParam("sample") String sample,  
+            // @RequestParam("comments") String comments,
+            // @RequestParam("subject") String subject) {  
+  
+        WritingVo wv=new WritingVo(imp, title,topic, sample, comments,subject ,multipartFiles);
         storageService.uploadWriting(wv);
 
         // 返回响应  
@@ -79,14 +90,25 @@ public class FilesController {
     // 2025/4/27 新增 common 文件上传与保存
     @PostMapping("/baiduwenxin/common")
     public ResponseEntity<String> handleCommonFileUpload(
-            @RequestParam(value = "files", required = false) List<MultipartFile> files,
-            @RequestParam("title") String title,
-            @RequestParam("imp") int imp,  
-            @RequestParam("sample") String sample,
-            @RequestParam("subject") String subject
-    ) {
+        @RequestBody Map<String, Object> params){
+    
+        int imp = Integer.parseInt(params.get("imp").toString());
+        String title = params.get("title").toString();
+        String sample = params.get("sample").toString();
+        String subject = params.get("subject").toString();
+        List<MultipartFile> multipartFiles = FileParamUtil.parseFilesFromParam(params, "files");
+
+    // @PostMapping("/baiduwenxin/common")
+    // public ResponseEntity<String> handleCommonFileUpload(
+    //         @RequestParam(value = "files", required = false) List<MultipartFile> files,
+    //         @RequestParam("title") String title,
+    //         @RequestParam("imp") int imp,  
+    //         @RequestParam("sample") String sample,
+    //         @RequestParam("subject") String subject
+    // ) {
         // 你需要创建 CommonVo 类，类似 WritingVo
-        CommonVo cv = new CommonVo( title,imp, sample, subject, files);
+        // CommonVo cv = new CommonVo( title,imp, sample, subject, files);
+        CommonVo cv = new CommonVo( title,imp, sample, subject, multipartFiles);
         storageService.uploadCommon(cv);
 
         return new ResponseEntity<>("Files uploaded successfully!", HttpStatus.OK);
@@ -94,17 +116,30 @@ public class FilesController {
 
 
     @PostMapping("/baiduwenxin/notebook")  
-    public ResponseEntity<String> handleNbFileUpload(  
-            @RequestParam(value = "files",required = false) List<MultipartFile> files,  
-            @RequestParam("num") int num,  
-            @RequestParam("keyword") String keyword,  
-            @RequestParam("easy") String easy,  
-            @RequestParam("point") String point,  
-            @RequestParam("teacher") String teacher,
-            @RequestParam("remarks") String remarks,
-            @RequestParam("subject") String subject,
-            @RequestParam("post") String post) {  
-        NotebookVo nv=new NotebookVo(num,keyword, easy, point, teacher, remarks, post,subject, files);
+    public ResponseEntity<String> handleNbFileUpload( 
+        @RequestBody Map<String, Object> params) {
+    
+        int num = Integer.parseInt(params.get("num").toString());
+        String keyword = params.get("keyword").toString();
+        String easy = params.get("easy").toString();
+        String point = params.get("point").toString();
+        String teacher = params.get("teacher").toString();
+        String remarks = params.get("remarks").toString();
+        String post = params.get("post").toString();
+        String subject = params.get("subject").toString();
+
+        List<MultipartFile> multipartFiles = FileParamUtil.parseFilesFromParam(params, "files");
+ 
+            // @RequestParam(value = "files",required = false) List<MultipartFile> files,  
+            // @RequestParam("num") int num,  
+            // @RequestParam("keyword") String keyword,  
+            // @RequestParam("easy") String easy,  
+            // @RequestParam("point") String point,  
+            // @RequestParam("teacher") String teacher,
+            // @RequestParam("remarks") String remarks,
+            // @RequestParam("subject") String subject,
+            // @RequestParam("post") String post) {  
+        NotebookVo nv=new NotebookVo(num,keyword, easy, point, teacher, remarks, post,subject, multipartFiles);
         storageService.uploadNotebook(nv);
 
         // 返回响应  
@@ -112,18 +147,32 @@ public class FilesController {
     }  
 
     @PostMapping("/baiduwenxin/exam")  
-    public ResponseEntity<String> handleExamFileUpload(  
-            @RequestParam(value = "files",required = false) List<MultipartFile> files,  
-            @RequestParam("examDate") LocalDate examDate,  
-            @RequestParam("title") String title,  
-            @RequestParam("easy") String easy,  
-            @RequestParam("score") int score,  
-            @RequestParam("examType") String examType,  
-            @RequestParam("evaluation") String evaluation,
-            @RequestParam("weakpoint") String weakpoint,
-            @RequestParam("subject") String subject,
-            @RequestParam("errsum") String errsum) {  
-        ExamVo nv=new ExamVo(examDate,title, easy,score, examType, evaluation, weakpoint, errsum,subject, files);
+    public ResponseEntity<String> handleExamFileUpload( 
+        @RequestBody Map<String, Object> params) {
+    
+        LocalDate examDate = LocalDate.parse(params.get("examDate").toString());
+        String title = params.get("title").toString();
+        String easy = params.get("easy").toString();
+        int score = Integer.parseInt(params.get("score").toString());
+        String examType = params.get("examType").toString();
+        String evaluation = params.get("evaluation").toString();
+        String weakpoint = params.get("weakpoint").toString();
+        String errsum = params.get("errsum").toString();
+        String subject = params.get("subject").toString();
+
+        List<MultipartFile> multipartFiles = FileParamUtil.parseFilesFromParam(params, "files");
+ 
+            // @RequestParam(value = "files",required = false) List<MultipartFile> files,  
+            // @RequestParam("examDate") LocalDate examDate,  
+            // @RequestParam("title") String title,  
+            // @RequestParam("easy") String easy,  
+            // @RequestParam("score") int score,  
+            // @RequestParam("examType") String examType,  
+            // @RequestParam("evaluation") String evaluation,
+            // @RequestParam("weakpoint") String weakpoint,
+            // @RequestParam("subject") String subject,
+            // @RequestParam("errsum") String errsum) {  
+        ExamVo nv=new ExamVo(examDate,title, easy,score, examType, evaluation, weakpoint, errsum,subject, multipartFiles);
         storageService.uploadExam(nv);
 
         // 返回响应  
@@ -132,14 +181,23 @@ public class FilesController {
 
     @PostMapping("/baiduwenxin/review")  
     public ResponseEntity<String> handleReviewFileUpload(  
-            @RequestParam(value = "files",required = false) List<MultipartFile> files,  
-            // @RequestParam("reviewDate") LocalDate reviewDate,  
-            @RequestParam("category") String category,  
-            @RequestParam("title") String title,  
-            @RequestParam("detail") String detail,  
-            @RequestParam("overview") String overview,
-            @RequestParam("subject") String subject) {  
-        ReviewVo nv=new ReviewVo(category,title, detail, overview,subject, files);
+        @RequestBody Map<String, Object> params) {
+    
+        String title = params.get("title").toString();
+        String category = params.get("category").toString();
+        String detail = params.get("detail").toString();
+        String overview = params.get("overview").toString();
+        String subject = params.get("subject").toString();
+
+        List<MultipartFile> multipartFiles = FileParamUtil.parseFilesFromParam(params, "files");
+
+            // @RequestParam(value = "files",required = false) List<MultipartFile> files,  
+            // @RequestParam("category") String category,  
+            // @RequestParam("title") String title,  
+            // @RequestParam("detail") String detail,  
+            // @RequestParam("overview") String overview,
+            // @RequestParam("subject") String subject) {  
+        ReviewVo nv=new ReviewVo(category,title, detail, overview,subject, multipartFiles);
         storageService.uploadReview(nv);
 
         // 返回响应  
@@ -148,30 +206,51 @@ public class FilesController {
     // 2024/6/29
     @PostMapping("/baiduwenxin/wrong")  
     public ResponseEntity<String> handleWrongFileUpload(  
-            @RequestParam(value = "files",required = false) List<MultipartFile> files,  
-            // @RequestParam("inputDate") LocalDate inputDate,  
-            @RequestParam("dpjno") String dpjno,  
-            @RequestParam("back") String back,  
-            @RequestParam("point") String point,  
-            @RequestParam("easy") String easy,  
-            @RequestParam("correct") String correct,
-            @RequestParam("subject") String subject) {  
-        WrongVo wv=new WrongVo(dpjno,back,point,easy,correct,subject, files);
+        @RequestBody Map<String, Object> params) {
+    
+        String dpjno = params.get("dpjno").toString();
+        String back = params.get("back").toString();
+        String point = params.get("point").toString();
+        String easy = params.get("easy").toString();
+        String correct = params.get("correct").toString();
+        String subject = params.get("subject").toString();
+
+        List<MultipartFile> multipartFiles = FileParamUtil.parseFilesFromParam(params, "files");
+
+            // @RequestParam(value = "files",required = false) List<MultipartFile> files,  
+            // @RequestParam("dpjno") String dpjno,  
+            // @RequestParam("back") String back,  
+            // @RequestParam("point") String point,  
+            // @RequestParam("easy") String easy,  
+            // @RequestParam("correct") String correct,
+            // @RequestParam("subject") String subject) {  
+        WrongVo wv=new WrongVo(dpjno,back,point,easy,correct,subject, multipartFiles);
         storageService.uploadWrong(wv);
 
         // 返回响应  
         return new ResponseEntity<>("Files uploaded successfully!", HttpStatus.OK);  
     }  
     @PostMapping("/baiduwenxin/extension")  
-    public ResponseEntity<String> handleExtensionFileUpload(  
-            @RequestParam(value = "files",required = false) List<MultipartFile> files,  
-            @RequestParam("extDate") LocalDate extDate,  
-            @RequestParam("abs") String abs,  
-            @RequestParam("teacher") String teacher,  
-            @RequestParam("easy") String easy,  
-            @RequestParam("content") String content,
-            @RequestParam("subject") String subject) {  
-        ExtensionVo wv=new ExtensionVo(extDate,teacher,abs,easy,content,subject, files);
+    public ResponseEntity<String> handleExtensionFileUpload( 
+        @RequestBody Map<String, Object> params) {
+    
+        LocalDate extDate = LocalDate.parse(params.get("extDate").toString());
+        String abs = params.get("abs").toString();
+        String easy = params.get("easy").toString();
+        String teacher = params.get("teacher").toString();
+        String content = params.get("content").toString();
+        String subject = params.get("subject").toString();
+
+        List<MultipartFile> multipartFiles = FileParamUtil.parseFilesFromParam(params, "files");
+ 
+            // @RequestParam(value = "files",required = false) List<MultipartFile> files,  
+            // @RequestParam("extDate") LocalDate extDate,  
+            // @RequestParam("abs") String abs,  
+            // @RequestParam("teacher") String teacher,  
+            // @RequestParam("easy") String easy,  
+            // @RequestParam("content") String content,
+            // @RequestParam("subject") String subject) {  
+        ExtensionVo wv=new ExtensionVo(extDate,teacher,abs,easy,content,subject, multipartFiles);
         storageService.uploadExtension(wv);
 
         // 返回响应  
@@ -200,14 +279,6 @@ public class FilesController {
                     return new FileInfo(filename, url);
                 }).collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(fileInfos);
-
-// {name: '001.jpg', url: 'http://localhost:9000/localupload/files/001.jpg'}
-// {name: '2024-06-17-07-22-15-1c9ecbfbbce4h7', url: 'http://localhost:9000/localupload/files/2024-06-17-07-22-15-1c9ecbfbbce4h7'}
-// {name: '2024-06-17-07-22-33-5hca9459dc89f', url: 'http://localhost:9000/localupload/files/2024-06-17-07-22-33-5hca9459dc89f'}
-// {name: '2024-06-17-08-19-26-e1e34gbe91309', url: 'http://localhost:9000/localupload/files/2024-06-17-08-19-26-e1e34gbe91309'}
-// {name: '2024-06-17-08-26-08-894d09247e10b', url: 'http://localhost:9000/localupload/files/2024-06-17-08-26-08-894d09247e10b'}
-// {name: 'OIP-C.jpg', url: 'http://localhost:9000/localupload/files/OIP-C.jpg'}
-// {name: '物理001.jpg', url: 'http://localhost:9000/localupload/files/物理001.jpg'}
     }
 
     @GetMapping("/files/{filename:.+}")

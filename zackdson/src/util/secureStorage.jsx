@@ -4,16 +4,16 @@ const SECRET_KEY = process.env.REACT_APP_STORAGE_KEY;
 
 export const secureStorage = {
   setItem(key, data) {
-    const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(data), SECRET_KEY).toString();
-    localStorage.setItem(key, encryptedData);
+    const minhuizpd = CryptoJS.AES.encrypt(JSON.stringify(data), SECRET_KEY).toString();
+    localStorage.setItem(key, minhuizpd);
   },
   
   getItem(key) {
-    const encryptedData = localStorage.getItem(key);
-    if (!encryptedData) return null;
+    const minhuizpd = localStorage.getItem(key);
+    if (!minhuizpd) return null;
     
     try {
-      const bytes = CryptoJS.AES.decrypt(encryptedData, SECRET_KEY);
+      const bytes = CryptoJS.AES.decrypt(minhuizpd, SECRET_KEY);
       return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
     } catch (e) {
       console.error('Failed to decrypt data:', e);

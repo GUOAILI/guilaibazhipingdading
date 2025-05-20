@@ -47,12 +47,12 @@ public class RequestDecryptionFilter extends OncePerRequestFilter {
                 Map<String, Object> requestMap = objectMapper.readValue(body, Map.class);
                 
                 // 检查是否包含加密数据
-                if (requestMap.containsKey("encryptedData") && requestMap.containsKey("iv")) {
+                if (requestMap.containsKey("minhuizpd") && requestMap.containsKey("iv")) {
                     String iv = (String) requestMap.get("iv");
-                    String encryptedData = (String) requestMap.get("encryptedData");
+                    String minhuizpd = (String) requestMap.get("minhuizpd");
                     
                     // 解密
-                    String decryptedJson = cryptoUtil.decrypt(iv, encryptedData);
+                    String decryptedJson = cryptoUtil.decrypt(iv, minhuizpd);
                     
                     // 创建解密后的请求包装器
                     DecryptedRequestWrapper decryptedRequest = new DecryptedRequestWrapper(

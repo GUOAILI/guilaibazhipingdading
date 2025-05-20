@@ -45,6 +45,7 @@ import com.guoaili.zackback.entity.WritingEntity;
 import com.guoaili.zackback.entity.WrongEntity;
 import com.guoaili.zackback.enumT.Difficulty;
 import com.guoaili.zackback.enumT.Important;
+import com.guoaili.zackback.exception.BusinessException;
 import com.guoaili.zackback.repository.CommonRepository;
 import com.guoaili.zackback.repository.ExamRepository;
 import com.guoaili.zackback.repository.ExtensionRepository;
@@ -97,58 +98,62 @@ public class FileStorageServiceImpl implements FileStorageService {
 
     @Override
     @PostConstruct
-    public void init() {
+    public void init() throws BusinessException{
         try{
             Files.createDirectories(root);
         }catch(IOException e){
-            throw new RuntimeException("could not initialize folder fro upload!");
+            // throw new RuntimeException("could not initialize folder for upload!");
+            throw new BusinessException("文件上传路径创建出错!");
         }
     }
 
     // a very crucial method for this app
     @Override
-    public String save(MultipartFile file) {
+    public String save(MultipartFile file) throws BusinessException{
         try{
             String xiaofang=file.getOriginalFilename();
             Path zpddyz001=this.root.resolve(file.getOriginalFilename());
             // 2024/6/22 for duplicated file handle deal with treat
             if(zpddyz001.toFile().exists()){
-                xiaofang="苹"+(new Random()).nextInt()+"-"+file.getOriginalFilename();
+                xiaofang="PING"+(new Random()).nextInt()+"-"+file.getOriginalFilename();
                 zpddyz001=this.root.resolve(xiaofang);
             }
             // Path zpddyz001=this.root.resolve(file.getOriginalFilename().contains(".") ? String.format(LocalDate.now().toString(),"yyyy-MM-dd") + "-"+ file.getOriginalFilename() :  file.getOriginalFilename());
             Files.copy(file.getInputStream(), zpddyz001,StandardCopyOption.REPLACE_EXISTING );
             // 
-            System.out.println("an upload file is saved,its name is:========"+file.getOriginalFilename());
+            // System.out.println("an upload file is saved,its name is:========"+file.getOriginalFilename());
             return xiaofang;
 
         }catch(Exception e){
             // if (e instanceof FileAlreadyExistsException){
             //     throw new RuntimeException("名字为"+file.getOriginalFilename()+ "的文件已经存在!");
             // }
-            throw new RuntimeException(e.getMessage());
+            // throw new RuntimeException(e.getMessage());
+            throw new BusinessException("文件保存失败");
         }
     }
 
     @Override
-    public Resource load(String filename) {
+    public Resource load(String filename) throws BusinessException{
         try{
             Path file = root.resolve(filename);
             Resource resource=new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()){
                 return resource;
             }else{
-                throw new RuntimeException("could not read the file!");
+                // throw new RuntimeException("could not read the file!");
+                throw new BusinessException("文件不存在或不可读");
             }
         }catch(MalformedURLException e){
-            throw new RuntimeException("error: "+ e.getMessage());
+            // throw new RuntimeException("error: "+ e.getMessage());
+            throw new BusinessException("文件路径错误");
         }
     }
 
     // 2024/6/20 add for zhuzhuddyz
     @Override
     // public Resource loadzz(Map<String,String> zzddyz) {
-    public Resource loadzz(String zzday,String filename) {
+    public Resource loadzz(String zzday,String filename) throws BusinessException{
         try{
             this.root=Paths.get("uploads/"+zzday);;
             Path file = this.root.resolve(filename);
@@ -156,10 +161,12 @@ public class FileStorageServiceImpl implements FileStorageService {
             if (resource.exists() || resource.isReadable()){
                 return resource;
             }else{
-                throw new RuntimeException("无法读取文件!");
+                // throw new RuntimeException("无法读取文件!");
+                throw new BusinessException("以往文件不存在或不可读");
             }
         }catch(MalformedURLException e){
-            throw new RuntimeException("error: "+ e.getMessage());
+            // throw new RuntimeException("error: "+ e.getMessage());
+            throw new BusinessException("以往文件路径错误");
         }
     }
 
@@ -184,14 +191,15 @@ public class FileStorageServiceImpl implements FileStorageService {
             // Files.delete(root.resolve(filename));
             System.out.println(root.resolve(filename).toFile()+" is deleted!");
         } catch (IOException e) {
-            throw new RuntimeException("删除无用图片异常: "+e.getMessage());
+            // throw new RuntimeException("删除无用图片异常: "+e.getMessage());
+            throw new BusinessException("删除无用图片异常");
             // e.printStackTrace();
         }
         // FileSystemUtils.deleteRecursively(root.resolve(filename).toFile());
     }    
 
     @Override
-    public Stream<Path> loadAll() {
+    public Stream<Path> loadAll() throws BusinessException{
         try{
             // 20240617 the folder depth is changed to 3
             // return Files.walk(this.root,1)
@@ -200,12 +208,13 @@ public class FileStorageServiceImpl implements FileStorageService {
                 .map(this.root::relativize);
         }catch(IOException e)
         {
-            throw new RuntimeException("could not load the files!");
+            // throw new RuntimeException("could not load the files!");
+            throw new BusinessException("加载全部文件时出错");
         }
     }
 
     // 2024/7/1 create this method for generic using.
-    public <T extends DpjVo>  List<String> saveComingInUploadImageFile(T wv) {
+    public <T extends DpjVo>  List<String> saveComingInUploadImageFile(T wv) throws BusinessException{
         List<String> xiaofangList=new ArrayList<>();
         try{
             // first store the upload files and images
@@ -233,7 +242,8 @@ public class FileStorageServiceImpl implements FileStorageService {
             for(String zpd : xiaofangList){
                 deleteByNamezz(String.format(LocalDate.now().toString(),"yyyy-MM-dd"),zpd);
             }
-            throw new RuntimeException("后台写入失败!");
+            // throw new RuntimeException("后台写入失败!");
+            throw new BusinessException("后台写入失败");
         }
     }
 

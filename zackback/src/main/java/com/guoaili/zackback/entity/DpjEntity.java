@@ -6,6 +6,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.guoaili.zackback.exception.BusinessException;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Column;
@@ -44,23 +45,25 @@ class StringListConverter implements AttributeConverter<List<String>, String> {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public String convertToDatabaseColumn(List<String> attribute) {
+    public String convertToDatabaseColumn(List<String> attribute) throws BusinessException {
         try {
             return objectMapper.writeValueAsString(attribute);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Error converting list to JSON", e);
+            // throw new RuntimeException("Error converting list to JSON", e);
+            throw new BusinessException("list转数据库列出错: ");
         }
     }
 
     @Override
-    public List<String> convertToEntityAttribute(String dbData) {
+    public List<String> convertToEntityAttribute(String dbData) throws BusinessException {
         try {
             if (dbData == null || dbData.isEmpty()) {
                 return null;
             }
             return objectMapper.readValue(dbData, objectMapper.getTypeFactory().constructCollectionType(List.class, String.class));
         } catch (JsonProcessingException e) {
-            throw new RuntimeException("Error converting JSON to list", e);
+            // throw new RuntimeException("Error converting JSON to list", e);
+            throw new BusinessException("数据库列转list出错: ");
         }
     }
 }

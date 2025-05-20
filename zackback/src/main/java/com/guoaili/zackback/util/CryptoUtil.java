@@ -21,14 +21,14 @@ public class CryptoUtil {
     /**
      * 解密前端使用CryptoJS.AES.encrypt简单加密的数据
      */
-    public String decrypt(String ivBase64,String encryptedData) throws Exception {
+    public String decrypt(String ivBase64,String minhuizpd) throws Exception {
         try {
-            logger.debug("Decrypting with IV: {} and data: {}", ivBase64, encryptedData);            
+            logger.debug("Decrypting with IV: {} and data: {}", ivBase64, minhuizpd);            
             // 解码 Base64 的 IV
             byte[] ivBytes = Base64.getDecoder().decode(ivBase64);
             
             // 解码 Base64 的密文
-            byte[] encryptedBytes = Base64.getDecoder().decode(encryptedData);
+            byte[] encryptedBytes = Base64.getDecoder().decode(minhuizpd);
             
             // 准备密钥
             byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
@@ -81,10 +81,10 @@ public class CryptoUtil {
         
         // 加密
         byte[] encryptedBytes = cipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
-        String encryptedData = Base64.getEncoder().encodeToString(encryptedBytes);
+        String minhuizpd = Base64.getEncoder().encodeToString(encryptedBytes);
         String iv = Base64.getEncoder().encodeToString(ivBytes);
         
         // 返回格式: IV:加密数据
-        return iv + ":" + encryptedData;
+        return iv + ":" + minhuizpd;
     }
 }
