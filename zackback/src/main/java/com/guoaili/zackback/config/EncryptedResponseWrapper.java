@@ -1,5 +1,7 @@
 package com.guoaili.zackback.config;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.guoaili.zackback.util.CryptoUtil;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 
@@ -62,6 +64,18 @@ public class EncryptedResponseWrapper extends ContentCachingResponseWrapper {
                 if ((trimmed.startsWith("{") && trimmed.endsWith("}")) ||
                     (trimmed.startsWith("[") && trimmed.endsWith("]"))) {
                     try {
+            
+                        // 判断是否为error响应（success=false）
+                        ObjectMapper mapper = new ObjectMapper();
+                        JsonNode root = mapper.readTree(responseBody);
+                        if (root.has("success") && !root.get("success").asBoolean()) {
+                            // 是error响应，直接返回原始内容
+                            resetBuffer();
+                            getResponse().setContentLength(content.length);
+                            getResponse().getOutputStream().write(content);
+                            return;
+                        }
+   
                         // 加密响应内容
                         String encryptedResponse = "{\"minhuizpd\":\"" +
                                                 cryptoUtil.encrypt(responseBody) +

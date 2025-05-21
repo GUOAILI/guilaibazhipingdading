@@ -36,7 +36,8 @@ const LoginForm = () => {
         openNotificationWithIcon('success', '同学注册成功!')
         setVisible(false);
       } catch (err) {
-        openNotificationWithIcon('error', '同学注册失败!再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员')
+        if (!err.response || (err.response.status !== 400 && err.response.status !== 401 && err.response.status !== 403)) {
+        openNotificationWithIcon('error', err.response.data)}
       }
     }
     register(values);
@@ -66,7 +67,8 @@ const LoginForm = () => {
       if (err.response && err.response.status === 404) {
         openNotificationWithIcon('error', values.username + ' 同学身份验证失败，用户不存在或者密码错误');
       } else {
-        openNotificationWithIcon('error', values.username + ' 同学登录失败,再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员');
+        if (!err.response || (err.response.status !== 400 && err.response.status !== 401 && err.response.status !== 403)) {
+          openNotificationWithIcon('error', values.username + ' 同学登录失败,再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员')};
       }
     }
   };

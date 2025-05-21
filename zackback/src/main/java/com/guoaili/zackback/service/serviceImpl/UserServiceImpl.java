@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -90,7 +91,9 @@ public class UserServiceImpl implements UserService  {
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }catch(Exception err){
-            return null;
+            // 推荐：抛出认证异常，便于全局处理
+            throw new BadCredentialsException("用户名或密码错误");
+            // return null;
         }
         final User user = userRepository.findByUsername(uv.getUsername());
         String token= jwtTokenService.generateToken(uv.getUsername(),user.getRoles());

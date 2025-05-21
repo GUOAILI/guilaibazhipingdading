@@ -6,6 +6,7 @@ import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.guoaili.zackback.entity.Role;
@@ -21,7 +22,9 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtTokenService {
 
-    private String secretKey = "wocengjingkanguoshanhedahaiyechuanguorenshanrenhai";
+    @Value("${jwt.secret-key}")
+    private String secretKey;
+    
     private static final long ACCESS_TOKEN_VALIDITY_SECONDS = 2*60*60;
 
     public String generateToken(String username, List<Role> authorities) {
@@ -51,9 +54,9 @@ public class JwtTokenService {
         } catch (ExpiredJwtException e) {
             return TokenValidationResult.expired();
         } catch (JwtException e) {
-            return TokenValidationResult.invalid("Invalid token: " + e.getMessage());
+            return TokenValidationResult.invalid("电子签名无效: " + e.getMessage());
         } catch (Exception e) {
-            return TokenValidationResult.invalid("Error validating token: " + e.getMessage());
+            return TokenValidationResult.invalid("电子签名验证错误: " + e.getMessage());
         }
     }
 

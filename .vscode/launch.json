@@ -15,7 +15,10 @@
             "name": "ZackbackApplication",
             "request": "launch",
             "mainClass": "com.guoaili.zackback.ZackbackApplication",
-            "projectName": "zackback"
+            "projectName": "zackback",
+              "env": {
+                    "JASYPT_ENCRYPTOR_PASSWORD": "zhipingdadingZhaojingfeidingZhuzhufeitunChuxuanfengtun"
+                }
         }
     ]
 }

@@ -8,9 +8,11 @@ public class ApiResponse<T> {
     
     // 常量定义
     public static final int CODE_SUCCESS = 200;
-    public static final int CODE_UNAUTHORIZED = 401;
     public static final int CODE_TOKEN_EXPIRED = 4001; // 自定义token过期码
     public static final int CODE_INVALID_TOKEN = 4002; // 自定义token无效码
+    public static final int CODE_UNAUTHORIZED = 4003; // 自定义spring security未授权码
+    public static final int CODE_INVALID_USERNAME = 4011; // 自定义login失败码
+    public static final int CODE_INVALID_PASSWORD = 4012; // 自定义login失败码
     public static final int CODE_SERVER_ERROR = 500;
 
     private ApiResponse() {

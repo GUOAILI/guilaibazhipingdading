@@ -38,6 +38,9 @@ public class WebSecurityConfig {
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Autowired
+    private CustomAccessDeniedHandler customAccessDeniedHandler;
+
+    @Autowired
     private RequestDecryptionFilter requestDecryptionFilter;
 
     @Autowired
@@ -55,7 +58,10 @@ public class WebSecurityConfig {
                     auth.anyRequest().authenticated();
                 })
                 // 添加这一行，配置认证入口点
-                .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthenticationEntryPoint))
+                .exceptionHandling(exception -> exception
+                    .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                    .accessDeniedHandler(customAccessDeniedHandler)
+                )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(requestDecryptionFilter, JwtAuthenticationFilter.class)

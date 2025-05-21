@@ -24,8 +24,8 @@ public class AuthController {
     @RequestMapping("/register/save")
     public ResponseEntity<String> registration(@RequestBody UserVo uv){
         if (uv.getUsername() == null || uv.getPassword() == null){
-            return new ResponseEntity<String>("input is null",
-            HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>("传入的用户名或密码为空！",
+            HttpStatus.NOT_ACCEPTABLE);
         }
         User userByName = userService.findByName(uv.getUsername());
         if (userByName != null){

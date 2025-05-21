@@ -28,6 +28,7 @@ import com.guoaili.zackback.entity.WritingEntity;
 import com.guoaili.zackback.entity.WrongEntity;
 import com.guoaili.zackback.enumT.Difficulty;
 import com.guoaili.zackback.enumT.Important;
+import com.guoaili.zackback.exception.BusinessException;
 import com.guoaili.zackback.repository.CommonRepository;
 import com.guoaili.zackback.repository.ExamRepository;
 import com.guoaili.zackback.repository.ExtensionRepository;
@@ -88,7 +89,7 @@ public class TableServiceImpl implements TableService{
         try{
             writingRepository.deleteByIdLogical(id);
         }catch(Exception ex){
-            throw new RuntimeException("删除写作记录时发生异常");
+            throw new BusinessException("删除写作记录时发生异常");
         }
     }
 
@@ -99,7 +100,7 @@ public class TableServiceImpl implements TableService{
             // System.out.println("success");
         }catch(Exception e){
             // System.out.println("error");
-            throw new RuntimeException("删除课本记录时发生异常");
+            throw new BusinessException("删除课本记录时发生异常");
         }
     }
 
@@ -115,7 +116,7 @@ public class TableServiceImpl implements TableService{
             examRepository.logicalDeleteById(id);
             // System.out.println("success");
         }catch(Exception e){
-            throw new RuntimeException("删除试卷汇总记录时发生异常");
+            throw new BusinessException("删除试卷汇总记录时发生异常");
         }
     }
 
@@ -125,7 +126,7 @@ public class TableServiceImpl implements TableService{
             reviewRepository.logicalDeleteById(id);
             // System.out.println("success");
         }catch(Exception e){
-            throw new RuntimeException("删除复习记录时发生异常");
+            throw new BusinessException("删除复习记录时发生异常");
         }
     }
 
@@ -141,7 +142,7 @@ public class TableServiceImpl implements TableService{
             wrongRepository.logicalDeleteById(id);
             // System.out.println("success");
         }catch(Exception e){
-            throw new RuntimeException("删除错题积累记录时发生异常");
+            throw new BusinessException("删除错题积累记录时发生异常");
         }
     }
 
@@ -158,7 +159,7 @@ public class TableServiceImpl implements TableService{
             extensionRepository.logicalDeleteById(id);
             // System.out.println("success");
         }catch(Exception e){
-            throw new RuntimeException("删除课外扩展记录时发生异常");
+            throw new BusinessException("删除课外扩展记录时发生异常");
         }
     }
 
@@ -207,7 +208,7 @@ public class TableServiceImpl implements TableService{
     public void updateOneWriting(WritingUpdVo wuv) {
         WritingEntity zpddbz =writingRepository.findById(wuv.getId()).orElse(null);
         if (zpddbz==null){
-            throw new RuntimeException("查询异常，请稍后再试");
+            throw new BusinessException("查询异常，请稍后再试");
         }
         saveAndDeleteImages(wuv, zpddbz);
         // set the new coming data for update
@@ -228,7 +229,7 @@ public class TableServiceImpl implements TableService{
     public void updateOneExtension(ExtensionUpdVo wuv) {
         ExtensionEntity zpddbz =extensionRepository.findById(wuv.getId()).orElse(null);
         if (zpddbz==null){
-            throw new RuntimeException("查询异常，请稍后再试");
+            throw new BusinessException("查询异常，请稍后再试");
         }
         saveAndDeleteImages(wuv, zpddbz);
         // wuv.setExtDate(extDate);
@@ -251,7 +252,7 @@ public class TableServiceImpl implements TableService{
     public void updateOneNotebook(NotebookUpdVo wuv) {
         NotebookEntity zpddbz =notebookRepository.findById(wuv.getId()).orElse(null);
         if (zpddbz==null){
-            throw new RuntimeException("查询异常，请稍后再试");
+            throw new BusinessException("查询异常，请稍后再试");
         }
         saveAndDeleteImages(wuv, zpddbz);
         // wuv.setNum(num);
@@ -278,7 +279,7 @@ public class TableServiceImpl implements TableService{
     public void updateOneExam(ExamUpdVo wuv) {
         ExamEntity zpddbz =examRepository.findById(wuv.getId()).orElse(null);
         if (zpddbz==null){
-            throw new RuntimeException("查询异常，请稍后再试");
+            throw new BusinessException("查询异常，请稍后再试");
         }
         saveAndDeleteImages(wuv, zpddbz);
         // wuv.setExamDate(examDate);
@@ -308,7 +309,7 @@ public class TableServiceImpl implements TableService{
     public void updateOneReview(ReviewUpdVo wuv) {
         ReviewEntity zpddbz =reviewRepository.findById(wuv.getId()).orElse(null);
         if (zpddbz==null){
-            throw new RuntimeException("查询异常，请稍后再试");
+            throw new BusinessException("查询异常，请稍后再试");
         }
         saveAndDeleteImages(wuv, zpddbz);
         zpddbz.setModday(LocalDate.now());
@@ -324,7 +325,7 @@ public class TableServiceImpl implements TableService{
     public void updateOneWrong(WrongUpdVo wuv) {
         WrongEntity zpddbz =wrongRepository.findById(wuv.getId()).orElse(null);
         if (zpddbz==null){
-            throw new RuntimeException("查询异常，请稍后再试");
+            throw new BusinessException("查询异常，请稍后再试");
         }
         saveAndDeleteImages(wuv, zpddbz);
 
@@ -358,7 +359,7 @@ public void deleteOneCommon(long id) {
         commonRepository.logicalDeleteById(id);
         // System.out.println("success");
     }catch(Exception e){
-        throw new RuntimeException("删除记录时发生异常");
+        throw new BusinessException("删除记录时发生异常");
     }
 }
 
@@ -366,7 +367,7 @@ public void deleteOneCommon(long id) {
 public void updateOneCommon(CommonUpdVo cuv) {
     CommonEntity entity = commonRepository.findById(cuv.getId()).orElse(null);
     if (entity == null) {
-        throw new RuntimeException("查询异常，请稍后再试");
+        throw new BusinessException("查询异常，请稍后再试");
     }
     saveAndDeleteImages(cuv, entity);
     entity.setModday(LocalDate.now());

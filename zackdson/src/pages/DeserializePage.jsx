@@ -62,7 +62,7 @@ const DeserializePage = () => {
         setFileInputKey(Date.now()); // ✅ 可选：重置隐藏的 file input
       } catch (ex) {
         // token 过期已在拦截器中处理，这里只需处理其他错误
-        if (!ex.response || ex.response.status !== 401) {
+        if (!err.response || (err.response.status !== 400 && err.response.status !== 401 && err.response.status !== 403)) {
           openNotificationWithIcon('error', '备份数据恢复失败，再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员')}
       } finally {
         setIsLoadingDatabase(false); // ✅ 结束加载
@@ -85,9 +85,9 @@ const DeserializePage = () => {
         openNotificationWithIcon('success', '照片压缩包解压成功');
         form2.setFieldsValue({ zipname: '' }); // ✅ 清空输入框
         setZipInputKey(Date.now()); // ✅ 可选：重置隐藏的 zip input
-      } catch (ex) {
+      } catch (err) {
         // token 过期已在拦截器中处理，这里只需处理其他错误
-        if (!ex.response || ex.response.status !== 401) {
+        if (!err.response || (err.response.status !== 400 && err.response.status !== 401 && err.response.status !== 403)) {
           openNotificationWithIcon('error', '照片压缩包解压失败，再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员')}
       } finally {
         setIsLoadingUnzip(false); // ✅ 结束加载

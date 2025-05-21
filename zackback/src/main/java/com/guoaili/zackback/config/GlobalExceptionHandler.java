@@ -6,6 +6,8 @@ import com.guoaili.zackback.model.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -24,6 +26,23 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseMessage> handleMaxSizeException(MaxUploadSizeExceededException exc){
         return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
                             .body(new ResponseMessage("文件尺寸过大,请缩小尺寸重新传送"));
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiResponse<?> handleBadCredentials(BadCredentialsException ex) {
+        ApiResponse<?> response = ApiResponse.error(ex.getMessage());
+        response.setCode(ApiResponse.CODE_INVALID_PASSWORD);
+        return response;
+    }
+    @ExceptionHandler(UsernameNotFoundException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiResponse<?> handleUsernameNotFound(UsernameNotFoundException ex) {
+        ApiResponse<?> response = ApiResponse.error(ex.getMessage());
+        response.setCode(ApiResponse.CODE_INVALID_USERNAME);
+        return response;
     }
 
     // 2025/5/20 add 
@@ -75,6 +94,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ApiResponse<?> handleException(Exception ex) {
+        // System.out.println("兜底异常: " + ex.getClass().getName());
         return ApiResponse.error("后端服务器异常: " + ex.getMessage());
     }
 }

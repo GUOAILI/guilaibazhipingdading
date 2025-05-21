@@ -153,7 +153,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     // 2024/6/20 add for zhuzhuddyz
     @Override
     // public Resource loadzz(Map<String,String> zzddyz) {
-    public Resource loadzz(String zzday,String filename) throws BusinessException{
+    public Resource loadzz(String zzday,String filename) {
         try{
             this.root=Paths.get("uploads/"+zzday);;
             Path file = this.root.resolve(filename);
@@ -162,11 +162,16 @@ public class FileStorageServiceImpl implements FileStorageService {
                 return resource;
             }else{
                 // throw new RuntimeException("无法读取文件!");
-                throw new BusinessException("以往文件不存在或不可读");
+                // throw new BusinessException("以往文件不存在或不可读");
+                System.out.println("以往文件不存在或不可读: " + filename);
+                return null;
+
             }
         }catch(MalformedURLException e){
             // throw new RuntimeException("error: "+ e.getMessage());
-            throw new BusinessException("以往文件路径错误");
+            // throw new BusinessException("以往文件路径错误");
+            System.out.println("以往文件路径错误: " + e.getMessage());
+            return null;
         }
     }
 
