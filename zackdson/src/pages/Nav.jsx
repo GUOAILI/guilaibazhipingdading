@@ -236,7 +236,7 @@ export default function Nav () {
           navigate('/home')
       }catch(err){
           // token 过期已在拦截器中处理，这里只需处理其他错误
-          if (!err.response || err.response.status !== 401) {
+          if (!err.response || (err.response.status !== 400 && err.response.status !== 401 && err.response.status !== 403)) {
             openNotificationWithIcon("error","年级变更处理后台异常!再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员")}
           return null;
       }

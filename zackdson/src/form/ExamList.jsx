@@ -152,7 +152,7 @@ function ExamList() {
           setIsLoading(false);
         } catch(err){
           setIsLoading(false);
-          if (!err.response || err.response.status !== 401) {
+          if (!err.response || (err.response.status !== 400 && err.response.status !== 401 && err.response.status !== 403)) {
             openNotificationWithIcon("error","获取后台试卷数据出错,再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员")}
           // setIsLoading(true);
           // console.log(err);

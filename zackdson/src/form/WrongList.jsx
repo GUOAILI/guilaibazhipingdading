@@ -138,15 +138,12 @@ function WrongList() {
             setCurrentPage(calculatedTotalPages);
             // 清除URL参数
             navigate('/nav/wrong/list', { replace: true });
-          } else {
-              // 确保始终显示第一页
-              setCurrentPage(1);
-          }
+          } 
           setIsLoading(false);
         } catch(err){
           setIsLoading(false);
           // token 过期已在拦截器中处理，这里只需处理其他错误
-          if (!err.response || err.response.status !== 401) {
+          if (!err.response || (err.response.status !== 400 && err.response.status !== 401 && err.response.status !== 403)) {
             openNotificationWithIcon("error","获取后台错题数据出错,再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员")}
           // setIsLoading(true);
           // console.log(err);
