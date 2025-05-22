@@ -31,7 +31,7 @@ public class ApiResponse<T> {
         ApiResponse<T> response = new ApiResponse<>();
         response.setSuccess(false);
         response.setCode(CODE_TOKEN_EXPIRED);
-        response.setMessage("登录时间超时，请重新登录");
+        response.setMessage("安全凭证过期，请重新登录");
         return response;
     }
 
@@ -39,7 +39,7 @@ public class ApiResponse<T> {
         ApiResponse<T> response = new ApiResponse<>();
         response.setSuccess(false);
         response.setCode(CODE_INVALID_TOKEN);
-        response.setMessage(message);
+        response.setMessage("安全凭证验证失败: "+message);
         return response;
     }
 

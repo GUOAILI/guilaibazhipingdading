@@ -140,26 +140,26 @@ axiosInstance.interceptors.response.use(
           notification.error({
             message: data?.message,
             description: '请重新登录系统',
-            duration: 3,
+            duration: 4,
           });
           
           // 延迟跳转，让用户有时间看到通知
           setTimeout(() => {
             window.location.href = '/';
-          }, 1500);
+          }, 3000);
         } else if (isLoginError) {
           // 显示通知
           notification.error({
             message: data?.message,
             description: '登录失败，请重新登录',
-            duration: 3,
+            duration: 4,
           });
         } else if (status === 400) {
           // 显示通知
           notification.error({
             message: data?.message,
             description: '业务错误',
-            duration: 3,
+            duration: 4,
           });
         } else {
           // 其他授权错误
