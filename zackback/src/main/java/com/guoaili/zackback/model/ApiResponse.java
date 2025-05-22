@@ -11,9 +11,11 @@ public class ApiResponse<T> {
     public static final int CODE_TOKEN_EXPIRED = 4001; // 自定义token过期码
     public static final int CODE_INVALID_TOKEN = 4002; // 自定义token无效码
     public static final int CODE_UNAUTHORIZED = 4003; // 自定义spring security未授权码
+    public static final int CODE_ACCESS_DENIED = 4021; // 自定义spring security未授权码
     public static final int CODE_INVALID_USERNAME = 4011; // 自定义login失败码
     public static final int CODE_INVALID_PASSWORD = 4012; // 自定义login失败码
-    public static final int CODE_SERVER_ERROR = 500;
+    public static final int CODE_BUSSINESS_ERROR = 4031; // 自定义BUSINESS错误码
+    public static final int CODE_OTHER_ERROR = 5000;
 
     private ApiResponse() {
     }
@@ -39,14 +41,21 @@ public class ApiResponse<T> {
         ApiResponse<T> response = new ApiResponse<>();
         response.setSuccess(false);
         response.setCode(CODE_INVALID_TOKEN);
-        response.setMessage("安全凭证验证失败: "+message);
+        response.setMessage("安全凭证验证失败: " + message);
         return response;
     }
 
     public static <T> ApiResponse<T> error(String message) {
         ApiResponse<T> response = new ApiResponse<>();
         response.setSuccess(false);
-        response.setCode(CODE_SERVER_ERROR);
+        response.setCode(CODE_OTHER_ERROR);
+        response.setMessage(message);
+        return response;
+    }
+    public static <T> ApiResponse<T> biz_err(String message) {
+        ApiResponse<T> response = new ApiResponse<>();
+        response.setSuccess(false);
+        response.setCode(CODE_BUSSINESS_ERROR);
         response.setMessage(message);
         return response;
     }

@@ -26,16 +26,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
                          AuthenticationException authException) throws IOException, ServletException {
         
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 设置401状态码
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        // ApiResponse<?> apiResponse;
-
-        // if (authException instanceof BadCredentialsException) {
-        //     apiResponse = ApiResponse.error("登录出错：" + authException.getMessage());
-        //     apiResponse.setCode(ApiResponse.CODE_INVALID_PASSWORD);
-        // } else if (authException instanceof UsernameNotFoundException) {
-        //     apiResponse = ApiResponse.error("登录出错：" + authException.getMessage());
-        //     apiResponse.setCode(ApiResponse.CODE_INVALID_USERNAME);
-        // } else {
+        response.setContentType("application/json;charset=UTF-8"); // 关键：加上charset=UTF-8
         ApiResponse<?> apiResponse = ApiResponse.error("未授权访问：" + authException.getMessage());
         apiResponse.setCode(ApiResponse.CODE_UNAUTHORIZED);
         response.getWriter().write(objectMapper.writeValueAsString(apiResponse));

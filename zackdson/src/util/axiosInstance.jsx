@@ -173,8 +173,8 @@ axiosInstance.interceptors.response.use(
       else if (status >= 500) {
         // 服务器错误
         notification.error({
-          message: '服务器错误',
-          description: data?.message || '服务器暂时无法响应，请稍后再试',
+          message: '后台错误',
+          description: data?.message || '后台暂时无法响应，请稍后再试',
           duration: 4,
         });
       } 

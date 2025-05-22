@@ -62,7 +62,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }    
     private void handleInvalidToken(HttpServletResponse response, TokenValidationResult validationResult) throws IOException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setContentType("application/json;charset=UTF-8");
         
         ApiResponse<?> apiResponse;
         if (validationResult.isExpired()) {

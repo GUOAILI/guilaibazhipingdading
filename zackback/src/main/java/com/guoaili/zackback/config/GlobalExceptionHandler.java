@@ -86,7 +86,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiResponse<?> handleBusinessException(BusinessException ex) {
-        return ApiResponse.error("业务异常: " + ex.getMessage());
+        return ApiResponse.biz_err("业务异常: " + ex.getMessage());
     }
 
     // 兜底异常

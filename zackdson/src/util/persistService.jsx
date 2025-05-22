@@ -16,11 +16,16 @@ const unZipTheFile = (filename) => {
     // 注意：原代码没有使用 authHeader，保持一致
     return http.noAuth.get(API_PER_URL + `unzipAll/${filename}`);
 };
+const getProgress = (taskID) => {
+    // 注意：原代码没有使用 authHeader，保持一致
+    return http.noAuth.get(API_PER_URL + `progress/${taskID}`);
+};
 
 const PersistService = {
     recoverToTable,
     unZipTheFile,
     serializeAllDatabaseData,
+    getProgress
 };
   
 export default PersistService;

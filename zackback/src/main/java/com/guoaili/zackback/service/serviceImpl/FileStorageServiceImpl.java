@@ -194,7 +194,7 @@ public class FileStorageServiceImpl implements FileStorageService {
             // 2024/7/2 fix bug
             Files.deleteIfExists(root.resolve(filename));
             // Files.delete(root.resolve(filename));
-            System.out.println(root.resolve(filename).toFile()+" is deleted!");
+            // System.out.println(root.resolve(filename).toFile()+" is deleted!");
         } catch (IOException e) {
             // throw new RuntimeException("删除无用图片异常: "+e.getMessage());
             throw new BusinessException("删除无用图片异常");
@@ -238,7 +238,7 @@ public class FileStorageServiceImpl implements FileStorageService {
                             // zpd.getOriginalFilename())
                             xiaofang)
                         .build().toString();
-                    System.out.println("url="+url);
+                    // System.out.println("url="+url);
                     zpdbyz.add(url);
                 }
             }
