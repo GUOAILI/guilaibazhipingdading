@@ -1,5 +1,7 @@
 package com.guoaili.zackback.controller;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -285,9 +287,11 @@ public class FilesController {
     @ResponseBody
     public ResponseEntity<Resource> getFile(@PathVariable String filename){
         Resource file=storageService.load(filename);
+        String encodedFilename = URLEncoder.encode(file.getFilename(), StandardCharsets.UTF_8).replace("+", "%20");
         return ResponseEntity.ok().header(
             HttpHeaders.CONTENT_DISPOSITION,
-            "attachment; filename=\"" + file.getFilename() + "\""
+            // "attachment; filename=\"" + file.getFilename() + "\""
+            "attachment; filename=\"" + encodedFilename + "\""
             ).body(file);
     }
 
@@ -300,9 +304,11 @@ public class FilesController {
     // public ResponseEntity<Resource> getzzFile(@PathVariable Map<String,String> zzDdyz){
     public ResponseEntity<Resource> getzzFile(@PathVariable String zzday,@PathVariable String filename){
         Resource file=storageService.loadzz(zzday,filename);
+        String encodedFilename = URLEncoder.encode(file.getFilename(), StandardCharsets.UTF_8).replace("+", "%20");
         return ResponseEntity.ok().header(
             HttpHeaders.CONTENT_DISPOSITION,
-            "attachment; filename=\"" + file.getFilename() + "\""
+            // "attachment; filename=\"" + file.getFilename() + "\""
+            "attachment; filename=\"" + encodedFilename + "\""
             ).body(file);
     }
 
