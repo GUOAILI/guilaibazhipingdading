@@ -12,7 +12,7 @@ export async function action({ request }) {
     const updates = Object.fromEntries(formData);
     // const subject = localStorage.getItem('subject');
     // const subject = useSelector((state) => state.subject.subject); 
-    store.getState().user.subject.subject;
+    const subject = store.getState().subject.subject;
     if (Object.keys(updates).length < 1) {
         openNotificationWithIcon("warning","你没有选择任何子分类!主学科会从左侧菜单移除！")
     }
