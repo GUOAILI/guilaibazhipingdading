@@ -286,7 +286,9 @@ public class PersistController {
             for (java.util.zip.ZipEntry entry : entries) {
                 if (entry.isDirectory()) continue;
                 String entryName = entry.getName();
-                java.nio.file.Path targetPath = Paths.get("uploads", entryName);
+                // 统一分隔符，兼容不同操作系统
+                entryName = entryName.replace("\\", "/");
+                java.nio.file.Path targetPath = Paths.get("uploads").resolve(entryName);
                 Files.createDirectories(targetPath.getParent());
 
                 try (java.io.InputStream is = zipFile.getInputStream(entry)) {
