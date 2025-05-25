@@ -71,7 +71,6 @@ function ExamList() {
         },
         {
           title: '照片',
-          // dataIndex: 'mjddyz',
           key: 'photo',
           render: (_,record) => (
             <span style={record.mjddyz.length > 0 ? { color: '#ae63e4'} : {} }>

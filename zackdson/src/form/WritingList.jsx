@@ -67,9 +67,13 @@ function WritingList() {
         },
         {
         title: '照片',
-        // dataIndex: 'mjddyz',
         key: 'photo',
-        render: (_,record) => (<span> {record.mjddyz.length>0 ? record.mjddyz.length+'张' : '未添加'} </span>),
+        // render: (_,record) => (<span> {record.mjddyz.length>0 ? record.mjddyz.length+'张' : '未添加'} </span>),
+        render: (_,record) => (
+          <span style={record.mjddyz.length > 0 ? { color: '#ae63e4'} : {} }>
+            {record.mjddyz.length>0 ? record.mjddyz.length+'张' : '未添加'} 
+          </span>
+        ),
        },
         {
         title: '做成日',
