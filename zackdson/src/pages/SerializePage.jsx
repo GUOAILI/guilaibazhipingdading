@@ -28,7 +28,7 @@ const SerializePage = () => {
         clearInterval(interval);
         setProgress(0);
         setIsButtonDisabled(false);
-        if (!err.response || ![400, 401, 403].includes(err.response?.status)) {
+        if (!err.__notified) {
           openNotificationWithIcon('error', '获取进度失败');}
       }
     }, 1000);
@@ -45,7 +45,7 @@ const SerializePage = () => {
         // setTaskId(id);
         checkProgress(id); // 开始轮询进度
       } catch (err) {
-        if (!err.response || ![400, 401, 403].includes(err.response?.status)) {
+        if (!err.__notified) {
           openNotificationWithIcon('error', '启动备份任务失败');}
         // setIsLoading(false);
         setIsButtonDisabled(false);

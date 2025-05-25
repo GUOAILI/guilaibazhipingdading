@@ -80,7 +80,7 @@ export default function SubjectManagement() {
                 // return {subjects};
             }catch(err){
                 // token 过期已在拦截器中处理，这里只需处理其他错误
-                if (!err.response || (err.response.status !== 400 && err.response.status !== 401 && err.response.status !== 403)) {
+                if (!err.__notified) {
                     openNotificationWithIcon('error','后台获取学科信息失败，再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员')}
                 // return null;
             }
@@ -158,14 +158,14 @@ export default function SubjectManagement() {
                 catch (err) {
                     // alert("子分类查询异常!",ex);
                     // token 过期已在拦截器中处理，这里只需处理其他错误
-                    if (!err.response || (err.response.status !== 400 && err.response.status !== 401 && err.response.status !== 403)) {
+                    if (!err.__notified) {
                         openNotificationWithIcon("error","子分类查询异常!再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员")}
                 }
             }
             catch (err) {
                 // alert("查询主科目表异常error!"+ex);
                 // token 过期已在拦截器中处理，这里只需处理其他错误
-                if (!err.response || (err.response.status !== 400 && err.response.status !== 401 && err.response.status !== 403)) {
+                if (!err.__notified) {
                     openNotificationWithIcon("error","查询主科目表异常!再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员")}
             }
         }

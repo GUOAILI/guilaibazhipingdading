@@ -65,13 +65,13 @@ export default function HomePage() {
             } catch (err) {
               // navigate('/nav/manage');
               // token 过期已在拦截器中处理，这里只需处理其他错误
-              if (!err.response || (err.response.status !== 400 && err.response.status !== 401 && err.response.status !== 403)) {
+              if (!err.__notified) {
                 openNotificationWithIcon("error","科目查询异常!再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员")}
               return null;
             }
           }catch(err){
             // token 过期已在拦截器中处理，这里只需处理其他错误
-            if (!err.response || (err.response.status !== 400 && err.response.status !== 401 && err.response.status !== 403)) {
+            if (!err.__notified) {
               openNotificationWithIcon("error","年级设定失败!再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员")}
             return null;
           }

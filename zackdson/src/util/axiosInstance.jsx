@@ -138,7 +138,9 @@ axiosInstance.interceptors.response.use(
       
           // 显示通知
           notification.error({
-            message: data?.message,
+            message: data?.message && data.message.includes('authentication')
+              ? '认证失败，需要重新认证'
+              : data?.message,
             description: '请重新登录系统',
             duration: 4,
           });
@@ -169,6 +171,7 @@ axiosInstance.interceptors.response.use(
             duration: 4,
           });
         }
+        error.__notified = true; // 标记已弹窗
       } 
       else if (status >= 500) {
         // 服务器错误
@@ -177,6 +180,7 @@ axiosInstance.interceptors.response.use(
           description: data?.message || '后台暂时无法响应，请稍后再试',
           duration: 4,
         });
+        error.__notified = true; // 标记已弹窗
       } 
       // else {
       //   // 其他错误

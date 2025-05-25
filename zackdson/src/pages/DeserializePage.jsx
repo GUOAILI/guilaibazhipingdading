@@ -71,7 +71,7 @@ const DeserializePage = () => {
         form1.setFieldsValue({ filename: '' });
         setFileInputKey(Date.now());
       } catch (err) {
-        if (!err.response || ![400, 401, 403].includes(err.response?.status)) {
+        if (!err.__notified) {
           openNotificationWithIcon('error', '备份数据恢复失败，请联系管理员');
         }
       } finally {
@@ -104,7 +104,7 @@ const DeserializePage = () => {
         setIsButton2Disabled(false);
         setUnzipProgress(0);
 
-        if (!err.response || ![400, 401, 403].includes(err.response?.status)) {
+        if (!err.__notified) {
           openNotificationWithIcon('error', '获取解压进度失败');}
       }
     }, 1000);
@@ -127,7 +127,7 @@ const DeserializePage = () => {
       } catch (err) {
         // setIsUnzipLoading(false);
         setIsButton2Disabled(false);
-        if (!err.response || ![400, 401, 403].includes(err.response?.status)) {
+        if (!err.__notified) {
           openNotificationWithIcon('error', '启动解压任务失败');}
       }
     }

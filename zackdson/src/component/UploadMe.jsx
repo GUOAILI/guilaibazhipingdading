@@ -1,10 +1,12 @@
 import React, { useRef, useState, useImperativeHandle, forwardRef } from 'react';
-import { Form, Button, Upload, message } from 'antd';
+import { Form, Button, Upload, message, notification } from 'antd';
 import { UploadOutlined, CloseOutlined } from '@ant-design/icons';
 import Webcam from 'react-webcam';
 import PropTypes from 'prop-types';
 import ButtonZpd from './ButtonZpd';
 import ButtonColor from './colorButton';
+
+const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 
 // Named component for better fast refresh support
 const UploadMe = forwardRef((props, ref) => {
@@ -14,7 +16,38 @@ const UploadMe = forwardRef((props, ref) => {
   // Handle file upload
   const handleFileUpload = (info) => {
     let fileList = [...info.fileList];
-    fileList = fileList.slice(-12); // Limit to 5 files
+
+
+  // 1. 检查文件格式（只允许常见图片格式）
+  const imageTypes = [
+    'image/jpeg',    // .jpg, .jpeg
+    'image/png',     // .png
+    'image/gif',     // .gif
+    'image/bmp',     // .bmp
+    'image/webp',    // .webp
+    'image/svg+xml', // .svg
+    'image/x-icon',  // .ico
+    'image/tiff',    // .tif, .tiff
+    'image/heic',    // .heic
+    'image/heif',    // .heif
+    'image/x-ms-bmp' // 某些浏览器的 bmp
+  ];
+  const hasInvalid = fileList.some(
+    file => file.originFileObj && !imageTypes.includes(file.originFileObj.type)
+  );
+  if (hasInvalid) {
+    openNotificationWithIcon('error', '错误', '只允许上传图片文件');
+    return;
+  }
+
+  // 2. 检查文件数量
+  if (fileList.length > 12) {
+    notification.destroy(); // 清除已有弹窗
+    openNotificationWithIcon('warning', '注意','上传文件个数超过了12个');
+    return;
+  }
+
+    // fileList = fileList.slice(-12); // Limit to 5 files
     fileList = fileList.map((file) => ({
       ...file,
       status: 'done',

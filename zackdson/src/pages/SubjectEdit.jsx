@@ -37,7 +37,7 @@ const SubjectEdit = () => {
                 navigate('/nav/empty');
             }catch(err){
                 // token 过期已在拦截器中处理，这里只需处理其他错误
-                if (!err.response || (err.response.status !== 400 && err.response.status !== 401 && err.response.status !== 403)) {
+                if (!err.__notified) {
                     openNotificationWithIcon('error',subname+'追加失败，再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员');}
                 return null;
             }
@@ -52,7 +52,7 @@ const SubjectEdit = () => {
                 // navigate('/nav/subject');
             }catch(err){
                 // token 过期已在拦截器中处理，这里只需处理其他错误
-                if (!err.response || (err.response.status !== 400 && err.response.status !== 401 && err.response.status !== 403)) {
+                if (!err.__notified) {
                     openNotificationWithIcon('error',subname+'删除失败，再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员');}
                 return null;
             }
@@ -87,7 +87,7 @@ const SubjectEdit = () => {
                 navigate('/nav/empty');
             }catch(err){
                 // token 过期已在拦截器中处理，这里只需处理其他错误
-                if (!err.response || (err.response.status !== 400 && err.response.status !== 401 && err.response.status !== 403)) {
+                if (!err.__notified) {
                     openNotificationWithIcon('error',brhname+'追加失败，再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员');}
                 return null;
             }
@@ -102,7 +102,7 @@ const SubjectEdit = () => {
                 // navigate('/nav/subject');
             }catch(err){
                 // token 过期已在拦截器中处理，这里只需处理其他错误
-                if (!err.response || (err.response.status !== 400 && err.response.status !== 401 && err.response.status !== 403)) {
+                if (!err.__notified) {
                     openNotificationWithIcon('error',brhname+'删除失败，再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员');}
                 return null;
             }
@@ -222,7 +222,7 @@ const SubjectEdit = () => {
                 onFinish={onFinish1}
                 form={form_cad}
                 name='form_cad' >
-                <h3 style={{color:'#00008b'}}>子分类追加(字数不限)</h3>  
+                <h3 style={{color:'#00008b'}}>子分类追加</h3>  
                 <Row gutter={[12,12]}>
                   <Col span={10} >
                   <Form.Item
