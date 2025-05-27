@@ -178,7 +178,8 @@ function ReviewList() {
               pagination={{
                 current: currentPage,
                 onChange: (page) => setCurrentPage(page),
-                total: user.length // 确保分页组件知道总记录数
+                total: user.length, // 确保分页组件知道总记录数
+                showSizeChanger: false // 添加这行以隐藏 pageSize 选择框
               }}
               />
           </>
