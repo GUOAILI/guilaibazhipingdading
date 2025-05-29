@@ -150,7 +150,7 @@ function ExamList() {
           if (searchParams.get('showLastPage') === 'true' && calculatedTotalPages > 1) {
             setCurrentPage(calculatedTotalPages);
             // 清除URL参数
-            navigate('/nav/exam/list', { replace: true });
+            // navigate('/nav/exam/list', { replace: true });
           } 
           setIsLoading(false);
         } catch(err){

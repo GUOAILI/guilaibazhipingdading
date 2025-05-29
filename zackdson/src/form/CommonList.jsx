@@ -137,7 +137,7 @@ function CommonList() {
         if (searchParams.get('showLastPage') === 'true' && calculatedTotalPages > 1) {
           setCurrentPage(calculatedTotalPages);
           // 清除URL参数
-          navigate('/nav/common/list', { replace: true });
+          // navigate('/nav/common/list', { replace: true });
         } 
         setIsLoading(false);
       } catch (err) {

@@ -117,7 +117,7 @@ const SubjectEdit = () => {
             addbranch(branch_name);
         }else{
             if(!subCategories.includes(branch_name)){
-                openNotificationWithIcon('error','你要删除的自费类['+sub_name+']不存在');
+                openNotificationWithIcon('error','你要删除的子分类['+sub_name+']不存在');
                 return null;
             }
             delbranch(branch_name);

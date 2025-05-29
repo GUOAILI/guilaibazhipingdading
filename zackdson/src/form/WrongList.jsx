@@ -141,7 +141,7 @@ function WrongList() {
           if (searchParams.get('showLastPage') === 'true' && calculatedTotalPages > 1) {
             setCurrentPage(calculatedTotalPages);
             // 清除URL参数
-            navigate('/nav/wrong/list', { replace: true });
+            // navigate('/nav/wrong/list', { replace: true });
           } 
           setIsLoading(false);
         } catch(err){
