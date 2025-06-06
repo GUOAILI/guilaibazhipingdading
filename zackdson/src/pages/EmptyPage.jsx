@@ -59,6 +59,9 @@ const EmptyLayout = () =>{
         case '试卷汇总':
           navigate('/nav/exam/list');
           break;
+        case '归纳总结':
+          navigate('/nav/summary/list');
+          break;
         // case '苹静':
         case '东珠苹静':
           navigate('/nav/subject');

@@ -1,7 +1,4 @@
 package com.guoaili.zackback.entity;
-import java.time.LocalDate;
-import java.util.List;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guoaili.zackback.enumT.Difficulty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,6 +33,9 @@ public class WrongEntity extends DpjEntity {
     @Enumerated(EnumType.STRING)
     private Difficulty easy;
 
+    private String origin;
+    private String inspect;
+    
     @Column(length = 500)
     private String correct;
 

@@ -85,7 +85,7 @@ const ExamShow = () => {
         label={<span style={{ color: 'blue' }}>评价</span>} 
       >  
         <TextArea  
-          style={{ color: 'darkgreen' }}  
+          // style={{ color: 'darkgreen' }}  
           maxLength={200}  
           showCount  
           autoSize={{ minRows: 2, maxRows: 4 }}  

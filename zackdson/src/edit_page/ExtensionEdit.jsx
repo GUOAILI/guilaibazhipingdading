@@ -33,7 +33,8 @@ const ExtensionEdit = () => {
   // 添加返回处理函数
   const handleCancel = () => {
     navigate('/nav/extension/list', { 
-      state: { returnPage: location.state?.pageNumber } 
+      state: { returnPage: location.state?.pageNumber },
+            replace: true // 避免历史栈堆积
     });
   };
 
@@ -78,7 +79,8 @@ const ExtensionEdit = () => {
             await TableService.updateExtensionDb(data);
             openNotificationWithIcon("success","课外扩展 数据更新成功!")
             navigate('/nav/extension/list',{ 
-              state: { returnPage: location.state?.pageNumber } 
+              state: { returnPage: location.state?.pageNumber },
+            replace: true // 避免历史栈堆积
             });
         }catch(err){
         // token 过期已在拦截器中处理，这里只需处理其他错误
@@ -148,7 +150,7 @@ const ExtensionEdit = () => {
       >  
         <TextArea  
           // placeholder="上限200字"  
-          style={{ color: 'darkgreen' }}  
+          // style={{ color: 'darkgreen' }}  
           maxLength={200}  
           showCount  
           autoSize={{ minRows: 2, maxRows: 4 }}  

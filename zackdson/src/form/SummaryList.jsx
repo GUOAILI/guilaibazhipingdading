@@ -10,65 +10,60 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setRecord } from '../store/recordSlice';
 const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 
-function NotebookList() {
+function SummaryList() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [user, setUser]=useState([]);
     const [xiaofang,setXiaofang]=useState(false);
     const [isLoading, setIsLoading]=useState(false);
-    // const subject=localStorage.getItem("branchDetail");
     const subject = useSelector((state) => state.subject.branchDetail);
-    // 2025/5/12 handle return navigation
+    // handle return navigation
     const [currentPage, setCurrentPage] = useState(1);
     const location = useLocation();
-    // 2025/5/13 add page control
+    // add page control
     const [searchParams] = useSearchParams();
     const [returnPageHandled, setReturnPageHandled] = useState(false);
 
     const deleteOneRecord = async (id)=>{
       try{
-        await TableService.delOneNotebook(id);
+        await TableService.delOneSummary(id);
         setXiaofang(x=>!x);
-        openNotificationWithIcon("success","删除课本记录成功");
+        openNotificationWithIcon("success","删除总结记录成功");
       }catch(err){
         // token 过期已在拦截器中处理，这里只需处理其他错误
         if (!err.__notified) {
-          openNotificationWithIcon("error","删除课本记录异常,再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员")}
+          openNotificationWithIcon("error","删除总结记录异常,再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员")}
       }
     }
     const editRecord = (record)=>{
-      // localStorage.setItem("notebookRecord",JSON.stringify(record));
-      dispatch(setRecord({ type: 'notebookRecord', value: JSON.stringify(record) }));
-      navigate('/nav/notebook/edit', { state: { pageNumber: currentPage }});
+      dispatch(setRecord({ type: 'summaryRecord', value: JSON.stringify(record) }));
+      navigate('/nav/summary/edit', { state: { pageNumber: currentPage }});
     }
-
     const columns = [
         {
-          title: '目录(可点击)',
-          dataIndex: 'num',
-          key: 'num',
-          // render: (text) => <span style={{color:'red'}}>{text}</span>,
+          title: '题型概述(可点击)',
+          dataIndex: 'title',
+          key: 'title',
           // 跳转详情页
           render: (text, record) => {
             
             return <a onClick={()=>{
-                // localStorage.setItem("notebookRecord",JSON.stringify(record));
-                dispatch(setRecord({ type: 'notebookRecord', value: JSON.stringify(record) }));
-                // navigate('/nav/notebook/detail', { state: { pageNumber: currentPage } });
-                navigate('/nav/notebook/detail', { state: { pageNumber: currentPage } });
+                dispatch(setRecord({ type: 'summaryRecord', value: JSON.stringify(record) }));
+                navigate('/nav/summary/detail', { state: { pageNumber: currentPage } });
             }}>
-                第{text}章
+                {text}
             </a>
             }
         },
         {
-          title: '主题',
-          dataIndex: 'keyword',
-          key: 'keyword',
-        },        {
+          title: '知识点归纳',
+          dataIndex: 'knowledge',
+          key: 'knowledge',
+          width: 180, // 可根据实际调整
+        },        
+        {
           title: '照片',
           key: 'photo',
-          // render: (_,record) => (<span> {record.mjddyz.length>0 ? record.mjddyz.length+'张' : '未添加'} </span>),
           render: (_,record) => (
             <span style={record.mjddyz.length > 0 ? { color: '#ae63e4'} : {} }>
               {record.mjddyz.length>0 ? record.mjddyz.length+'张' : '未添加'} 
@@ -92,22 +87,22 @@ function NotebookList() {
             return record.beginday;
           }
         },
+
         {
           title: '难易度',
           dataIndex: 'easy',
           key: 'easy',
           render: (text) => {
-            if (text === '高') {
-              return <span style={{ color: '#d0021b', fontSize:'1.8em' }}>{text}</span>;
+              if (text === '高') {
+                return <span style={{ color: '#d0021b', fontSize:'1.8em' }}>{text}</span>;
+              }
+              if (text === '中') {
+                return <span style={{ color: '#1890ff',fontSize:'1.2em' }}>{text}</span>;
+              }
+              return <span style={{ color: 'gray', fontWeight: 'bold' }}>{text}</span>;
             }
-            if (text === '中') {
-              return <span style={{ color: '#1890ff',fontSize:'1.2em' }}>{text}</span>;
-            }
-            return <span style={{ color: 'gray', fontWeight: 'bold' }}>{text}</span>;
-          }
-        },
-        {
-          // reuse the perfect code of lagacy project fujitsu
+          },
+          {
           title: 'Action',
           className:'laoyaoziling',
           key: 'action',
@@ -115,7 +110,7 @@ function NotebookList() {
           render: (text, record) => (
             <Fragment>
               <Popconfirm
-                title={`删除 第${record.num}章记录`} 
+                title={`删除 ${record.title}`} 
                 description="你确定真的要删除吗?"
                 onConfirm={() => deleteOneRecord(record.id)} okText='确定' cancelText='取消'
               >
@@ -132,26 +127,21 @@ function NotebookList() {
     const zpddyz = async ()=> {
         try{
           setIsLoading(true);
-          const res = await TableService.getAllNotebook(subject);
-          // console.log(res.data);
+          const res = await TableService.getAllSummary(subject);
           setUser(res.data);
-          // 2025/5/13计算总页数（假设每页10条记录，可根据实际分页设置调整）
+          // 计算总页数（假设每页10条记录，可根据实际分页设置调整）
           const pageSize = 10; // 或者从分页配置中获取
           const calculatedTotalPages = Math.ceil(res.data.length / pageSize);
           
           if (searchParams.get('showLastPage') === 'true' && calculatedTotalPages > 1) {
             setCurrentPage(calculatedTotalPages);
-            // 清除URL参数
-            // navigate('/nav/notebook/list', { replace: true });
           } 
           setIsLoading(false);
         } catch(err){
           setIsLoading(false);
           // token 过期已在拦截器中处理，这里只需处理其他错误
           if (!err.__notified) {
-            openNotificationWithIcon("error","获取后台课本数据出错,再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员")}
-          // setIsLoading(true);
-          // console.log(err);
+            openNotificationWithIcon("error","获取后台总结数据出错,再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员")}
         }
     };
     zpddyz();
@@ -176,7 +166,6 @@ function NotebookList() {
 
   return (
     <>
-    {/* <h1>{localStorage.getItem("branchDetail")}</h1> */}
     <h1>{subject}</h1>
     <div style={{background:'white'}}>
           {isLoading ?
@@ -186,7 +175,6 @@ function NotebookList() {
           </>
           : 
           <>
-            {/* <h2>光辉的足迹</h2> */}
             <Table columns={columns} 
               dataSource={user} 
               rowClassName={getRowClassName}  
@@ -201,7 +189,7 @@ function NotebookList() {
           </>
           }
           <div style={{display:'flex',justifyContent:'center'}}>
-            <Button style={{width:'8rem',marginTop:'1rem',marginBottom:'2rem'}}  type="primary" onClick={()=>navigate('/nav/notebook/input')}>
+            <Button style={{width:'8rem',marginTop:'1rem',marginBottom:'2rem'}}  type="primary" onClick={()=>navigate('/nav/summary/input')}>
               我要追加
             </Button>
           </div>
@@ -209,5 +197,4 @@ function NotebookList() {
     </>
   );
 }
-
-export default NotebookList;
+export default SummaryList;

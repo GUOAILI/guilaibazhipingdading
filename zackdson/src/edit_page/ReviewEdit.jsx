@@ -33,7 +33,8 @@ const ReviewEdit = () => {
   // 添加返回处理函数
   const handleCancel = () => {
     navigate('/nav/review/list', { 
-      state: { returnPage: location.state?.pageNumber } 
+      state: { returnPage: location.state?.pageNumber },
+            replace: true // 避免历史栈堆积
     });
   };
 
@@ -76,7 +77,8 @@ const ReviewEdit = () => {
             await TableService.updateReviewDb(data);
             openNotificationWithIcon("success","复习 数据更新成功!")
             navigate('/nav/review/list',{ 
-              state: { returnPage: location.state?.pageNumber } 
+              state: { returnPage: location.state?.pageNumber },
+            replace: true // 避免历史栈堆积
             });
           }catch(err){
             // token 过期已在拦截器中处理，这里只需处理其他错误

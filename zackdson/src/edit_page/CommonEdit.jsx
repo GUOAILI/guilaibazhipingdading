@@ -32,7 +32,8 @@ const CommonEdit = () => {
   // 添加返回处理函数
   const handleCancel = () => {
     navigate('/nav/common/list', { 
-      state: { returnPage: location.state?.pageNumber } 
+      state: { returnPage: location.state?.pageNumber },
+            replace: true // 避免历史栈堆积
     });
   };
   const onFinish = (values) => {
@@ -82,7 +83,8 @@ const CommonEdit = () => {
         await TableService.updateCommonDb(data);
         openNotificationWithIcon("success", "数据更新成功!")
         navigate('/nav/common/list',{ 
-          state: { returnPage: location.state?.pageNumber } 
+          state: { returnPage: location.state?.pageNumber } ,
+            replace: true // 避免历史栈堆积
         });
       } catch (err) {
       // token 过期已在拦截器中处理，这里只需处理其他错误

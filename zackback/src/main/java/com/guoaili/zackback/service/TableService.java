@@ -7,6 +7,7 @@ import com.guoaili.zackback.DTO.ExamUpdVo;
 import com.guoaili.zackback.DTO.ExtensionUpdVo;
 import com.guoaili.zackback.DTO.NotebookUpdVo;
 import com.guoaili.zackback.DTO.ReviewUpdVo;
+import com.guoaili.zackback.DTO.SummaryUpdVo;
 import com.guoaili.zackback.DTO.WritingUpdVo;
 import com.guoaili.zackback.DTO.WrongUpdVo;
 import com.guoaili.zackback.entity.CommonEntity;
@@ -14,6 +15,7 @@ import com.guoaili.zackback.entity.ExamEntity;
 import com.guoaili.zackback.entity.ExtensionEntity;
 import com.guoaili.zackback.entity.NotebookEntity;
 import com.guoaili.zackback.entity.ReviewEntity;
+import com.guoaili.zackback.entity.SummaryEntity;
 import com.guoaili.zackback.entity.WritingEntity;
 import com.guoaili.zackback.entity.WrongEntity;
 
@@ -43,4 +45,8 @@ public interface TableService {
     void updateOneExam(ExamUpdVo wuv);
     void updateOneReview(ReviewUpdVo wuv);
     void updateOneWrong(WrongUpdVo wuv);
+    // 2025/6/6 add toczpd
+    void updateOneSummary(SummaryUpdVo suv);
+    List<SummaryEntity> getAllSummary(String subject);
+    void deleteOneSummary(long id);
 }

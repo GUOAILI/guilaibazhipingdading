@@ -36,7 +36,8 @@ const WritingEdit = () => {
   // 添加返回处理函数
   const handleCancel = () => {
     navigate('/nav/writing/list', { 
-      state: { returnPage: location.state?.pageNumber } 
+      state: { returnPage: location.state?.pageNumber },
+            replace: true // 避免历史栈堆积
     });
   };
 
@@ -97,7 +98,8 @@ const WritingEdit = () => {
           openNotificationWithIcon("success","写作数据更新成功!")
           // 修改这里，添加页码信息
           navigate('/nav/writing/list', { 
-            state: { returnPage: location.state?.pageNumber } 
+            state: { returnPage: location.state?.pageNumber },
+            replace: true // 避免历史栈堆积
           });
         }catch(err){
           // token 过期已在拦截器中处理，这里只需处理其他错误

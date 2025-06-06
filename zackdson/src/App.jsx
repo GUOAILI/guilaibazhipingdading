@@ -29,6 +29,9 @@ import ReviewShow from "./form/ReviewShow";
 import WrongForm from "./form/WrongForm";
 import WrongShow from "./form/WrongShow";
 import WrongList from "./form/WrongList";
+import SummaryForm from "./form/SummaryForm";
+import SummaryShow from "./form/SummaryShow";
+import SummaryList from "./form/SummaryList";
 import LoginForm from "./pages/Login";
 // import LogoutPage,{loader as logoutLoader} from "./pages/Logout";
 import LogoutPage from "./pages/Logout";
@@ -39,6 +42,7 @@ import WritingEdit from "./edit_page/WritingEdit";
 import NotebookEdit from "./edit_page/NotebookEdit";
 import ReviewEdit from "./edit_page/ReviewEdit";
 import WrongEdit from "./edit_page/WrongEdit";
+import SummaryEdit from "./edit_page/SummaryEdit";
 import ExamEdit from "./edit_page/ExamEdit";
 import ExtensionEdit from "./edit_page/ExtensionEdit";
 import SubjectEdit from "./pages/SubjectEdit";
@@ -151,6 +155,15 @@ const router = createBrowserRouter([
       { path: '/nav/wrong/detail', 
         element: <WrongShow />,
       },
+      { path: '/nav/Summary/list', 
+        element: <SummaryList />,
+      },
+      { path: '/nav/Summary/input', 
+        element: <SummaryForm />,
+      },
+      { path: '/nav/Summary/detail', 
+        element: <SummaryShow />,
+      },
       { path: '/nav/extension/list', 
         element: <ExtensionList />,
       },
@@ -175,6 +188,9 @@ const router = createBrowserRouter([
       },
       { path: '/nav/wrong/edit', 
         element: <WrongEdit />,
+      },
+      { path: '/nav/Summary/edit', 
+        element: <SummaryEdit />,
       },
       { path: '/nav/exam/edit', 
         element: <ExamEdit />,

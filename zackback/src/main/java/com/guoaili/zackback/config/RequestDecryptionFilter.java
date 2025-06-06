@@ -42,7 +42,12 @@ public class RequestDecryptionFilter extends OncePerRequestFilter {
                 
                 // 读取请求体
                 String body = StreamUtils.copyToString(cachedRequest.getInputStream(), StandardCharsets.UTF_8);
-                
+
+                if (body == null || body.trim().isEmpty()) {
+                    logger.debug("Request body is empty, skip decryption.");
+                    filterChain.doFilter(request, response);
+                    return;
+                }                
                 // 解析JSON
                 Map<String, Object> requestMap = objectMapper.readValue(body, Map.class);
                 

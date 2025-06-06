@@ -10,14 +10,13 @@ const openNotificationWithIcon = (type, message, description) => notification[ty
 
 const { TextArea } = Input;
 
-const WrongEdit = () => {
+const SummaryEdit = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [pjddyz,setPjddyz]=useState([]);
   const zpddyz=useRef(null);
 
-  // const cxddyz=JSON.parse(localStorage.getItem('wrongRecord'));
-  const cxddyz= JSON.parse(useSelector((state) => state.record.wrongRecord));
+  const cxddyz= JSON.parse(useSelector((state) => state.record.summaryRecord));
 
   useEffect(()=>{
     setPjddyz(cxddyz.mjddyz.map((zpd)=>{
@@ -29,27 +28,22 @@ const WrongEdit = () => {
     );
   },[]);
 
-
   // 添加返回处理函数
   const handleCancel = () => {
-    navigate('/nav/wrong/list', { 
+    navigate('/nav/summary/list', { 
       state: { returnPage: location.state?.pageNumber },
             replace: true // 避免历史栈堆积
     });
   };
 
   const onFinish = (values) => {
-    // console.log('form data is:',values);
-    // console.log('pjddyz:',pjddyz);
     let delImages='';
     for(let i=0;i<pjddyz.length;i++){
       if (pjddyz[i].value===true){
         delImages=delImages + pjddyz[i].name+',';
       }
     }
-    // console.log('delImages:',delImages);
     
-    // return null;
     // Here you can handle form submission logic, e.g., send data to server
     const formData=new FormData();
     zpddyz.current.files.forEach((file)=>{
@@ -63,30 +57,26 @@ const WrongEdit = () => {
     });
     // 添加其他字段  
     formData.append('id', cxddyz.id);  
-    // formData.append('inputDate', values.inputDate);  
-    formData.append('back', values.back);  
-    formData.append('point', values.point);  
+    formData.append('title', values.title);  
     formData.append('easy', values.easy);  
-    formData.append('dpjno', values.dpjno); 
-    formData.append('origin', values.origin);
-    formData.append('inspect', values.inspect);
-    formData.append('correct', values.correct);
-// 2024/7/1 add for delete images, and subject is not nessesary for update so comment it.
+    formData.append('knowledge', values.knowledge); 
+    formData.append('keyPoints', values.keyPoints);
+    formData.append('example', values.example);
     formData.append('delImages', delImages);
    
     //send http request to store files & images as well as save other info into database
     async function innerMethod(data){
         try{
-          await TableService.updateWrongDb(data);
-          openNotificationWithIcon("success","错题 数据更新成功!")
-          navigate('/nav/wrong/list',{ 
+          await TableService.updateSummaryDb(data);
+          openNotificationWithIcon("success","总结 数据更新成功!")
+          navigate('/nav/summary/list',{ 
             state: { returnPage: location.state?.pageNumber },
             replace: true // 避免历史栈堆积
           });
         }catch(err){
           // token 过期已在拦截器中处理，这里只需处理其他错误
           if (!err.__notified) {
-            openNotificationWithIcon("error","错题 数据更新失败，再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员")}
+            openNotificationWithIcon("error","总结 数据更新失败，再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员")}
         }
     }    
     innerMethod(formData);
@@ -97,105 +87,67 @@ const WrongEdit = () => {
     <h1>{useSelector(state => state.subject.branchDetail) + ' 修改当前数据'}</h1>
     <Form 
       layout="vertical" 
-      // disabled
       onFinish={onFinish}
       initialValues={{
-        dpjno:cxddyz.dpjno,
-        // inputDate:cxddyz.inputDate,
-        easy:cxddyz.easy==='高'?'high':cxddyz.easy==='中'?'medium':'low',
-        back:cxddyz.back,
-        point:cxddyz.point,
-        origin:cxddyz.origin,
-        inspect:cxddyz.inspect,
-        correct:cxddyz.correct,
+        title:cxddyz.title,
+        // easy:cxddyz.easy==='高'?'high':cxddyz.easy==='中'?'medium':'low',
+        easy:cxddyz.easy,
+        knowledge:cxddyz.knowledge,
+        keyPoints:cxddyz.keyPoints,
+        example:cxddyz.example,
       }}
       >
       <Form.Item  
-        name="point"  
-        label={<span style={{ color: 'blue' }}>错误摘要</span>} 
-        // rules={[{ required: true, message: '请输入本张卷子关键字!' }]}  
+        name="title"  
+        label={<span style={{ color: 'blue' }}>题型概述</span>} 
       >  
         <Input type="text" style={{ width: '50%' }}/>  
       </Form.Item>  
 
       <Form.Item  
-        name="back"  
-        label={<span style={{ color: 'blue' }}>出错背景</span>} 
-        // rules={[{ required: true, message: '请选择出错背景!' }]}  
-      >  
-        <Select style={{ width: '30%' }}>  
-          <Select.Option value="随堂测验">随堂测验</Select.Option>  
-          <Select.Option value="平时刷题">平时刷题</Select.Option>  
-          <Select.Option value="考试">考试</Select.Option>  
-          <Select.Option value="其他">其他</Select.Option>  
-        </Select>  
-      </Form.Item>  
-  
-      <Form.Item  
         name="easy"
         label={<span style={{ color: 'blue' }}>难易度</span>} 
       >  
         <Radio.Group>  
-          <Radio value="high">高</Radio>  
-          <Radio value="medium">中</Radio>  
-          <Radio value="low">低</Radio>  
+          <Radio value="高">高</Radio>  
+          <Radio value="中">中</Radio>  
+          <Radio value="低">低</Radio>  
         </Radio.Group>  
       </Form.Item>  
+
       <Form.Item  
-        name="dpjno"  
-        label={<span style={{ color: 'blue' }}>出错原因</span>} 
-        // rules={[{ required: true, message: '请选择出错原因!' }]}  
-      >  
-        <Select style={{ width: '30%' }}>  
-          <Select.Option value="粗心">粗心</Select.Option>  
-          <Select.Option value="概念不清">概念不清</Select.Option>  
-          <Select.Option value="题型不适应">题型不适应</Select.Option>  
-          <Select.Option value="不够熟练">不够熟练</Select.Option>  
-          <Select.Option value="记忆模糊">记忆模糊</Select.Option>  
-          <Select.Option value="审题错误">审题错误</Select.Option>  
-          <Select.Option value="能力不足">能力不足</Select.Option>  
-          <Select.Option value="时间分配不合理">时间分配不合理</Select.Option>  
-          <Select.Option value="书写潦草">书写潦草</Select.Option>  
-        </Select>  
-      </Form.Item>  
-      <Form.Item  
-        name="inspect"  
-        label={<span style={{ color: 'blue' }}>考察知识点</span>} 
+        name="knowledge"  
+        label={<span style={{ color: 'blue' }}>知识点归纳</span>} 
       >  
         <TextArea  
-          // placeholder="上限200字"  
-          // style={{ color: 'darkgreen' }}  
-          maxLength={200}  
-          showCount  
-          autoSize={{ minRows: 1, maxRows: 4 }}  
-        />  
-      </Form.Item>    
-        <Form.Item  
-          name="origin"  
-          label={<span style={{ color: 'blue' }}>原题(照片的话,此处可不填)</span>} 
-        >  
-          <TextArea  
-            // placeholder="上限500字"  
-            // style={{ color: 'darkgreen' }}  
-            maxLength={500}  
-            showCount  
-            autoSize={{ minRows: 1, maxRows: 4 }}  
-          />  
-        </Form.Item>  
-  
-      <Form.Item  
-        name="correct"  
-        label={<span style={{ color: 'blue' }}>正确答案(照片的话,此处可不填)</span>} 
-      >  
-        <TextArea  
-          // placeholder="上限200字"  
-          // style={{ color: 'darkgreen' }}  
-          maxLength={200}  
+          maxLength={300}  
           showCount  
           autoSize={{ minRows: 2, maxRows: 6 }}  
         />  
       </Form.Item>  
-    {/* </Form> */}
+
+      <Form.Item  
+        name="keyPoints"  
+        label={<span style={{ color: 'blue' }}>解题要点(照片形式的话可不写)</span>} 
+      >  
+        <TextArea  
+          maxLength={300}  
+          showCount  
+          autoSize={{ minRows: 2, maxRows: 6 }}  
+        />  
+      </Form.Item>  
+
+      <Form.Item  
+        name="example"  
+        label={<span style={{ color: 'blue' }}>范例(照片形式的话可不写)</span>} 
+      >  
+        <TextArea  
+          maxLength={300}  
+          showCount  
+          autoSize={{ minRows: 2, maxRows: 6 }}  
+        />  
+      </Form.Item>  
+
     <hr />
     <ul>
       {cxddyz.mjddyz.length ? 
@@ -215,7 +167,6 @@ const WrongEdit = () => {
             >
               勾选删除
             </Checkbox> 
-        {/* </FormItem> */}
       </div>
       )) 
               :
@@ -241,4 +192,4 @@ const WrongEdit = () => {
   );
 };
 
-export default WrongEdit;
+export default SummaryEdit;

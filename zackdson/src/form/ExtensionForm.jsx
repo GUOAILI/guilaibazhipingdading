@@ -121,7 +121,7 @@ const ExtensionForm = () => {
       >  
         <TextArea  
           placeholder="上限200字"  
-          style={{ color: 'darkgreen' }}  
+          // style={{ color: 'darkgreen' }}  
           maxLength={200}  
           showCount  
           autoSize={{ minRows: 2, maxRows: 4 }}  

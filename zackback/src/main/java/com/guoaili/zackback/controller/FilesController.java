@@ -31,6 +31,7 @@ import com.guoaili.zackback.DTO.FileInfo;
 import com.guoaili.zackback.DTO.NotebookVo;
 import com.guoaili.zackback.DTO.ResponseMessage;
 import com.guoaili.zackback.DTO.ReviewVo;
+import com.guoaili.zackback.DTO.SummaryVo;
 import com.guoaili.zackback.DTO.WritingVo;
 import com.guoaili.zackback.DTO.WrongVo;
 import com.guoaili.zackback.service.FileStorageService;
@@ -132,15 +133,6 @@ public class FilesController {
 
         List<MultipartFile> multipartFiles = FileParamUtil.parseFilesFromParam(params, "files");
  
-            // @RequestParam(value = "files",required = false) List<MultipartFile> files,  
-            // @RequestParam("num") int num,  
-            // @RequestParam("keyword") String keyword,  
-            // @RequestParam("easy") String easy,  
-            // @RequestParam("point") String point,  
-            // @RequestParam("teacher") String teacher,
-            // @RequestParam("remarks") String remarks,
-            // @RequestParam("subject") String subject,
-            // @RequestParam("post") String post) {  
         NotebookVo nv=new NotebookVo(num,keyword, easy, point, teacher, remarks, post,subject, multipartFiles);
         storageService.uploadNotebook(nv);
 
@@ -165,15 +157,6 @@ public class FilesController {
         List<MultipartFile> multipartFiles = FileParamUtil.parseFilesFromParam(params, "files");
  
             // @RequestParam(value = "files",required = false) List<MultipartFile> files,  
-            // @RequestParam("examDate") LocalDate examDate,  
-            // @RequestParam("title") String title,  
-            // @RequestParam("easy") String easy,  
-            // @RequestParam("score") int score,  
-            // @RequestParam("examType") String examType,  
-            // @RequestParam("evaluation") String evaluation,
-            // @RequestParam("weakpoint") String weakpoint,
-            // @RequestParam("subject") String subject,
-            // @RequestParam("errsum") String errsum) {  
         ExamVo nv=new ExamVo(examDate,title, easy,score, examType, evaluation, weakpoint, errsum,subject, multipartFiles);
         storageService.uploadExam(nv);
 
@@ -214,20 +197,35 @@ public class FilesController {
         String back = params.get("back").toString();
         String point = params.get("point").toString();
         String easy = params.get("easy").toString();
+        String origin = params.get("origin").toString();
+        String inspect = params.get("inspect").toString();
         String correct = params.get("correct").toString();
         String subject = params.get("subject").toString();
 
         List<MultipartFile> multipartFiles = FileParamUtil.parseFilesFromParam(params, "files");
 
-            // @RequestParam(value = "files",required = false) List<MultipartFile> files,  
-            // @RequestParam("dpjno") String dpjno,  
-            // @RequestParam("back") String back,  
-            // @RequestParam("point") String point,  
-            // @RequestParam("easy") String easy,  
-            // @RequestParam("correct") String correct,
-            // @RequestParam("subject") String subject) {  
-        WrongVo wv=new WrongVo(dpjno,back,point,easy,correct,subject, multipartFiles);
+        WrongVo wv=new WrongVo(dpjno,back,point,easy,origin,inspect,correct,subject,multipartFiles);
         storageService.uploadWrong(wv);
+
+        // 返回响应  
+        return new ResponseEntity<>("Files uploaded successfully!", HttpStatus.OK);  
+    }  
+    // 2024/6/29
+    @PostMapping("/baiduwenxin/summary")  
+    public ResponseEntity<String> handleSummaryFileUpload(  
+        @RequestBody Map<String, Object> params) {
+    
+        String title = params.get("title").toString();
+        String keyPoints = params.get("keyPoints").toString();
+        String easy = params.get("easy").toString();
+        String knowledge = params.get("knowledge").toString();
+        String example = params.get("example").toString();
+        String subject = params.get("subject").toString();
+
+        List<MultipartFile> multipartFiles = FileParamUtil.parseFilesFromParam(params, "files");
+
+        SummaryVo sv=new SummaryVo(title,easy,knowledge,keyPoints,example,subject,multipartFiles);
+        storageService.uploadSummary(sv);
 
         // 返回响应  
         return new ResponseEntity<>("Files uploaded successfully!", HttpStatus.OK);  
@@ -245,13 +243,6 @@ public class FilesController {
 
         List<MultipartFile> multipartFiles = FileParamUtil.parseFilesFromParam(params, "files");
  
-            // @RequestParam(value = "files",required = false) List<MultipartFile> files,  
-            // @RequestParam("extDate") LocalDate extDate,  
-            // @RequestParam("abs") String abs,  
-            // @RequestParam("teacher") String teacher,  
-            // @RequestParam("easy") String easy,  
-            // @RequestParam("content") String content,
-            // @RequestParam("subject") String subject) {  
         ExtensionVo wv=new ExtensionVo(extDate,teacher,abs,easy,content,subject, multipartFiles);
         storageService.uploadExtension(wv);
 

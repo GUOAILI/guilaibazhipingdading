@@ -23,6 +23,7 @@ function ExtensionList() {
     const location = useLocation();
     // 2025/5/13 add page control
     const [searchParams] = useSearchParams();
+    const [returnPageHandled, setReturnPageHandled] = useState(false);
 
     const deleteOneRecord = async (id)=>{
       try{
@@ -161,11 +162,16 @@ function ExtensionList() {
     };
     zpddyz();
     
-    // 2025/5/12 handle return navigation
-    if (location.state?.returnPage) {
+    // 只在 returnPage 存在且未处理时跳页
+    if (location.state?.returnPage && !returnPageHandled) {
       setCurrentPage(location.state.returnPage);
+      setReturnPageHandled(true); // 标记已处理
     }
-  },[xiaofang, location, navigate, searchParams, subject]);
+    // 如果 location.state 变了（比如从编辑页回来），重置 handled
+    if (!location.state?.returnPage && returnPageHandled) {
+      setReturnPageHandled(false);
+    }
+  }, [xiaofang, location.key, searchParams, subject, location.state, returnPageHandled]);
 
   const getRowClassName = (_, index) => {
     let className = ''

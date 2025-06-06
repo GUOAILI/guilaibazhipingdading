@@ -16,6 +16,7 @@ import com.guoaili.zackback.DTO.ExamUpdVo;
 import com.guoaili.zackback.DTO.ExtensionUpdVo;
 import com.guoaili.zackback.DTO.NotebookUpdVo;
 import com.guoaili.zackback.DTO.ReviewUpdVo;
+import com.guoaili.zackback.DTO.SummaryUpdVo;
 import com.guoaili.zackback.DTO.WritingUpdVo;
 import com.guoaili.zackback.DTO.WrongUpdVo;
 import com.guoaili.zackback.entity.CommonEntity;
@@ -24,6 +25,7 @@ import com.guoaili.zackback.entity.ExamEntity;
 import com.guoaili.zackback.entity.ExtensionEntity;
 import com.guoaili.zackback.entity.NotebookEntity;
 import com.guoaili.zackback.entity.ReviewEntity;
+import com.guoaili.zackback.entity.SummaryEntity;
 import com.guoaili.zackback.entity.WritingEntity;
 import com.guoaili.zackback.entity.WrongEntity;
 import com.guoaili.zackback.enumT.Difficulty;
@@ -34,6 +36,7 @@ import com.guoaili.zackback.repository.ExamRepository;
 import com.guoaili.zackback.repository.ExtensionRepository;
 import com.guoaili.zackback.repository.NotebookRepository;
 import com.guoaili.zackback.repository.ReviewRepository;
+import com.guoaili.zackback.repository.SummaryRepository;
 import com.guoaili.zackback.repository.WritingRepository;
 import com.guoaili.zackback.repository.WrongRepository;
 import com.guoaili.zackback.service.FileStorageService;
@@ -71,6 +74,10 @@ public class TableServiceImpl implements TableService{
 
     @Autowired
     private CommonRepository commonRepository;
+
+    @Autowired
+    private SummaryRepository summaryRepository;
+
 
     @Override
     public List<WritingEntity> getAllWriting(String subject) {
@@ -140,9 +147,17 @@ public class TableServiceImpl implements TableService{
     public void deleteOneWrong(long id) {
         try{
             wrongRepository.logicalDeleteById(id);
-            // System.out.println("success");
         }catch(Exception e){
             throw new BusinessException("删除错题积累记录时发生异常");
+        }
+    }
+    // 2025/6/6 add toczpd
+    @Override
+    public void deleteOneSummary(long id) {
+        try{
+            summaryRepository.logicalDeleteById(id);
+        }catch(Exception e){
+            throw new BusinessException("删除归纳总结记录时发生异常");
         }
     }
 
@@ -151,8 +166,13 @@ public class TableServiceImpl implements TableService{
         List<WrongEntity> bySubject = wrongRepository.findBySubject(userService.getUser().getUsername(),subject);
         return bySubject;
     }
+    // 2025/6/6 add toczpd
+    @Override
+    public List<SummaryEntity> getAllSummary(String subject) {
+        List<SummaryEntity> bySubject = summaryRepository.findBySubject(userService.getUser().getUsername(),subject);
+        return bySubject;
+    }
     
-
     @Override
     public void deleteOneExtension(long id) {
         try{
@@ -329,22 +349,33 @@ public class TableServiceImpl implements TableService{
         }
         saveAndDeleteImages(wuv, zpddbz);
 
-        // set the new coming data for update
-            // @RequestParam("inputDate") LocalDate inputDate,  
-            // @RequestParam("dpjno") String dpjno,  
-            // @RequestParam("back") String back,  
-            // @RequestParam("point") String point,  
-            // @RequestParam("easy") String easy,  
-            // @RequestParam("correct") String correct,
-        // zpddbz.setInputDate(wuv.getInputDate());
         zpddbz.setModday(LocalDate.now());
         zpddbz.setDpjno(wuv.getDpjno());
         zpddbz.setBack(wuv.getBack());
         zpddbz.setPoint(wuv.getPoint());
+        zpddbz.setOrigin(wuv.getOrigin());
+        zpddbz.setInspect(wuv.getInspect());
         zpddbz.setCorrect(wuv.getCorrect());
         zpddbz.setEasy(wuv.getEasy().equals("low") ? Difficulty.低 :
             wuv.getEasy().equals("medium") ? Difficulty.中 : Difficulty.高);
         wrongRepository.save(zpddbz);
+    }
+
+    // 2025/6/6 add toczpd
+    @Override
+    public void updateOneSummary(SummaryUpdVo suv) {
+        SummaryEntity zpddbz =summaryRepository.findById(suv.getId()).orElse(null);
+        if (zpddbz==null){
+            throw new BusinessException("查询异常，请稍后再试");
+        }
+        saveAndDeleteImages(suv, zpddbz);
+        zpddbz.setModday(LocalDate.now());
+        zpddbz.setTitle(suv.getTitle());
+        zpddbz.setEasy(suv.getEasy());
+        zpddbz.setKnowledge(suv.getKnowledge());
+        zpddbz.setKeyPoints(suv.getKeyPoints());
+        zpddbz.setExample(suv.getExample());
+        summaryRepository.save(zpddbz);
     }
 
 @Override

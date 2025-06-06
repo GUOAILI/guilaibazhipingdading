@@ -13,6 +13,7 @@ import com.guoaili.zackback.DTO.ExamVo;
 import com.guoaili.zackback.DTO.ExtensionVo;
 import com.guoaili.zackback.DTO.NotebookVo;
 import com.guoaili.zackback.DTO.ReviewVo;
+import com.guoaili.zackback.DTO.SummaryVo;
 import com.guoaili.zackback.DTO.WritingVo;
 import com.guoaili.zackback.DTO.WrongVo;
 
@@ -36,5 +37,7 @@ public interface FileStorageService {
     <T extends DpjVo>  List<String> saveComingInUploadImageFile(T wv);
     // 2025/4/25 add toczpd
     public void uploadCommon(CommonVo cv);
+    // 2025/6/6 add toczpd
+    public void uploadSummary(SummaryVo sv);
 
 }

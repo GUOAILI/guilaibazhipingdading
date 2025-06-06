@@ -30,8 +30,11 @@ public class DecryptedRequestWrapper extends HttpServletRequestWrapper {
 
         this.contentType = request.getContentType();
         String body = StreamUtils.copyToString(request.getInputStream(), StandardCharsets.UTF_8);
-        logger.debug("Original request body: {}", body);
-
+        if (body == null || body.trim().isEmpty()) {
+            logger.debug("Request body is empty, skipping decryption.");
+            this.decryptedBody = new byte[0];
+            return;
+        }
         try {
             Map<String, Object> requestMap = objectMapper.readValue(body, Map.class);
 

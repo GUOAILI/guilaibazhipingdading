@@ -71,7 +71,7 @@ const NotebookShow = () => {
           style={{ color:'#00ad45'}}
             />
       </Form.Item>
-      <Form.Item name="post" label={<span style={{ color: 'blue' }}>后期复习记入</span>}>
+      <Form.Item name="post" label={<span style={{ color: 'blue' }}>课堂笔记(照片的话,此处可不填)</span>}>
         <TextArea maxLength={200} style={{ color: 'red' }}  />
       </Form.Item>
     </Form>

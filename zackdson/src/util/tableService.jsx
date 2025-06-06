@@ -49,6 +49,13 @@ const getAllWrong = (subject) => {
 const delOneWrong = (id) => {
   return http.post(API_TABLE_URL + "wrong/delete"+`?id=${id}`,null);
 };
+const getAllSummary = (subject) => {
+  return http.get(API_TABLE_URL + "summary"+`?subject=${subject}`);
+};
+
+const delOneSummary = (id) => {
+  return http.post(API_TABLE_URL + "summary/delete"+`?id=${id}`,null);
+};
 // 2023/6/29 night
 const getAllExt = (subject) => {
   return http.get(API_TABLE_URL + "extension"+`?subject=${subject}`);
@@ -63,6 +70,9 @@ const updateWritingDb = (formData) => {
 };
 const updateWrongDb = (formData) => {
   return http.post(API_TABLE_URL + "wrong/update",formData);
+};
+const updateSummaryDb = (formData) => {
+  return http.post(API_TABLE_URL + "summary/update",formData);
 };
 const updateExamDb = (formData) => {
   return http.post(API_TABLE_URL + "exam/update",formData);
@@ -103,11 +113,14 @@ const TableService = {
     delOneReview,
     getAllWrong,
     delOneWrong,
+    getAllSummary,
+    delOneSummary,
     getAllExt,
     delOneExt,
   // 2024/7/1 for update respective subject data
     updateWritingDb,
     updateWrongDb,
+    updateSummaryDb,
     updateExamDb,
     updateNotebookDb,
     updateReviewDb,

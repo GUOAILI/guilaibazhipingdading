@@ -34,7 +34,8 @@ const NotebookEdit = () => {
   // 添加返回处理函数
   const handleCancel = () => {
     navigate('/nav/notebook/list', { 
-      state: { returnPage: location.state?.pageNumber } 
+      state: { returnPage: location.state?.pageNumber },
+            replace: true // 避免历史栈堆积
     });
   };
 
@@ -81,7 +82,8 @@ const NotebookEdit = () => {
           await TableService.updateNotebookDb(data);
           openNotificationWithIcon("success","课本数据更新成功!")
           navigate('/nav/notebook/list',{ 
-            state: { returnPage: location.state?.pageNumber } 
+            state: { returnPage: location.state?.pageNumber },
+            replace: true // 避免历史栈堆积
           });
         }catch(err){
           // token 过期已在拦截器中处理，这里只需处理其他错误
@@ -141,7 +143,7 @@ const NotebookEdit = () => {
       <Form.Item name="remarks" label={<span style={{ color: 'blue' }}>备注</span>}>
         <TextArea maxLength={100} placeholder='上限100字' />
       </Form.Item>
-      <Form.Item name="post" label={<span style={{ color: 'blue' }}>后期复习记入</span>}>
+      <Form.Item name="post" label={<span style={{ color: 'blue' }}>课堂笔记(照片的话,此处可不填)</span>}>
         <TextArea maxLength={100} style={{ color: 'darkgreen' }} placeholder='上限100字' />
       </Form.Item>
     <hr />

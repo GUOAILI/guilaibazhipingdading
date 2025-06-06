@@ -45,7 +45,10 @@ const uploadFileAndSaveToWrongDb = (updData) => {
 const uploadFileAndSaveToExtDb = (updData) => {
     return http.post(API_FILE_URL + "baiduwenxin/extension", updData);
 };
-
+// Upload a new summary
+const uploadFileAndSaveToSummaryDb= (updData) => {
+    return http.post(API_FILE_URL + "baiduwenxin/summary", updData);
+}
 
 const FileService = {
   // getAllFiles,
@@ -58,6 +61,7 @@ const FileService = {
   uploadFileAndSaveToWrongDb,
   uploadFileAndSaveToExtDb,
   uploadFileAndSaveToCommonDb, // 新增
+  uploadFileAndSaveToSummaryDb, // 新增
 };
 
 export default FileService;

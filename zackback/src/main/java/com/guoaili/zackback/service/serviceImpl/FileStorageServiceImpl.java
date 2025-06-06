@@ -31,6 +31,7 @@ import com.guoaili.zackback.DTO.ExamVo;
 import com.guoaili.zackback.DTO.ExtensionVo;
 import com.guoaili.zackback.DTO.NotebookVo;
 import com.guoaili.zackback.DTO.ReviewVo;
+import com.guoaili.zackback.DTO.SummaryVo;
 import com.guoaili.zackback.DTO.WritingVo;
 import com.guoaili.zackback.DTO.WrongVo;
 import com.guoaili.zackback.controller.FilesController;
@@ -41,6 +42,7 @@ import com.guoaili.zackback.entity.ExtensionEntity;
 import com.guoaili.zackback.entity.Grade;
 import com.guoaili.zackback.entity.NotebookEntity;
 import com.guoaili.zackback.entity.ReviewEntity;
+import com.guoaili.zackback.entity.SummaryEntity;
 import com.guoaili.zackback.entity.WritingEntity;
 import com.guoaili.zackback.entity.WrongEntity;
 import com.guoaili.zackback.enumT.Difficulty;
@@ -52,6 +54,7 @@ import com.guoaili.zackback.repository.ExtensionRepository;
 import com.guoaili.zackback.repository.GradeRepository;
 import com.guoaili.zackback.repository.NotebookRepository;
 import com.guoaili.zackback.repository.ReviewRepository;
+import com.guoaili.zackback.repository.SummaryRepository;
 import com.guoaili.zackback.repository.WritingRepository;
 import com.guoaili.zackback.repository.WrongRepository;
 import com.guoaili.zackback.service.FileStorageService;
@@ -335,6 +338,8 @@ public class FileStorageServiceImpl implements FileStorageService {
                 nv.getEasy().equals("medium") ? Difficulty.中 : Difficulty.高);
         zpddbz.setSubject(nv.getSubject());
         zpddbz.setPoint(nv.getPoint());
+        zpddbz.setOrigin(nv.getOrigin());
+        zpddbz.setInspect(nv.getInspect());
         zpddbz.setCorrect(nv.getCorrect());
         // at last,save to database
         wrongRepository.save(zpddbz);
@@ -387,55 +392,23 @@ public class FileStorageServiceImpl implements FileStorageService {
         commonRepository.save(entity);
     }
 
-    // @Override
-    // @Transactional
-    // public void uploadReview(ReviewVo nv) {
-    //     try{
-    //         String username=userService.getUser().getUsername();
-    //         // first store the upload files and images
-    //         List<String> zpdbyz=new ArrayList<>();
-    //         // 2024/6/22 run err,files is null
-    //         if(nv.getFiles()!=null){
-    //             for(MultipartFile zpd : nv.getFiles()){
-    //                 String xiaofang = save(zpd);
-    //                 String url = MvcUriComponentsBuilder
-    //                     .fromMethodName(
-    //                         FilesController.class, 
-    //                         // "getFile", 
-    //                         // zpd.getOriginalFilename())
-    //                         "getzzFile",
-    //                         String.format(LocalDate.now().toString(),"yyyy-MM-dd"),
-    //                         xiaofang)
-    //                     .build().toString();
-    //                 System.out.println("url="+url);
-    //                 zpdbyz.add(url);
-    //             }
-    //         }
-    //         // save to database
-    //         Grade grade = gradeRepository.findByUsername(username);
-    //         ReviewEntity zpddbz =new ReviewEntity();
-    //         zpddbz.setBeginday(LocalDate.now());
-    //         zpddbz.setMjddyz(zpdbyz);
-    //         zpddbz.setReviewDate(nv.getReviewDate());
-    //         zpddbz.setCategory(nv.getCategory());
-    //         zpddbz.setTitle(nv.getTitle());
-    //         zpddbz.setModday(LocalDate.now());
-    //         zpddbz.setUsername(username);
-    //         zpddbz.setSchool(grade.getSchool());
-    //         zpddbz.setGrade(grade.getGrade());
-    //         zpddbz.setSubject(nv.getSubject());
+    @Autowired
+    private SummaryRepository summaryRepository;
 
-    //         zpddbz.setDetail(nv.getDetail());
-    //         zpddbz.setOverview(nv.getOverview());
-    //         // at last,save to database
-    //         reviewRepository.save(zpddbz);
-
-    //     }catch(Exception ex){
-    //         for(MultipartFile zpd : nv.getFiles()){
-    //             deleteByName(zpd.getOriginalFilename());
-    //         }
-    //         throw new RuntimeException("后台写入失败!");
-    //     }
-    // }
-
+    @Override
+    @Transactional
+    public void uploadSummary(SummaryVo sv) {
+        List<String> zpdbyz = saveComingInUploadImageFile(sv);
+        
+        SummaryEntity summaryEntity = new SummaryEntity();
+        setCommonFields(zpdbyz, summaryEntity);
+        summaryEntity.setTitle(sv.getTitle());
+        summaryEntity.setEasy(sv.getEasy());
+        summaryEntity.setKnowledge(sv.getKnowledge());
+        summaryEntity.setKeyPoints(sv.getKeyPoints());
+        summaryEntity.setExample(sv.getExample());
+        summaryEntity.setSubject(sv.getSubject());
+        
+        summaryRepository.save(summaryEntity);
+    }
 }

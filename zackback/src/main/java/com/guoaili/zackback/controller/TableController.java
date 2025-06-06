@@ -20,6 +20,7 @@ import com.guoaili.zackback.DTO.ExamUpdVo;
 import com.guoaili.zackback.DTO.ExtensionUpdVo;
 import com.guoaili.zackback.DTO.NotebookUpdVo;
 import com.guoaili.zackback.DTO.ReviewUpdVo;
+import com.guoaili.zackback.DTO.SummaryUpdVo;
 import com.guoaili.zackback.DTO.WritingUpdVo;
 import com.guoaili.zackback.DTO.WrongUpdVo;
 import com.guoaili.zackback.entity.CommonEntity;
@@ -27,6 +28,7 @@ import com.guoaili.zackback.entity.ExamEntity;
 import com.guoaili.zackback.entity.ExtensionEntity;
 import com.guoaili.zackback.entity.NotebookEntity;
 import com.guoaili.zackback.entity.ReviewEntity;
+import com.guoaili.zackback.entity.SummaryEntity;
 import com.guoaili.zackback.entity.WritingEntity;
 import com.guoaili.zackback.entity.WrongEntity;
 import com.guoaili.zackback.enumT.Important;
@@ -131,18 +133,6 @@ public class TableController {
         String remarks = params.get("remarks").toString();
         String post = params.get("post").toString();
         List<MultipartFile> multipartFiles = FileParamUtil.parseFilesFromParam(params, "files");
-
-            // @RequestParam(value = "files",required = false) List<MultipartFile> files, 
-            // @RequestParam("id") long id,  
-            // @RequestParam("num") int num,  
-            // @RequestParam("keyword") String keyword,  
-            // @RequestParam("easy") String easy,  
-            // @RequestParam("point") String point,  
-            // @RequestParam("teacher") String teacher,
-            // @RequestParam("remarks") String remarks,
-            // @RequestParam("post") String post,  
-            // @RequestParam("delImages") String delImages) {  
-  
         NotebookUpdVo wuv=new NotebookUpdVo(id,delImages);
                 wuv.setNum(num);
                 wuv.setKeyword(keyword);
@@ -172,18 +162,6 @@ public class TableController {
         String errsum = params.get("errsum").toString();
 
         List<MultipartFile> multipartFiles = FileParamUtil.parseFilesFromParam(params, "files");
-
-            // @RequestParam(value = "files",required = false) List<MultipartFile> files, 
-            // @RequestParam("id") long id,  
-            // @RequestParam("examDate") LocalDate examDate,  
-            // @RequestParam("title") String title,  
-            // @RequestParam("easy") String easy,  
-            // @RequestParam("score") int score,  
-            // @RequestParam("examType") String examType,  
-            // @RequestParam("evaluation") String evaluation,
-            // @RequestParam("weakpoint") String weakpoint,
-            // @RequestParam("errsum") String errsum, 
-            // @RequestParam("delImages") String delImages) {  
   
         ExamUpdVo wuv=new ExamUpdVo(id,delImages);
                 wuv.setExamDate(examDate);
@@ -210,14 +188,6 @@ public class TableController {
         String detail = params.get("detail").toString();
         String overview = params.get("overview").toString();
         List<MultipartFile> multipartFiles = FileParamUtil.parseFilesFromParam(params, "files");
- 
-            // @RequestParam(value = "files",required = false) List<MultipartFile> files, 
-            // @RequestParam("id") long id,  
-            // @RequestParam("category") String category,  
-            // @RequestParam("title") String title,  
-            // @RequestParam("detail") String detail,  
-            // @RequestParam("overview") String overview,
-            // @RequestParam("delImages") String delImages) {  
   
         ReviewUpdVo wuv=new ReviewUpdVo(id,delImages);
         wuv.setTitle(title);
@@ -240,17 +210,11 @@ public class TableController {
         String back = params.get("back").toString();
         String point = params.get("point").toString();
         String easy = params.get("easy").toString();
+        String origin = params.get("origin").toString();
+        String inspect = params.get("inspect").toString();
         String correct = params.get("correct").toString();
         List<MultipartFile> multipartFiles = FileParamUtil.parseFilesFromParam(params, "files");
  
-            // @RequestParam(value = "files",required = false) List<MultipartFile> files, 
-            // @RequestParam("id") long id,  
-            // @RequestParam("dpjno") String dpjno,  
-            // @RequestParam("back") String back,  
-            // @RequestParam("point") String point,  
-            // @RequestParam("easy") String easy,  
-            // @RequestParam("correct") String correct,
-            // @RequestParam("delImages") String delImages) {  
   
         WrongUpdVo wuv=new WrongUpdVo(id,delImages);
         // wuv.setInputDate(inputDate);
@@ -258,6 +222,8 @@ public class TableController {
         wuv.setBack(back);
         wuv.setPoint(point);
         wuv.setEasy(easy);
+        wuv.setOrigin(origin);
+        wuv.setInspect(inspect);
         wuv.setCorrect(correct);
         wuv.setFiles(multipartFiles);
         tableService.updateOneWrong(wuv);
@@ -352,20 +318,51 @@ public class TableController {
         String sample = params.get("sample").toString();
         List<MultipartFile> multipartFiles = FileParamUtil.parseFilesFromParam(params, "files");
 
-    //         @RequestParam(value = "files", required = false) List<MultipartFile> files,
-    //         @RequestParam("id") long id,
-    //         @RequestParam("title") String title,
-    //         @RequestParam("imp") int imp,  
-    //         @RequestParam("sample") String sample,
-    //         @RequestParam("delImages") String delImages
-    // ) {
         CommonUpdVo vo = new CommonUpdVo(id, delImages);
         vo.setTitle(title);
         vo.setImp(imp);
         vo.setSample(sample);
         vo.setFiles(multipartFiles);
         tableService.updateOneCommon(vo);
-        return ResponseEntity.ok().body("更新common记录成功");
+        return ResponseEntity.ok().body("更新通用记录成功");
+    }
+    // 2025/6/6 add 获取所有summary
+    @GetMapping("/summary")
+    public ResponseEntity<List<SummaryEntity>> getSummaryLists(@RequestParam("subject") String subject) {
+        List<SummaryEntity> list = tableService.getAllSummary(subject);
+        return ResponseEntity.ok().body(list);
+    }
+
+    // 删除Summary
+    @PostMapping("/summary/delete")
+    public ResponseEntity<String> deleteOneSummary(@RequestParam("id") long id) {
+        tableService.deleteOneSummary(id);
+        return ResponseEntity.ok().body("删除归纳总结记录成功");
+    }
+
+    // 更新common
+    @PostMapping("/summary/update")
+    public ResponseEntity<String> updateOneSummary(
+        @RequestBody Map<String, Object> params){
+    
+        long id = Long.parseLong(params.get("id").toString());
+        String delImages = params.get("delImages").toString();
+        String easy = params.get("easy").toString();
+        String title = params.get("title").toString();
+        String knowledge = params.get("knowledge").toString();
+        String keyPoints = params.get("keyPoints").toString();
+        String example = params.get("example").toString();
+        List<MultipartFile> multipartFiles = FileParamUtil.parseFilesFromParam(params, "files");
+
+        SummaryUpdVo sv = new SummaryUpdVo(id, delImages);
+        sv.setTitle(title);
+        sv.setEasy(easy);    
+        sv.setKnowledge(knowledge);
+        sv.setKeyPoints(keyPoints);
+        sv.setExample(example);
+        sv.setFiles(multipartFiles);
+        tableService.updateOneSummary(sv);
+        return ResponseEntity.ok().body("更新归纳总结记录成功");
     }
 
 }

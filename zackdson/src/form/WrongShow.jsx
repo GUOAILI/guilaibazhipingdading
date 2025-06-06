@@ -29,6 +29,8 @@ const WrongShow = () => {
         back:cxddyz.back,
         easy:cxddyz.easy==='高'?'high':cxddyz.easy==='中'?'medium':'low',
         point:cxddyz.point,
+        origin:cxddyz.origin==='undefined' ? '' : cxddyz.origin,
+        inspect:cxddyz.inspect==='undefined' ? '' : cxddyz.inspect,
         correct:cxddyz.correct==='undefined' ? '' : cxddyz.correct,
       }}
       >
@@ -48,12 +50,12 @@ const WrongShow = () => {
         <Select style={{ width: '30%' }}>  
           <Select.Option value="随堂测验">随堂测验</Select.Option>  
           <Select.Option value="平时刷题">平时刷题</Select.Option>  
+          <Select.Option value="作业">作业</Select.Option>  
           <Select.Option value="考试">考试</Select.Option>  
           <Select.Option value="其他">其他</Select.Option>  
         </Select>  
       </Form.Item>  
  
-  
       <Form.Item  
         name="easy"
         label={<span style={{ color: 'blue' }}>难易度</span>} 
@@ -80,14 +82,38 @@ const WrongShow = () => {
           <Select.Option value="时间分配不合理">时间分配不合理</Select.Option>  
           <Select.Option value="书写潦草">书写潦草</Select.Option>  
         </Select>  
-      </Form.Item>    
+      </Form.Item>  
+      <Form.Item  
+        name="inspect"  
+        label={<span style={{ color: 'blue' }}>考察知识点</span>} 
+      >  
+        <TextArea  
+          // placeholder="上限200字"  
+          // style={{ color: 'darkgreen' }}  
+          maxLength={200}  
+          showCount  
+          autoSize={{ minRows: 1, maxRows: 4 }}  
+        />  
+      </Form.Item>  
+      <Form.Item  
+        name="origin"  
+        label={<span style={{ color: 'blue' }}>原题(照片的话,此处可不填)</span>} 
+      >  
+        <TextArea  
+          // placeholder="上限500字"  
+          // style={{ color: 'darkgreen' }}  
+          maxLength={500}  
+          showCount  
+          autoSize={{ minRows: 1, maxRows: 4 }}  
+        />  
+      </Form.Item>  
       <Form.Item  
         name="correct"  
         label={<span style={{ color: 'blue' }}>正确答案(照片的话,此处可不填)</span>} 
       >  
         <TextArea  
           // placeholder="上限200字"  
-          style={{ color: 'darkgreen' }}  
+          // style={{ color: 'darkgreen' }}  
           maxLength={500}  
           showCount  
           autoSize={{ minRows: 2, maxRows: 6 }}  

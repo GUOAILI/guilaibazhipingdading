@@ -18,15 +18,19 @@ public class WrongVo extends DpjVo {
     private String back;
     private String point;
     private String easy;
+    private String origin;
+    private String inspect;
     private String correct;
 
 
-    public WrongVo(String dpjno, String back, String point, String easy, String correct, String subject, List<MultipartFile> files) {
+    public WrongVo(String dpjno, String back, String point, String easy, String origin, String inspect, String correct, String subject, List<MultipartFile> files) {
         super();
         this.dpjno = dpjno;
         this.back = back;
         this.point = point;
         this.easy = easy;
+        this.origin = origin;
+        this.inspect = inspect;
         this.correct = correct;
         this.setSubject(subject);
         this.setFiles(files);
