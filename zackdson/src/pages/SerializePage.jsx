@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Form, Button, Row, notification, Progress } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import PersistService from '../util/persistService';
+import { useDispatch } from 'react-redux'; // 新增
+import { setBackupTip } from '../store/backupSlice'; // 新增
+import dayjs from 'dayjs'; // 新增
 
 const openNotificationWithIcon = (type, message, description) =>
   notification[type]({ message, description });
@@ -10,7 +13,7 @@ const SerializePage = () => {
   const navigate = useNavigate();
   const [progress, setProgress] = useState(0);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  // const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch(); // 新增
 
   const checkProgress = async (id) => {
     const interval = setInterval(async () => {
@@ -21,8 +24,10 @@ const SerializePage = () => {
           clearInterval(interval);
           setProgress(0);
           openNotificationWithIcon('success', '备份完成! 文件保存在：C:/minhui/persist路径下');
-          // setIsLoading(false);
+          dispatch(setBackupTip(dayjs().toISOString())); // 新增：设定 lastBackupTip 为当前日期
+          // localStorage.setItem('lastBackupTip', dayjs().toISOString()); // 新增：存储到 localStorage
           setIsButtonDisabled(false);
+          
         }
       } catch (err) {
         clearInterval(interval);

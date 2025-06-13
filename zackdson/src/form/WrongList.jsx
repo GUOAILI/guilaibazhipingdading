@@ -108,7 +108,7 @@ function WrongList() {
           },
           {
           // reuse the perfect code of lagacy project fujitsu
-          title: 'Action',
+          title: '操作',
           className:'laoyaoziling',
           key: 'action',
           width: 160, // 可根据实际调整

@@ -2,9 +2,7 @@ import React, { useState,useEffect } from 'react';
 import { Layout, Menu,Button,Tooltip,Modal,Form,Input,Popconfirm } from 'antd';
 const { Header, Content, Sider,Footer } = Layout;
 import { Outlet,useNavigate,useLoaderData } from 'react-router-dom';
-// import MenuService from '../util/menuService';
 import { notification } from "antd";
-// import { tokenLoader } from '../util/authentication';
 import { LogoutOutlined,UserOutlined,
   ToolOutlined,CheckCircleOutlined,
   ArrowDownOutlined,ArrowUpOutlined,
@@ -19,82 +17,6 @@ import { setUseTip } from '../store/backupSlice';
 import { setSchool, setGrade, setResetGrade } from '../store/userSlice';
 const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
 
-// export async function loader(){
-//     // look if the token is expired!
-//     // tokenLoader();
-//     // 判断tokenLoader返回值
-//     // const tokenResult = tokenLoader();
-//     if (tokenLoader() == null) {
-//         notification.warning({
-//             message: '警告',
-//             description: 'token过期，请重新登录'
-//         });
-//         localStorage.removeItem("dpj-sb");
-//         localStorage.removeItem("school");
-//         localStorage.removeItem("grade");
-//         localStorage.removeItem("resetGrade");
-//         localStorage.removeItem("subject");
-//         localStorage.removeItem("branchDetail");
-//         localStorage.removeItem("notebookRecord");
-//         localStorage.removeItem("writingRecord");
-//         localStorage.removeItem("commonRecord");
-//         localStorage.removeItem("wrongRecord");
-//         localStorage.removeItem("examRecord");
-//         localStorage.removeItem("reviewRecord");
-//         localStorage.removeItem("extensionRecord");
-//         localStorage.removeItem("long");
-//         localStorage.removeItem("token");
-//         localStorage.removeItem("expiration");
-
-//         return redirect('/');
-//     }
-//     try {
-//       // 2024/6/24 此处需要修改，根据年级抽取科目getInitSetting()
-//         // const restData = await MenuService.getAllSubjects();
-//         const restData = await MenuService.getInitDson();
-//         const subjects = await restData.data;
-//         // console.log('=nav=,subjects=',subjects);
-//         // 2025/4/28 toczpd 解释如果initdson表中allsub没有实际数据那么职位'[]'
-//         // 2025/4/28 toczpd 则长度为2，有值的话，比如[{"key":"英语 写作","label":"写作"},{"key":"英语 其他","label":"其他"}]
-//         // 2025/4/28 toczpd 则长度大于2。这就是筛选的原则'
-//         // 2025/4/28 toczpd 所有条件也可以写成xg.allsub.length !== 2'
-//         let guoaili=subjects.filter(xg=>xg.allsub !== null && xg.allsub.length>2);
-//         // console.log('=nav=guoaili length:',guoaili.length);
-
-//         // 2024/6/24 if no subject and subtype available,go to the congfig page.
-//         // there is an infinite loop when the bellow code runs.
-//         // I think the logic is 'if the father page (nav) is not renderd, then
-//         // there is no possible of diving into its son page firstly.
-//         // if(guoaili.length===0) return redirect('/nav/manage');
-//         if(guoaili.length===0){
-//           openNotificationWithIcon('warning',"您还设定没有科目，请首先点击左上方的【学科管理】按钮");
-//         }else{
-//           // 2024/7/3 add for subject and branch table curd request
-//           localStorage.setItem('dpj-sb',JSON.stringify(guoaili.map((ini)=>ini.chname)));
-//         }
-
-//         let items=[];
-//         items=guoaili.map((xxg)=>{
-//             return {
-//                 // key: xxg.name,
-//                 key: xxg.chname,
-//                 icon: <AppstoreOutlined />,
-//                 label: xxg.chname,
-//                 children:JSON.parse(xxg.allsub),           
-//             }
-//         });
-//         // console.log("=nav=after transformming of subject and subtype,items=",items);
-//         return items;
-
-//     }catch(ex){
-//         // alert("主科目取得异常,请检查后端是否开启");
-//         // openNotificationWithIcon("error","主科目取得异常,再次尝试(包括退出重新登陆后重试)无效的情况下，请联系管理员");
-//         openNotificationWithIcon("error","令牌过期，请重新登录");
-//         return redirect('/');
-//     }
-// }
-
-
 export default function Nav () {
   // console.log('items main=',items);
   const navigate = useNavigate();
@@ -108,12 +30,13 @@ export default function Nav () {
   const [useVisible, setUseVisible] = useState(false);
 
   const dispatch = useDispatch();
-  const school = useSelector(state => state.user.school);
+  const school_en = useSelector(state => state.user.school);
   const grade = useSelector(state => state.user.grade);
   const long = useSelector(state => state.user.long);
   const lastBackupTip = useSelector(state => state.backup.lastBackupTip);
   const lastUseTip = useSelector(state => state.backup.lastUseTip);
-
+  // const lastBackupTip = localStorage.getItem('lastBackupTip');
+  // const lastUseTip = localStorage.getItem('lastUseTip');
 
   const schoolMap = {
     kindergarten: '幼儿园',
@@ -122,6 +45,8 @@ export default function Nav () {
     high: '高中',
     college: '大学'
   };
+  const school = school_en ? schoolMap[school_en] : '';
+  
   // 新增：Header 轮播内容
   const headerTexts = [
     "我曾经看过山和大海，也穿过人山人海",
@@ -137,7 +62,6 @@ export default function Nav () {
     return () => clearInterval(timer);
   }, [headerTexts.length]);
 
-
   useEffect(() => {
     // 优先判断 lastBackupTip，如果没有则用 lastUseTip
     // const lastBackupTip = localStorage.getItem('lastBackupTip');
@@ -149,6 +73,7 @@ export default function Nav () {
       if (!lastUseTip) {
         // 第一次使用，记录 lastUseTip
         dispatch(setUseTip(now.toISOString()));
+        // localStorage.setItem('lastUseTip', now.toISOString());
       } else if (now.diff(dayjs(lastUseTip), 'month') >= 1) {
         setUseVisible(true);
       }
@@ -379,7 +304,7 @@ export default function Nav () {
             </div>
             {/* <RootLayout /> */}
           </Content>
-          <Footer style={{ textAlign: 'center' }}>蚂蚁设计赋能©2024 Created by minhui</Footer>
+          <Footer style={{ textAlign: 'center' }}>蚂蚁设计赋能©2024 minhui</Footer>
           <Modal  
             title="用户信息"  
             open={visible} 

@@ -102,7 +102,7 @@ function CommonList() {
       }
     },
     {
-      title: 'Action',
+      title: '操作',
       key: 'action',
       width: 160, // 可根据实际调整
       render: (text, record) => (

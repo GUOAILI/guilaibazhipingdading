@@ -1,8 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  lastBackupTip: null,
-  lastUseTip: null,
+  lastBackupTip: undefined,
+  lastUseTip: undefined,
+  // lastBackupTip: null,
+  // lastUseTip: null,
 };
 
 const backupSlice = createSlice({

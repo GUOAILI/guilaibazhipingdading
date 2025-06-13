@@ -6,7 +6,7 @@ import authHeader from './authHeader';
 import { clearUserInfo } from "../store/userSlice";
 import { clearSubject } from "../store/subjectSlice";
 import { clearRecords } from "../store/recordSlice";
-import { clearBackup } from "../store/backupSlice"; // 如果有
+// import { clearBackup } from "../store/backupSlice"; // 如果有
 import store from '../store';
 import { encrypt } from './crypto';
 import { decrypt } from './crypto';
@@ -134,7 +134,7 @@ axiosInstance.interceptors.response.use(
           store.dispatch(clearUserInfo());
           store.dispatch(clearSubject());
           store.dispatch(clearRecords());
-          store.dispatch(clearBackup()); // 如果有
+          // store.dispatch(clearBackup()); // 如果有
       
           // 显示通知
           notification.error({

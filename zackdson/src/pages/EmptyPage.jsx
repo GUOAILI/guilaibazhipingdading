@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { clearUserInfo } from "../store/userSlice";
 import { clearSubject } from "../store/subjectSlice";
 import { clearRecords } from "../store/recordSlice";
-import { clearBackup } from "../store/backupSlice"; // 如果有
+// import { clearBackup } from "../store/backupSlice"; // 如果有
 
 
 const openNotificationWithIcon = (type, message, description) => notification[type]({message, description});
@@ -31,7 +31,7 @@ const EmptyLayout = () =>{
         dispatch(clearUserInfo());
         dispatch(clearSubject());
         dispatch(clearRecords());
-        dispatch(clearBackup()); // 如果有
+        // dispatch(clearBackup()); // 如果有
 
         navigate('/');
         return;
